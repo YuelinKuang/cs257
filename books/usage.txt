@@ -1,0 +1,29 @@
+Written by Lucie Wolf and Yuelin Kuang
+
+books.py - a program that displays information about the books 
+	       in a small database, books1.csv
+
+SYNOPSIS: 
+	python3 books.py author ["key_phrase" | _]
+		- display the list of authors whose names contain 
+		   "key_phrase" in alphabetical order by surname along 
+		   with the books they published 
+
+	python3 books.py title ["key_phrase" | _] [-t | -y]
+		- display the list of books whose titles contain 
+		   "key_phrase" by default in alphabetical order 
+		   by title
+
+	python3 books.py range [start_year | _] [end_year | _]
+		- display the list of books that are published between 
+		   start_year and end_year in ascending order by 
+		   publication year
+
+	python3 books.py help
+		- display this manual page
+
+OPTIONS: 
+	-t, --title: sort by book titles alphabetically
+	-y, --year: sort by publication year
+	_: skips out on this parameter (potentially allowing future 
+	   ones to be used)
