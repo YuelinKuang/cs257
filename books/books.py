@@ -1,6 +1,10 @@
 #!/usr/bin/env python3
+'''
+    Written by Yuelin Kuang & Lucie Wolf
 
-#Written by Yuelin Kuang & Lucie Wolf
+    Revised by Yuelin Kuang
+    4 October 2022
+'''
 
 import booksdatasource as bds
 import sys
@@ -107,6 +111,7 @@ def print_output(output):
     print('\n\n')
 
     if output == 'Help':
+        print('This is not a valid input. Please refer to the help page.')
         usage = open('usage.txt', 'r')
         print(usage.read())
         usage.close()
@@ -137,8 +142,8 @@ def print_output(output):
 
 
 def main(args):
-    source = bds.BooksDataSource('books1.csv')
-    output = run_command(args, source)
+    data_source = bds.BooksDataSource('books1.csv')
+    output = run_command(args, data_source)
     print_output(output)
     
 

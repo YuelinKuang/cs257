@@ -1,5 +1,8 @@
 #!/usr/bin/env python3
 '''
+    Revised by Yuelin Kuang
+    4 October 2022
+    
     Implemented by Lucie Wolf and Yuelin Kuang
 
     booksdatasource.py
@@ -50,9 +53,14 @@ class BooksDataSource:
                 year = int(row[1])
                 book = Book(title=title, publication_year=year, authors=[])
 
+                #if the book has two authors, splitting the string with the authors' 
+                #information by 'and' can separate the two authors.
                 authors_in_book = row[2].split(' and ')
 
                 for author in authors_in_book:
+                    #After the following line, author will be a list like this: 
+                    #[first_name, middle_name, last_name, (birth_year-death_year)] or
+                    #[first_name, last_name, (birth_year-death_year)]
                     author = author.split(' ')
 
                     surname = author[-2]
@@ -80,7 +88,8 @@ class BooksDataSource:
                         else:
                             death_year = int(years[1])
 
-                        author_object = Author(surname=surname, given_name=given_name, birth_year=birth_year, death_year=death_year, books=[book])
+                        author_object = Author(surname=surname, given_name=given_name, birth_year=birth_year, \
+                                               death_year=death_year, books=[book])
                         self.all_authors.append(author_object)
                         book.authors.append(author_object)
             
@@ -97,7 +106,8 @@ class BooksDataSource:
         '''
         if search_text:
             search_text = search_text.upper()
-            authors_with_search_text = [author for author in self.all_authors if search_text in author.surname.upper() or search_text in author.given_name.upper()]
+            authors_with_search_text = [author for author in self.all_authors if search_text in author.surname.upper() \
+                                        or search_text in author.given_name.upper()]
         else:
             authors_with_search_text = self.all_authors
 
@@ -145,59 +155,30 @@ class BooksDataSource:
         '''
 
         #Raise an exception if the input is not valid (not an integer)
-        if (type(start_year) is not int and start_year is not None) or (type(end_year) is not int and end_year is not None):
+        if (type(start_year) is not int and start_year is not None) or \
+           (type(end_year) is not int and end_year is not None):
             raise TypeError("Only integers are allowed.")
 
         books = self.all_books
 
-        books_start = []
-        books_end = []
+        books_filtered_by_start_year = []
+        books_filtered_by_end_year = []
         
         if start_year is None:
-            books_start = books
+            books_filtered_by_start_year = books
         else:
             for book in books:
                 if book.publication_year >= start_year:
-                    books_start.append(book)
+                    books_filtered_by_start_year.append(book)
 
         if end_year is not None:
-            for book in books_start:
+            for book in books_filtered_by_start_year:
                 if book.publication_year <= end_year:
-                    books_end.append(book)
+                    books_filtered_by_end_year.append(book)
         else:
-            books_end = books_start
+            books_filtered_by_end_year = books_filtered_by_start_year
 
-        sorted_books = sorted(books_end, key = lambda book: (book.publication_year, book.title))
+        sorted_books = sorted(books_filtered_by_end_year, key = lambda book: (book.publication_year, book.title))
 
         return sorted_books
 
-
-def main():
-    b = BooksDataSource('books1.csv')
-    
-    
-    
-
-
-
-    #Lines below are for testing. 
-
-    '''
-    test_authors = b.authors("Pratchett")
-    print(test_authors)
-    print(len(test_authors))
-    for author in test_authors:
-        print(author.surname + ', ' + author.given_name)
-
-    authors = b.authors('Pratchett')
-    print(len(authors) == 1)
-    print(authors[0] == Author('Pratchett', 'Terry'))
-
-    test_range = b.books_between_years(1996,'1996')
-    print(len(test_range))
-    for book in test_range:
-        print(book.title + ", " + str(book.publication_year))
-    '''
-
-if __name__ == '__main__':
-    main()
