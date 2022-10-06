@@ -111,7 +111,7 @@ def print_output(output):
     print('\n\n')
 
     if output == 'Help':
-        print('This is not a valid input. Please refer to the help page.')
+        print('This is not a valid input. Please refer to the help page.\n\n')
         usage = open('usage.txt', 'r')
         print(usage.read())
         usage.close()
