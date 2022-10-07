@@ -108,6 +108,8 @@ def print_output(output):
 
     print('\n\n')
 
+    # All methods return the string 'Help' when the input from the user does not 
+    # match with any command listed on the usage statement. 
     if output == 'Help':
         print('This is not a valid input. Please refer to the help page below.\n\n')
         usage = open('usage.txt', 'r')
@@ -117,7 +119,7 @@ def print_output(output):
     elif output == []:
         print('Nothing found.')
     
-    # Check whether output is a list of Author objects or Book objects. 
+    # Checks whether output is a list of Author objects or Book objects. 
     elif isinstance(output[0], bds.Author):
         # If output is a list of authors: 
         # Print out every author's name, birth year, and death year, followed by the list of their books 
