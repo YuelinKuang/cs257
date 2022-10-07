@@ -20,7 +20,7 @@ def run_command(args, source):
         if args[1] == 'range':
             return run_range_command(args[2:], source)
 
-    return 'Help' #else, return help
+    return None #else, return help
 
 
 def run_author_command(short_args, source): 
@@ -33,7 +33,7 @@ def run_author_command(short_args, source):
     if len(short_args) == 1:
         return source.authors(short_args[0])
     
-    return 'Help'
+    return None
 
 
 def run_title_command(short_args, source): 
@@ -62,7 +62,7 @@ def run_title_command(short_args, source):
                 return source.books(short_args[0], sort_by = 'year')
             return source.books(short_args[0])
     
-    return 'Help'
+    return None
 
 
 def run_range_command(short_args, source): 
@@ -78,7 +78,7 @@ def run_range_command(short_args, source):
         try: 
             return source.books_between_years(start_year = int(short_args[0]))
         except:
-            return 'Help'
+            return None
 
     if len(short_args) == 2:
         if short_args[0] == '_':
@@ -87,18 +87,18 @@ def run_range_command(short_args, source):
             try:
                 return source.books_between_years(end_year = int(short_args[1]))
             except:
-                return 'Help'
+                return None
         if short_args[1] == '_':
             try:
                 return source.books_between_years(start_year = int(short_args[0]))
             except:
-                return 'Help'
+                return None
         else:
             try:
                 return source.books_between_years(start_year = int(short_args[0]), end_year = int(short_args[1]))
             except:
-                return 'Help'
-    return 'Help'
+                return None
+    return None
 
                 
 def print_output(output):
@@ -110,7 +110,7 @@ def print_output(output):
 
     # All methods return the string 'Help' when the input from the user does not 
     # match with any command listed on the usage statement. 
-    if output == 'Help':
+    if output is None:
         print('This is not a valid input. Please refer to the help page below.\n\n')
         usage = open('usage.txt', 'r')
         print(usage.read())
