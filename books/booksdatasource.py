@@ -63,6 +63,8 @@ class BooksDataSource:
                     #[first_name, last_name, (birth_year-death_year)]
                     author = author.split(' ')
 
+                    #getting the second to last element of author for surname
+                    #allows multiple first or middle names
                     surname = author[-2]
                     list_of_given_names = [name for name in author[:-2]]
                     given_name = ' '.join(list_of_given_names)
@@ -113,8 +115,6 @@ class BooksDataSource:
                 given_name_and_surname = ' '.join([author.given_name.upper(), author.surname.upper()])
                 if search_text in given_name_and_surname: 
                     authors_with_search_text.append(author)
-            # authors_with_search_text = [author for author in self.all_authors if search_text in author.surname.upper() \
-            #                             or search_text in author.given_name.upper()]
         else:
             authors_with_search_text = self.all_authors
 

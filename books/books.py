@@ -20,11 +20,11 @@ def run_command(args, source):
         if args[1] == 'range':
             return run_range_command(args[2:], source)
 
-    return None #else, return help
+    return None #else, return None
 
 
 def run_author_command(short_args, source): 
-    #short_args is only the relevant arguments (excluding "books.py author")
+    #short_args is only the arguments excluding "books.py author"
     #runs the author command using the arguments given by finding out the specific structure of the input
 
     if len(short_args) == 0 or (len(short_args) == 1 and short_args[0][0] == '_'):
@@ -37,7 +37,7 @@ def run_author_command(short_args, source):
 
 
 def run_title_command(short_args, source): 
-    #short_args is only the relevant arguments (excluding "books.py title")
+    #short_args is only the arguments excluding "books.py title"
     #runs the title command using the arguments given by finding out the specific structure of the input
 
     if len(short_args) == 0:
@@ -66,7 +66,7 @@ def run_title_command(short_args, source):
 
 
 def run_range_command(short_args, source): 
-    #short_args is only the relevant arguments (excluding "books.py range")
+    #short_args is only the arguments excluding "books.py range"
     #runs the range_between_years command using the arguments given by finding out the specific structure of the input
 
     if len(short_args) == 0:
@@ -108,7 +108,7 @@ def print_output(output):
 
     print('\n\n')
 
-    # All methods return the string 'Help' when the input from the user does not 
+    # All methods return None when the input from the user does not 
     # match with any command listed on the usage statement. 
     if output is None:
         print('This is not a valid input. Please refer to the help page below.\n\n')
