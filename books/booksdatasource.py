@@ -58,7 +58,7 @@ class BooksDataSource:
                 authors_in_book = row[2].split(' and ')
 
                 for author in authors_in_book:
-                    #After the following line, author will be a list like this: 
+                    #after the following line, author will be a list like this: 
                     #[first_name, middle_name, last_name, (birth_year-death_year)] or
                     #[first_name, last_name, (birth_year-death_year)]
                     author = author.split(' ')
@@ -104,10 +104,17 @@ class BooksDataSource:
             returns all of the Author objects. In either case, the returned list is sorted
             by surname, breaking ties using given name (e.g. Ann Brontë comes before Charlotte Brontë).
         '''
+        authors_with_search_text = []
+
         if search_text:
             search_text = search_text.upper()
-            authors_with_search_text = [author for author in self.all_authors if search_text in author.surname.upper() \
-                                        or search_text in author.given_name.upper()]
+
+            for author in self.all_authors:
+                given_name_and_surname = ' '.join([author.given_name.upper(), author.surname.upper()])
+                if search_text in given_name_and_surname: 
+                    authors_with_search_text.append(author)
+            # authors_with_search_text = [author for author in self.all_authors if search_text in author.surname.upper() \
+            #                             or search_text in author.given_name.upper()]
         else:
             authors_with_search_text = self.all_authors
 
@@ -153,11 +160,10 @@ class BooksDataSource:
             during start_year should be included. If both are None, then all books
             should be included.
         '''
-
         #Raise an exception if the input is not valid (not an integer)
         if (type(start_year) is not int and start_year is not None) or \
            (type(end_year) is not int and end_year is not None):
-            raise TypeError("Only integers are allowed.")
+            raise TypeError('Year should be an integer.')
 
         books = self.all_books
 
@@ -181,4 +187,3 @@ class BooksDataSource:
         sorted_books = sorted(books_filtered_by_end_year, key = lambda book: (book.publication_year, book.title))
 
         return sorted_books
-

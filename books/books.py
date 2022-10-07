@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
 '''
-    Written by Yuelin Kuang & Lucie Wolf
-
     Revised by Yuelin Kuang
     4 October 2022
+
+    Written by Yuelin Kuang & Lucie Wolf
 '''
 
 import booksdatasource as bds
@@ -102,16 +102,14 @@ def run_range_command(short_args, source):
 
                 
 def print_output(output):
-    '''
-    This function takes in the output from run_author_command, run_title_command or 
-    run_range_command and prints out the list of books or authors in an organized 
-    format. If the input is a string 'Help', it will print out the usage statement instead. 
-    '''
+    ''' This function takes in the output from run_author_command, run_title_command or 
+        run_range_command and prints out the list of books or authors in an organized 
+        format. If the input is a string 'Help', it will print out the usage statement instead.'''
 
     print('\n\n')
 
     if output == 'Help':
-        print('This is not a valid input. Please refer to the help page.\n\n')
+        print('This is not a valid input. Please refer to the help page below.\n\n')
         usage = open('usage.txt', 'r')
         print(usage.read())
         usage.close()
