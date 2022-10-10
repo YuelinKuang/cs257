@@ -11,7 +11,7 @@ AND noc.abbr = 'JAM'
 SELECT events.event_name, games.game_name, medals.class
 FROM events, games, medals, athletes, athletes_games_events_medals
 WHERE athletes.name = "Greg Louganis"
-AND medals.class != 'NA'
+AND medals.class != ''
 AND atheletes.id = athletes_games_events_medals.athlete_id
 AND athletes_games_events_medals.medal_id = medals.id
 ORDER BY game.year ASC

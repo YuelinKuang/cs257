@@ -28,7 +28,7 @@ with open('athlete_events.csv', 'r') as athlete_events:
 
     with open('games.csv', 'w') as games, open('athletes.csv', 'w') as athletes, \
         open('sports.csv', 'w') as sports, open('events.csv', 'w') as events, \
-        open('athletes_game-specific_info.csv', 'w') as athletes_game_specific_info, \
+        open('athletes_game_specific_info.csv', 'w') as athletes_game_specific_info, \
         open('medals.csv', 'w') as medals, open('athletes_games_events_medals.csv', 'w') as athletes_games_events_medals: 
 
         games_writer = csv.writer(games)

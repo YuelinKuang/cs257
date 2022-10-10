@@ -15,17 +15,17 @@ CREATE TABLE games (
 
 CREATE TABLE athletes (
     id SERIAL,
-    name TEXT,
+    name TEXT
 );
 
-CREATE TABLE athletes_game-specific_info (
+CREATE TABLE athletes_game_specific_info (
     id SERIAL,
     athlete_id INTEGER,
     game_id INTEGER,
     sex TEXT,
     age INTEGER,
-    height INTEGER,
-    weight INTEGER,
+    height REAL,
+    weight REAL,
     team TEXT,
     noc_id INTEGER
 );
