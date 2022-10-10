@@ -1,27 +1,29 @@
-SELECT abbr, region 
+SELECT abbr AS noc_abbreviation, region 
 FROM noc
-ORDER BY abbr ASC
+ORDER BY abbr ASC;
 
 SELECT DISTINCT athletes.name 
-FROM athletes, noc, athletes_game-specific_info
-WHERE athletes.id = athletes_game-specific_info.athlete_id
-AND athletes_game-specific_info.noc_id = noc.id
-AND noc.abbr = 'JAM'
+FROM athletes, noc, athletes_game_specific_info
+WHERE athletes.id = athletes_game_specific_info.athlete_id
+AND athletes_game_specific_info.noc_id = noc.id
+AND noc.abbr = 'JAM';
 
-SELECT events.event_name, games.game_name, medals.class
+SELECT athletes.name AS athlete_name, events.event_name, games.game_name AS game, medals.class AS result
 FROM events, games, medals, athletes, athletes_games_events_medals
-WHERE athletes.name = "Greg Louganis"
+WHERE athletes.name LIKE '%Greg% %Louganis%'
 AND medals.class != ''
-AND atheletes.id = athletes_games_events_medals.athlete_id
-AND athletes_games_events_medals.medal_id = medals.id
-ORDER BY game.year ASC
+AND athletes.id = athletes_games_events_medals.athlete_id
+AND medals.id = athletes_games_events_medals.medal_id
+AND events.id = athletes_games_events_medals.event_id
+AND games.id = athletes_games_events_medals.game_id
+ORDER BY games.year ASC;
 
-SELECT noc.abbr, COUNT(medals.class)
-FROM noc, medals, athletes_game-specific_info, athletes_games_events_medals
+SELECT noc.abbr AS noc_abbreviation, noc.region, COUNT(medals.class) AS count_of_gold_medals
+FROM noc, medals, athletes_game_specific_info, athletes_games_events_medals
 WHERE medals.class = 'Gold'
 AND athletes_games_events_medals.medal_id = medals.id
-AND noc.id = athletes_game-specific_info.noc_id
-AND athletes_game-specific_info.athlete_id = athletes_games_events_medals.athlete_id
-AND athletes_game-specific_info.game_id = athletes_games_events_medals.game_id
-GROUP BY noc.abbr
-ORDER BY COUNT(medals.class) DESC
+AND noc.id = athletes_game_specific_info.noc_id
+AND athletes_game_specific_info.athlete_id = athletes_games_events_medals.athlete_id
+AND athletes_game_specific_info.game_id = athletes_games_events_medals.game_id
+GROUP BY noc.abbr, noc.region
+ORDER BY COUNT(medals.class) DESC;
