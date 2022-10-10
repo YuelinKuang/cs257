@@ -1,54 +1,54 @@
 CREATE TABLE noc (
     id SERIAL,
     abbr char(3),
-    region text,
-    notes text
+    region TEXT,
+    notes TEXT
 );
 
 CREATE TABLE games (
     id SERIAL,
-    game_name text,
-    year integer,
-    season text,
-    city text
+    game_name TEXT,
+    year INTEGER,
+    season TEXT,
+    city TEXT
 );
 
 CREATE TABLE athletes (
     id SERIAL,
-    name text,
+    name TEXT,
 );
 
 CREATE TABLE athletes_game-specific_info (
     id SERIAL,
-    athlete_id integer,
-    game_id integer,
-    sex text,
-    age integer,
-    height integer,
-    weight integer,
-    team text
+    athlete_id INTEGER,
+    game_id INTEGER,
+    sex TEXT,
+    age INTEGER,
+    height INTEGER,
+    weight INTEGER,
+    team TEXT,
+    noc_id INTEGER
 );
 
 CREATE TABLE medals (
     id SERIAL,
-    class text
+    class TEXT
 );
 
 CREATE TABLE sports (
     id SERIAL,
-    sport_name text
+    sport_name TEXT
 );
 
 CREATE TABLE events (
     id SERIAL,
-    event_name text,
-    sport_id integer
+    sport_id INTEGER,
+    event_name TEXT
 );
 
-CREATE TABLE athletes_games_events_noc_medals (
-    athletes_id integer,
-    game_id integer,
-    event_id integer,
-    noc_id integer,
-    medal_id integer
+CREATE TABLE athletes_games_events_medals (
+    athletes_id INTEGER,
+    game_id INTEGER,
+    event_id INTEGER,
+    medal_id INTEGER
 );
