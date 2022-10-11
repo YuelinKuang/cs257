@@ -55,10 +55,11 @@ with open('athlete_events.csv', 'r') as athlete_events:
         
         # my_dic['text'] = id -> look up id using name
         all_games = {}
-        all_athletes = {}
         all_sports = {}
         all_events = {}
         all_medals = {}
+        # all_athletes[id] = 'name'
+        all_athletes = {}
 
         next(athlete_events_reader)
 
@@ -87,9 +88,9 @@ with open('athlete_events.csv', 'r') as athlete_events:
                 all_games[game] = game_id
                 games_writer.writerow([game_id, game, year, season, city])
 
-            if athlete_name not in all_athletes:
+            if athlete_id not in all_athletes:
                 # id starts at 1
-                all_athletes[athlete_name] = athlete_id
+                all_athletes[athlete_id] = athlete_name
                 athletes_writer.writerow([athlete_id, athlete_name])
 
             if sport not in all_sports:
@@ -110,10 +111,10 @@ with open('athlete_events.csv', 'r') as athlete_events:
                 all_medals[medal] = medal_id
                 medals_writer.writerow([medal_id, medal])
 
-            athletes_game_specific_info_writer.writerow([counter, all_athletes[athlete_name], \
+            athletes_game_specific_info_writer.writerow([counter, athlete_id, \
                 all_games[game], sex, age, height, weight, team, all_noc[noc]])
 
-            athletes_games_events_medals_writer.writerow([all_athletes[athlete_name], \
+            athletes_games_events_medals_writer.writerow([athlete_id, \
                 all_games[game], all_events[event], all_medals[medal]])
 
             counter += 1
