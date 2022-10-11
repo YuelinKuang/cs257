@@ -48,7 +48,7 @@ with open('athlete_events.csv', 'r') as athlete_events:
             'age', 'height', 'weight', 'team', 'noc_id'])
 
         athletes_games_events_medals_writer = csv.writer(athletes_games_events_medals)
-        athletes_games_events_medals_writer.writerow(['athlete_id', 'game_id', 'event_id', 'medal_id'])
+        athletes_games_events_medals_writer.writerow(['athletes_game_specific_info_id', 'athlete_id', 'game_id', 'event_id', 'medal_id'])
 
         medals_writer = csv.writer(medals)
         medals_writer.writerow(['id', 'class'])
@@ -114,7 +114,7 @@ with open('athlete_events.csv', 'r') as athlete_events:
             athletes_game_specific_info_writer.writerow([counter, athlete_id, \
                 all_games[game], sex, age, height, weight, team, all_noc[noc]])
 
-            athletes_games_events_medals_writer.writerow([athlete_id, \
+            athletes_games_events_medals_writer.writerow([counter, athlete_id, \
                 all_games[game], all_events[event], all_medals[medal]])
 
             counter += 1

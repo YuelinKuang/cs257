@@ -47,6 +47,7 @@ CREATE TABLE events (
 );
 
 CREATE TABLE athletes_games_events_medals (
+    athletes_game_specific_info_id INTEGER,
     athlete_id INTEGER,
     game_id INTEGER,
     event_id INTEGER,
