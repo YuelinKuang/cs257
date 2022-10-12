@@ -19,9 +19,8 @@ AND games.id = athletes_games_events_medals.game_id
 ORDER BY games.year ASC;
 
 SELECT noc.abbr AS noc_abbreviation, noc.region, COUNT(medals.class) AS count_of_gold_medals
-FROM noc, medals, athletes_game_specific_info, athletes_games_events_medals
-WHERE noc.id = athletes_game_specific_info.noc_id
-AND athletes_game_specific_info.id = athletes_games_events_medals.athletes_game_specific_info_id
+FROM noc, medals, athletes_games_events_medals
+WHERE noc.id = athletes_games_events_medals.noc_id
 AND athletes_games_events_medals.medal_id = medals.id
 AND medals.class LIKE '%Gold%'
 GROUP BY noc.abbr, noc.region

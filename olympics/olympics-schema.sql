@@ -5,6 +5,11 @@ CREATE TABLE noc (
     notes TEXT
 );
 
+CREATE TABLE teams (
+    id INTEGER,
+    team_name TEXT
+);
+
 CREATE TABLE games (
     id SERIAL,
     game_name TEXT,
@@ -26,7 +31,7 @@ CREATE TABLE athletes_game_specific_info (
     age INTEGER,
     height REAL,
     weight REAL,
-    team TEXT,
+    team_id INTEGER,
     noc_id INTEGER
 );
 
@@ -51,5 +56,6 @@ CREATE TABLE athletes_games_events_medals (
     athlete_id INTEGER,
     game_id INTEGER,
     event_id INTEGER,
-    medal_id INTEGER
+    medal_id INTEGER,
+    noc_id INTEGER
 );

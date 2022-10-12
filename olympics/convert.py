@@ -28,8 +28,10 @@ with open('athlete_events.csv', 'r') as athlete_events:
 
     with open('games.csv', 'w') as games, open('athletes.csv', 'w') as athletes, \
         open('sports.csv', 'w') as sports, open('events.csv', 'w') as events, \
+        open('teams.csv', 'w') as teams, \
         open('athletes_game_specific_info.csv', 'w') as athletes_game_specific_info, \
-        open('medals.csv', 'w') as medals, open('athletes_games_events_medals.csv', 'w') as athletes_games_events_medals: 
+        open('medals.csv', 'w') as medals, \
+        open('athletes_games_events_medals.csv', 'w') as athletes_games_events_medals: 
 
         games_writer = csv.writer(games)
         games_writer.writerow(['id', 'game_name', 'year', 'season', 'city'])
@@ -43,12 +45,16 @@ with open('athlete_events.csv', 'r') as athlete_events:
         events_writer = csv.writer(events)
         events_writer.writerow(['id', 'sport_id', 'event_name'])
 
+        teams_writer = csv.writer(teams)
+        teams_writer.writerow(['id', 'team_name'])
+
         athletes_game_specific_info_writer = csv.writer(athletes_game_specific_info)
         athletes_game_specific_info_writer.writerow(['id', 'athlete_id', 'game_id', 'sex', \
-            'age', 'height', 'weight', 'team', 'noc_id'])
+            'age', 'height', 'weight', 'team_id', 'noc_id'])
 
         athletes_games_events_medals_writer = csv.writer(athletes_games_events_medals)
-        athletes_games_events_medals_writer.writerow(['athletes_game_specific_info_id', 'athlete_id', 'game_id', 'event_id', 'medal_id'])
+        athletes_games_events_medals_writer.writerow(['athletes_game_specific_info_id', 'athlete_id', \
+            'game_id', 'event_id', 'medal_id', 'noc_id'])
 
         medals_writer = csv.writer(medals)
         medals_writer.writerow(['id', 'class'])
@@ -58,6 +64,7 @@ with open('athlete_events.csv', 'r') as athlete_events:
         all_sports = {}
         all_events = {}
         all_medals = {}
+        all_teams = {}
         # all_athletes[id] = 'name'
         all_athletes = {}
 
@@ -72,7 +79,7 @@ with open('athlete_events.csv', 'r') as athlete_events:
             age = row[3]
             height = row[4]
             weight = row[5]
-            team = row[6] 
+            team_names = row[6].split('/')
             noc = row[7]
             game = row[8] 
             year = row[9]
@@ -81,6 +88,12 @@ with open('athlete_events.csv', 'r') as athlete_events:
             sport = row[12]
             event = row[13]
             medal = row[14]
+
+            for team in team_names: 
+                if team not in all_teams: 
+                    team_id = len(all_teams) + 1
+                    all_teams[team] = team_id
+                    teams_writer.writerow([team_id, team])
 
             if game not in all_games:
                 # id starts at 1
@@ -111,11 +124,12 @@ with open('athlete_events.csv', 'r') as athlete_events:
                 all_medals[medal] = medal_id
                 medals_writer.writerow([medal_id, medal])
 
-            athletes_game_specific_info_writer.writerow([counter, athlete_id, \
-                all_games[game], sex, age, height, weight, team, all_noc[noc]])
+            for team in team_names: 
+                athletes_game_specific_info_writer.writerow([counter, athlete_id, \
+                    all_games[game], sex, age, height, weight, all_teams[team], all_noc[noc]])
 
             athletes_games_events_medals_writer.writerow([counter, athlete_id, \
-                all_games[game], all_events[event], all_medals[medal]])
+                all_games[game], all_events[event], all_medals[medal], all_noc[noc]])
 
             counter += 1
 
