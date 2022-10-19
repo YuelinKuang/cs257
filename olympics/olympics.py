@@ -24,24 +24,44 @@ def get_athletes_by_noc(search_noc):
     ''' Returns a list of the names of all athletes in the database
         who are from the specified search_noc. '''
     athletes = [] 
-    try:
-        query = '''SELECT DISTINCT athletes.name 
-                   FROM athletes, noc, athletes_game_specific_info
-                   WHERE athletes.id = athletes_game_specific_info.athlete_id
-                   AND athletes_game_specific_info.noc_id = noc.id
-                   AND noc.abbr ILIKE CONCAT('%%', %s, '%%')'''
-        connection = get_connection()
-        cursor = connection.cursor()
-        cursor.execute(query, (search_noc,))
-        for row in cursor:
-            full_name = row[0]
-            athletes.append(full_name)
+    if search_noc is not None:
+        try:
+            query = '''SELECT DISTINCT athletes.name 
+                        FROM athletes, noc, athletes_game_specific_info
+                        WHERE athletes.id = athletes_game_specific_info.athlete_id
+                        AND athletes_game_specific_info.noc_id = noc.id
+                        AND noc.abbr ILIKE CONCAT('%%', %s, '%%')
+                        ORDER BY athletes.name'''
+            connection = get_connection()
+            cursor = connection.cursor()
+            cursor.execute(query, (search_noc,))
+            for row in cursor:
+                full_name = row[0]
+                athletes.append(full_name)
 
-    except Exception as e:
-        print(e, file=sys.stderr)
+        except Exception as e:
+            print(e, file=sys.stderr)
 
-    connection.close()
-    return athletes
+        connection.close()
+        return athletes
+
+    else: 
+        try: 
+            query = '''SELECT athletes.name 
+                        FROM athletes
+                        ORDER BY athletes.name'''
+            connection = get_connection()
+            cursor = connection.cursor()
+            cursor.execute(query, (search_noc,))
+            for row in cursor:
+                full_name = row[0]
+                athletes.append(full_name)
+
+        except Exception as e:
+            print(e, file=sys.stderr)
+
+        connection.close()
+        return athletes
 
 def get_noc_and_gold_medals():
     ''' Returns a list of the nocs that have won at least one gold medal and the number
@@ -63,7 +83,7 @@ def get_noc_and_gold_medals():
         for row in cursor:
             noc_abbr = row[0]
             noc_region = row[1]
-            number_of_gold_medals = row[3]
+            number_of_gold_medals = row[2]
             noc_medal.append(f'{noc_abbr}, {noc_region}: {number_of_gold_medals}')
 
     except Exception as e:
@@ -96,20 +116,20 @@ def get_games():
     return games
 
 def invalid_args_and_print_help_page(invalid):
-    if invalid == True: 
-        print('This is not a valid input. Please refer to the help age below. \n\n')
+    if invalid: 
+        print('\n\nThis is not a valid input. Please refer to the help page below. \n\n')
         with open('usage.txt', 'r') as file:
             print(file.read())
     else: 
-        print('Please refer to the help page below about how to use this program. \n\n')
+        print('\n\nPlease refer to the help page below about how to use this program. \n\n')
         with open('usage.txt', 'r') as file:
             print(file.read())
 
 
-def main():
-    # args is a list of arguments excluding python2 and olympics.py
-    args = sys.argv[2:]
-
+def main(arguments):
+    # args is a list of arguments excluding python3 and olympics.py
+    args = arguments[1:]
+    
     # When no argument is entered
     if len(args) == 0: 
         invalid_args_and_print_help_page(invalid=False)
@@ -121,7 +141,7 @@ def main():
             invalid_args_and_print_help_page(invalid=False)
         elif arg == 'athletes': 
             print('============= All athletes =============')
-            athletes = get_athletes_by_noc('')
+            athletes = get_athletes_by_noc(None)
             for athlete in athletes:
                 print(athlete)
             print()
@@ -130,6 +150,7 @@ def main():
             nocs = get_noc_and_gold_medals()
             for noc in nocs: 
                 print(noc)
+            print(len(nocs))
             print()
         elif arg == 'games':
             print('============= All Olympic Games =============')
@@ -147,7 +168,7 @@ def main():
             if len(athletes) == 0: 
                 print('There is no athlete from this NOC.')
             else: 
-                print(f'============= All athletes from "{args[1]}" =============')
+                print(f'============= All athletes from "{args[1].upper()}" =============')
                 for athlete in athletes:
                     print(athlete)
         else: 
@@ -157,4 +178,4 @@ def main():
         invalid_args_and_print_help_page(invalid=True)
 
 if __name__ == '__main__':
-    main()
+    main(sys.argv)
