@@ -120,10 +120,12 @@ def invalid_args_and_print_help_page(invalid):
         print('\n\nThis is not a valid input. Please refer to the help page below. \n\n')
         with open('usage.txt', 'r') as file:
             print(file.read())
+            print()
     else: 
         print('\n\nPlease refer to the help page below about how to use this program. \n\n')
         with open('usage.txt', 'r') as file:
             print(file.read())
+            print()
 
 
 def main(arguments):
@@ -150,7 +152,6 @@ def main(arguments):
             nocs = get_noc_and_gold_medals()
             for noc in nocs: 
                 print(noc)
-            print(len(nocs))
             print()
         elif arg == 'games':
             print('============= All Olympic Games =============')
