@@ -1,0 +1,23 @@
+Written by Yuelin Kuang
+
+olympics.py - a program that displays athletes, noc, and games information 
+              from the olympics database populated by olympics.sql
+
+SYNOPSIS: 
+    python3 olympics.py [-h | --help]
+        - display this manual page
+
+    python3 olympics.py athletes ["NOC_abbreviation"]
+        - display the names of athletes from a specified NOC in alphabetical order
+          by first name; if no NOC is entered, display all athletes
+
+    python3 olympics.py noc 
+        - display all the NOC's and the number of gold medals they have won in 
+          decreasing order of the number of gold medals
+
+    python3 olympics.py medals ["athlete_name"]
+        - display the medals won by a specified athlete whose name is "athlete_name"; 
+          if no athlete_name is entered, nothing will be displayed
+
+OPTIONS: 
+    -h, --help: display this manual page 
