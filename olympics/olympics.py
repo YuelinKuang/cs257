@@ -95,9 +95,66 @@ def get_games():
     connection.close()
     return games
 
+def invalid_args_and_print_help_page(invalid):
+    if invalid == True: 
+        print('This is not a valid input. Please refer to the help age below. \n\n')
+        with open('usage.txt', 'r') as file:
+            print(file.read())
+    else: 
+        print('Please refer to the help page below about how to use this program. \n\n')
+        with open('usage.txt', 'r') as file:
+            print(file.read())
+
 
 def main():
-    pass
+    # args is a list of arguments excluding python2 and olympics.py
+    args = sys.argv[2:]
+
+    # When no argument is entered
+    if len(args) == 0: 
+        invalid_args_and_print_help_page(invalid=False)
+
+    # When there is one argument
+    elif len(args) == 1: 
+        arg = args[0]
+        if arg ==  '-h' or arg == '--help':
+            invalid_args_and_print_help_page(invalid=False)
+        elif arg == 'athletes': 
+            print('============= All athletes =============')
+            athletes = get_athletes_by_noc('')
+            for athlete in athletes:
+                print(athlete)
+            print()
+        elif arg == 'noc':
+            print('============= NOCs and the number of gold medals they won =============')
+            nocs = get_noc_and_gold_medals()
+            for noc in nocs: 
+                print(noc)
+            print()
+        elif arg == 'games':
+            print('============= All Olympic Games =============')
+            games = get_games()
+            for game in games: 
+                print(game)
+            print()
+        else: 
+            invalid_args_and_print_help_page(invalid=True)
+
+    # When there are two arguments
+    elif len(args) == 2: 
+        if args[0] == 'athletes': 
+            athletes = get_athletes_by_noc(args[1])
+            if len(athletes) == 0: 
+                print('There is no athlete from this NOC.')
+            else: 
+                print(f'============= All athletes from "{args[1]}" =============')
+                for athlete in athletes:
+                    print(athlete)
+        else: 
+            invalid_args_and_print_help_page(invalid=True)
+    
+    else: 
+        invalid_args_and_print_help_page(invalid=True)
 
 if __name__ == '__main__':
     main()
