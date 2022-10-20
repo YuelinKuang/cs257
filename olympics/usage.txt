@@ -8,16 +8,16 @@ SYNOPSIS:
         - display this manual page
 
     python3 olympics.py athletes ["NOC_abbreviation"]
-        - display the names of athletes from a specified NOC in alphabetical order
-          by first name; if no NOC is entered, display all athletes
+        - display the names of athletes from a specified NOC in alphabetical 
+          order by first name; if no NOC is entered, display all athletes
 
     python3 olympics.py noc 
-        - display all the NOC's and the number of gold medals they have won in 
-          decreasing order of the number of gold medals
+        - display all the NOC's and the number of gold medals they have won 
+          in decreasing order of the number of gold medals
 
     python3 olympics.py games
-        - display all the Olympics games recorded in this database together with 
-          their locations and year in chronological order 
+        - display all the Olympics games recorded in this database together 
+          with their locations and year in chronological order 
 
 OPTIONS: 
     -h, --help: display this manual page 
