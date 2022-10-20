@@ -1,6 +1,8 @@
 '''
     olympics.py
     Yuelin Kuang, 18 October 2022
+
+    Adapted from psycopg2-sample.py from the psycopg2 lab.
 '''
 import config
 import sys
@@ -24,6 +26,7 @@ def get_athletes_by_noc(search_noc):
     ''' Returns a list of the names of all athletes in the database
         who are from the specified search_noc. '''
     athletes = [] 
+    # When there is a noc abbreviation entered: 
     if search_noc is not None:
         try:
             query = '''SELECT DISTINCT athletes.name 
@@ -45,6 +48,7 @@ def get_athletes_by_noc(search_noc):
         connection.close()
         return athletes
 
+    # When no noc abbreviation is entered: 
     else: 
         try: 
             query = '''SELECT athletes.name 
@@ -71,7 +75,7 @@ def get_noc_and_gold_medals():
         connection = get_connection()
         cursor = connection.cursor()
 
-        query = '''SELECT noc.abbr AS noc_abbreviation, noc.region, COUNT(medals.class) AS count_of_gold_medals
+        query = '''SELECT noc.abbr, noc.region, COUNT(medals.class)
                    FROM noc, medals, athletes_games_events_medals
                    WHERE noc.id = athletes_games_events_medals.noc_id
                    AND athletes_games_events_medals.medal_id = medals.id
@@ -98,7 +102,7 @@ def get_games():
     try:
         query = '''SELECT games.year, games.season, games.city 
                    FROM games
-                   ORDER BY games.year ASC, games.season DESC;'''
+                   ORDER BY games.year ASC, games.season DESC'''
         connection = get_connection()
         cursor = connection.cursor()
         cursor.execute(query)
