@@ -1,0 +1,22 @@
+Written by Lucie Wolf and Yuelin Kuang
+
+This dataset provides information about games on the Steam store, including developer, categories, genres, rating, recommended computer requirements, support info, and descriptions, screenshots from the game, and more. We got the dataset from Kaggle, using the URL below: 
+https://www.kaggle.com/datasets/nikdavis/steam-store-games?select=steam.csv
+
+User Stories: 
+
+Story: Someone who is interested in finding a job in the gaming industry can look through companies based on what kinds of games they make, the number of games they have published over time, and the minimum ages for their games.
+
+Implementation: From the main page, the user could click the “Search for Statistics” button that goes to the statistics search page. Then they can add filters of genres, minimum ages, developers, and/or release date to narrow down the games of interest. They also need to select a desired format for the output statistics about the number of games (either a pie chart o a histogram). 
+
+Story: Someone who is interested in video games can find new games to play based on the genres/categories they are interested in, if the games sound interesting to them, and if the games can be run on their computer.
+
+Implementation: From the main page, they could click on the “Search for Games” button, input the relevant statistics into a form, and hit the search button. From there, browse the relevant games, click on ones that seem interesting to pull up more information, the website, and some images or videos.
+
+Story: A parent trying to learn if specific games that their child is playing are appropriate for them by finding statistics on age ratings, description, etc.
+
+Implementation: From the main page, they could click on the “Search for Games” button, and search based on the name (and any other information they may know. Then, they could click on the relevant game and look at more information on that game.
+
+Story: Someone casually browsing games with no specifics in mind.
+
+Implementation: From the main page, we could have an option where they could look at screenshots or videos from various games, click onto the ones that are interesting to view them in more detail and be brought to more information about that game.
