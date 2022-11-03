@@ -27,7 +27,7 @@
 
 .search_buttons {
     height: 100%;
-    width:50%;
+    width: 45%;
     display: inline-block;
     text-align: center;
     line-height: 200px;
@@ -40,7 +40,7 @@
     border-radius: 24px;
     font-family: "Lucida Console", "Courier New", monospace;
     color: beige;
-    box-shadow: 1cm;
+    box-shadow: 5px 10px 18px #7b7b7b;
     font-size: large;
 }
 
