@@ -86,11 +86,13 @@
 .subtitle {
     font-size: 20pt;
     font-family: "Lucida Console", "Courier New", monospace;
-    margin-left: auto;
-    margin-right: auto;
+    text-align: center;
 }
 
 #setting_container {
     width: 35%; 
-    
+    margin-right: 2%;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
 }
