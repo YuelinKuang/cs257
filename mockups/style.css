@@ -5,7 +5,7 @@
    Written by Yuelin Kuang and Lucie Wolf
 */
 
-#title_container {
+#title {
     height: 200px;
     width: 100%;
     line-height: 200px;
@@ -57,4 +57,40 @@
     height: 100%;
     width: 33%;
     border: 0.1em red solid;
+}
+
+#games_search_container {
+    border: 0.1em red solid;
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    gap: 2%;
+}
+
+#games_container {
+    width: 60%; 
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    gap: 10px;
+    margin-left: 2%;
+}
+
+.game_item {
+    height: 100px;
+    width: 100%;
+    border: 0.1em red solid;
+}
+
+.subtitle {
+    font-size: 20pt;
+    font-family: "Lucida Console", "Courier New", monospace;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+#setting_container {
+    width: 35%; 
+    
 }
