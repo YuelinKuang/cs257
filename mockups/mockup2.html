@@ -6,6 +6,26 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Search for Games Page</title>
     <link rel="stylesheet" type="text/css" href="style.css" />
+    <script>
+        function selectOrDeselect() {
+            var inputs = document.getElementsByTagName("input");
+
+            var selected = true;
+            for(var i = 0; i < inputs.length; i++) {
+                if(inputs[i].type == "checkbox" && inputs[i].value.includes("genre_")) {
+                    if(inputs[i].checked == false) {
+                        selected = false;
+                    }
+                }  
+            }
+
+            for(var i = 0; i < inputs.length; i++) {
+                if(inputs[i].type == "checkbox" && inputs[i].value.includes("genre_")) {
+                    inputs[i].checked = !selected; 
+                }  
+            }
+        }
+    </script>
 </head>
 <body>
     <div id="title">
@@ -89,57 +109,51 @@
             </div>
 
             <div class="flex">
-                <div style="flex: 1; margin-right: 10px;">
-                    <div>
+                <div style="flex: 1; margin-right: 20px;">
+                    <div style="padding-bottom: 20px;">
                         <h2>Release Date</h2>
-                        <div class='flex'>
+                        <div class='flex' style="padding-bottom: 5px;">
                             <label for="start_date" style="flex: 1;">Start Date</label>
                             <input style="flex: 2;" type="date" name="start_date" class="form-control" placeholder="mm/dd/yy">
                         </div>
-                        <div class="flex">
+                        <div class="flex" style="padding-bottom: 5px;">
                             <label for="start_date" style="flex: 1;">End Date</label>
                             <input style="flex: 2;" type="date" name="start_date" class="form-control" placeholder="mm/dd/yy">
                         </div>
                     </div>
 
-                    <div>
+                    <div style="padding-bottom: 20px;">
                         <h2>Minimum Age</h2>
-                        <div class='flex'>
+                        <div class='flex' style="padding-bottom: 5px;">
                             <label for="quantity" style="flex: 2;">Above</label>
                             <input type="number" id="quantity" name="quantity" min="0" max="18">   
                         </div>
-                        <div class="flex">
+                        <div class="flex" style="padding-bottom: 5px;">
                             <label for="quantity" style="flex: 1;">Below</label>
                             <input type="number" id="quantity" name="quantity" min="0" max="18"> 
                         </div>
                     </div>
 
-                    <div>
+                    <div style="padding-bottom: 20px;">
                         <h2>Available On</h2>
-                        <div style="margin-left: 20px;">
-                            <input type="checkbox" id="windows" name="system1" value="Windows">
-                            <label for="system1"> Windows</label><br>
-                            <input type="checkbox" id="mac" name="system2" value="Mac">
-                            <label for="system2"> Mac</label><br>
-                            <input type="checkbox" id="linux" name="system3" value="Linux">
-                            <label for="system3"> Linux</label><br>
-                        </div>
+                        <input type="checkbox" id="windows" name="system1" value="Windows">
+                        <label for="system1"> Windows</label><br>
+                        <input type="checkbox" id="mac" name="system2" value="Mac">
+                        <label for="system2"> Mac</label><br>
+                        <input type="checkbox" id="linux" name="system3" value="Linux">
+                        <label for="system3"> Linux</label><br>
                     </div>
                 </div> 
 
-                <div style="flex: 1">
-                    <div>
+                <div style="flex: 1; margin-left: 20px;">
+                    <div style="padding-bottom: 20px;">
                         <h2>Developer</h2>
-                        <label for="developers"></label>
-
-                        <select name="developers" id="developers" placeholder="Developer" style="margin-bottom: 10px">
+                        <select name="developers" placeholder="Developer" style="margin-bottom: 10px">
                             <option value="dev1">Developer 1</option>
                             <option value="dev2">Developer 2</option>
                             <option value="dev3">Developer 3</option>
                         </select>
-
-                        <label for="developers2"></label>
-
+                        <br>
                         <select name="developers2" id="developers2" placeholder="Developer">
                             <option value="dev1">Developer 1</option>
                             <option value="dev2">Developer 2</option>
@@ -149,23 +163,20 @@
                         <p>Will allow the user to add more developers in the future. </p>
                     </div>
 
-                    <div>
+                    <div style="padding-bottom: 20px;">
                         <h2>Genre</h2>
-                        <div style="margin-left: 20px; margin-left: 20px">
-                            <input type="checkbox" id="genre1" name="genre1" value="genre1">
-                            <label for="genre1"> Genre 1</label><br>
-                            <input type="checkbox" id="genre2" name="genre2" value="genre2">
-                            <label for="genre2"> Genre 2</label><br>
-                            <input type="checkbox" id="genre3" name="genre3" value="genre3">
-                            <label for="genre3"> Genre 3</label><br>
-                            <input type="checkbox" id="genre4" name="genre4" value="genre4">
-                            <label for="genre4"> Genre 4</label><br>
+                        <input type="checkbox" name="genre_genre1" value="genre_genre1">
+                        <label for="genre_genre1"> Genre 1</label><br>
+                        <input type="checkbox" name="genre_genre2" value="genre_genre2">
+                        <label for="genre_genre2"> Genre 2</label><br>
+                        <input type="checkbox" name="genre_genre3" value="genre_genre3">
+                        <label for="genre_genre3"> Genre 3</label><br>
 
-                            <button class="small_button" style="margin-top: 10px;">Select/Deselect all (not working yet)</button>
-                        </div>
+                        <button onclick="selectOrDeselect()">Select/Deselect All</button>
                     </div>
                 </div> 
             </div>
+            <button class="buttons" style="margin-left: 140px;">Search</button> 
         </div>
     </div>
 
