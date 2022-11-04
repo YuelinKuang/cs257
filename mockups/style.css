@@ -75,6 +75,14 @@ body {
     font-size: 10pt;
 }
 
+table, th, td {
+    border: 0.1em red solid;
+    border-collapse: collapse;
+    margin-right: 20px;
+    margin-bottom: 20px;
+    background-color: rgb(246, 229, 232);
+}
+
 .images_container {
     border: 0.1em red solid;
     height: 500px; 
@@ -91,9 +99,12 @@ body {
 }
 
 .game_item {
-    height: 100px;
     border: 0.1em red solid;
     margin-bottom: 20px;
+}
+
+.game_img {
+    height: 100px;
 }
 
 h1 {
