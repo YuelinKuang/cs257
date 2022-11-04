@@ -14,50 +14,160 @@
 
     <div id="games_search_container" class="row">
         <div id="games_container">
-            <div class="game_item"></div>
-            <div class="game_item"></div>
-            <div class="game_item"></div>
-            <div class="game_item"></div>
-            <div class="game_item"></div>
+            <div class="game_item flex">
+                <div style="flex: 1;">
+                    <img src="https://s-media-cache-ak0.pinimg.com/236x/30/7a/d2/307ad2b6fb7a15a34a28ae998c7e2431.jpg" height="100%">
+                </div>
+                <div style="flex: 6;">
+                    <p>Title of the game. Description from the detailed_description column of steam_description_data.csv.</p>
+                </div>
+            </div>
+
+            <div class="game_item flex">
+                <div style="flex: 1;">
+                    <img src="https://s-media-cache-ak0.pinimg.com/236x/30/7a/d2/307ad2b6fb7a15a34a28ae998c7e2431.jpg" height="100%">
+                </div>
+                <div style="flex: 6;">
+                    <p>Title of the game. Description from the detailed_description column of steam_description_data.csv.</p>
+                </div>
+            </div>
+
+            <div class="game_item flex">
+                <div style="flex: 1;">
+                    <img src="https://s-media-cache-ak0.pinimg.com/236x/30/7a/d2/307ad2b6fb7a15a34a28ae998c7e2431.jpg" height="100%">
+                </div>
+                <div style="flex: 6;">
+                    <p>Title of the game. Description from the detailed_description column of steam_description_data.csv.</p>
+                </div>
+            </div>
+
+            <div class="game_item flex">
+                <div style="flex: 1;">
+                    <img src="https://s-media-cache-ak0.pinimg.com/236x/30/7a/d2/307ad2b6fb7a15a34a28ae998c7e2431.jpg" height="100%">
+                </div>
+                <div style="flex: 6;">
+                    <p>Title of the game. Description from the detailed_description column of steam_description_data.csv.</p>
+                </div>
+            </div>
+
+            <div class="game_item flex">
+                <div style="flex: 1;">
+                    <img src="https://s-media-cache-ak0.pinimg.com/236x/30/7a/d2/307ad2b6fb7a15a34a28ae998c7e2431.jpg" height="100%">
+                </div>
+                <div style="flex: 6;">
+                    <p>Title of the game. Description from the detailed_description column of steam_description_data.csv.</p>
+                </div>
+            </div>
+
+            <div class="game_item flex">
+                <div style="flex: 1;">
+                    <img src="https://s-media-cache-ak0.pinimg.com/236x/30/7a/d2/307ad2b6fb7a15a34a28ae998c7e2431.jpg" height="100%">
+                </div>
+                <div style="flex: 6;">
+                    <p>Title of the game. Description from the detailed_description column of steam_description_data.csv.</p>
+                </div>
+            </div>
+
+            <div class="game_item flex">
+                <div style="flex: 1;">
+                    <img src="https://s-media-cache-ak0.pinimg.com/236x/30/7a/d2/307ad2b6fb7a15a34a28ae998c7e2431.jpg" height="100%">
+                </div>
+                <div style="flex: 6;">
+                    <p>Title of the game. Description from the detailed_description column of steam_description_data.csv.</p>
+                </div>
+            </div>
+
         </div>
+
         <div id="setting_container" class="border">
             <div>
                 <h1>Search</h1>
             </div>
-            <div>
-                <label for="game_name">Name</label>
-                <input type="text" name="game_name" class="form-control" placeholder="Name">
+            <div class="flex">
+                <label class="font" for="game_name" style="flex:1; text-align: center;">Name</label>
+                <input style="flex:3;" type="text" name="game_name" class="form-control" placeholder="Name">
             </div>
-            <div style="display: flex;">
-                <div style="flex: 1;">
+
+            <div class="flex">
+                <div style="flex: 1; margin-right: 10px;">
                     <div>
-                        <h1>Release Date</h1>
-                        <div>
-                            <label for="start_date">Start Date</label>
-                            <input type="date" name="start_date" class="form-control" placeholder="mm/dd/yy">
+                        <h2>Release Date</h2>
+                        <div class='flex'>
+                            <label for="start_date" class="font" style="flex: 1;">Start Date</label>
+                            <input style="flex: 2;" type="date" name="start_date" class="form-control" placeholder="mm/dd/yy">
                         </div>
-                        <div>
-                            <label for="end_date">End Date</label>
-                            <input type="date" name="end_date" class="form-control" placeholder="mm/dd/yy"></div>
+                        <div class="flex">
+                            <label for="start_date" class="font" style="flex: 1;">End Date</label>
+                            <input style="flex: 2;" type="date" name="start_date" class="form-control" placeholder="mm/dd/yy">
                         </div>
-                    <div>
-                        <h1>Minimum Age</h1>
                     </div>
+
                     <div>
-                        <h1>Available On</h1>
+                        <h2>Minimum Age</h2>
+                        <div class='flex'>
+                            <label for="quantity" class="font" style="flex: 2;">Above</label>
+                            <input type="number" id="quantity" name="quantity" min="0" max="18">   
+                        </div>
+                        <div class="flex">
+                            <label for="quantity" class="font" style="flex: 1;">Below</label>
+                            <input type="number" id="quantity" name="quantity" min="0" max="18"> 
+                        </div>
+                    </div>
+
+                    <div>
+                        <h2>Available On</h2>
+                        <div style="margin-left: 20px;">
+                            <input type="checkbox" id="windows" name="system1" value="Windows">
+                            <label for="system1" class="font"> Windows</label><br>
+                            <input type="checkbox" id="mac" name="system2" value="Mac">
+                            <label for="system2" class="font"> Mac</label><br>
+                            <input type="checkbox" id="linux" name="system3" value="Linux">
+                            <label for="system3" class="font"> Linux</label><br>
+                        </div>
                     </div>
                 </div> 
-                <div style="flex: 1;">
+
+                <div style="flex: 1">
                     <div>
-                        <h1>Developer</h1>
+                        <h2>Developer</h2>
+                        <label for="developers"></label>
+
+                        <select class="font" name="developers" id="developers" placeholder="Developer" style="margin-bottom: 10px">
+                            <option value="dev1">Developer 1</option>
+                            <option value="dev2">Developer 2</option>
+                            <option value="dev3">Developer 3</option>
+                        </select>
+
+                        <label for="developers2"></label>
+
+                        <select class="font" name="developers2" id="developers2" placeholder="Developer">
+                            <option value="dev1">Developer 1</option>
+                            <option value="dev2">Developer 2</option>
+                            <option value="dev3">Developer 3</option>
+                        </select>
+
+                        <p>Will allow the user to add more developers in the future. </p>
                     </div>
+
                     <div>
-                        <h1>Genre</h1>
+                        <h2>Genre</h2>
+                        <div style="margin-left: 20px; margin-left: 20px">
+                            <input type="checkbox" id="genre1" name="genre1" value="genre1">
+                            <label for="genre1" class="font"> Genre 1</label><br>
+                            <input type="checkbox" id="genre2" name="genre2" value="genre2">
+                            <label for="genre2" class="font"> Genre 2</label><br>
+                            <input type="checkbox" id="genre3" name="genre3" value="genre3">
+                            <label for="genre3" class="font"> Genre 3</label><br>
+                            <input type="checkbox" id="genre4" name="genre4" value="genre4">
+                            <label for="genre4" class="font"> Genre 4</label><br>
+
+                            <button class="small_button" style="margin-top: 10px;">Select/Deselect all (not working yet)</button>
+                        </div>
                     </div>
                 </div> 
             </div>
         </div>
     </div>
-    <p>This is the Search for Games Page. </p>
+
 </body>
 </html>

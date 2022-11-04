@@ -64,6 +64,17 @@ body {
     font-size: large;
 }
 
+.small_button {
+    padding: 10px 30px;
+    background-color: rgb(247, 172, 172);
+    color: rgb(85, 85, 72); 
+    border-radius: 5px;
+    font-family: "Lucida Console", "Courier New", monospace;
+    color: beige;
+    box-shadow: 5px 10px 18px #7b7b7b;
+    font-size: 10pt;
+}
+
 .images_container {
     border: 0.1em red solid;
     height: 500px; 
@@ -91,8 +102,20 @@ h1 {
     text-align: center;
 }
 
+h2 {
+    font-size: 16pt;
+    font-family: "Lucida Console", "Courier New", monospace;
+}
 
 .border {
     border: 0.1em red solid; 
+}
+
+html {
+    font-family: "Lucida Console", "Courier New", monospace;
+}
+
+.flex {
+    display: flex;
 }
 
