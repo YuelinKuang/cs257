@@ -12,7 +12,7 @@
         Steam Store Games!
     </div>
 
-    <div id="games_search_container">
+    <div id="games_search_container" class="row">
         <div id="games_container">
             <div class="game_item"></div>
             <div class="game_item"></div>
@@ -20,8 +20,42 @@
             <div class="game_item"></div>
             <div class="game_item"></div>
         </div>
-        <div id="setting_container">
-            <p class="subtitle">Search for Games<p>
+        <div id="setting_container" class="border">
+            <div>
+                <h1>Search</h1>
+            </div>
+            <div>
+                <label for="game_name">Name</label>
+                <input type="text" name="game_name" class="form-control" placeholder="Name">
+            </div>
+            <div style="display: flex;">
+                <div style="flex: 1;">
+                    <div>
+                        <h1>Release Date</h1>
+                        <div>
+                            <label for="start_date">Start Date</label>
+                            <input type="date" name="start_date" class="form-control" placeholder="mm/dd/yy">
+                        </div>
+                        <div>
+                            <label for="end_date">End Date</label>
+                            <input type="date" name="end_date" class="form-control" placeholder="mm/dd/yy"></div>
+                        </div>
+                    <div>
+                        <h1>Minimum Age</h1>
+                    </div>
+                    <div>
+                        <h1>Available On</h1>
+                    </div>
+                </div> 
+                <div style="flex: 1;">
+                    <div>
+                        <h1>Developer</h1>
+                    </div>
+                    <div>
+                        <h1>Genre</h1>
+                    </div>
+                </div> 
+            </div>
         </div>
     </div>
     <p>This is the Search for Games Page. </p>

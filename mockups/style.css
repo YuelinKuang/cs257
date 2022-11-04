@@ -7,14 +7,34 @@
 
 #title {
     height: 200px;
-    width: 100%;
     line-height: 200px;
-    border-radius: 25px;
     text-align: center;
     font-size: 36pt;
     font-family: "Lucida Console", "Courier New", monospace;
     color: beige;
     background-color: rgb(229, 87, 87);
+    margin-bottom: 30px;
+}
+
+#games_search_container {
+    display: flex;
+    margin: 30px;
+}
+
+#games_container {
+    flex: 2;
+}
+
+#setting_container {
+    flex: 1;
+    margin-left: 20px;
+    margin-right: 20px;
+    padding-left: 20px;
+    padding-right: 20px;
+}
+
+body {
+    margin: 0px;
 }
 
 .buttons_container {
@@ -59,40 +79,20 @@
     border: 0.1em red solid;
 }
 
-#games_search_container {
-    border: 0.1em red solid;
-    width: 100%;
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: flex-start;
-    gap: 2%;
-}
-
-#games_container {
-    width: 60%; 
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-around;
-    gap: 10px;
-    margin-left: 2%;
-}
-
 .game_item {
     height: 100px;
-    width: 100%;
     border: 0.1em red solid;
+    margin-bottom: 20px;
 }
 
-.subtitle {
+h1 {
     font-size: 20pt;
     font-family: "Lucida Console", "Courier New", monospace;
     text-align: center;
 }
 
-#setting_container {
-    width: 35%; 
-    margin-right: 2%;
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-around;
+
+.border {
+    border: 0.1em red solid; 
 }
+
