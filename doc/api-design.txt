@@ -1,4 +1,5 @@
-﻿Written by Yuelin Kuang and Lucie Wolf
+Written by Yuelin Kuang and Lucie Wolf
+API design for the webapp project
 Nov 6, 2022
 
 
