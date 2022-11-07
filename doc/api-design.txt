@@ -11,7 +11,6 @@ GET parameters
         search_text (Optional, default: '') - return only games whose titles contain 
                 search_text, case-insensitively
 
-
         min_age_above (Optional, default: 0) - return only games with a minimum 
                 age above or equal to min_age_above
     
@@ -21,23 +20,18 @@ GET parameters
         start_date (Optional, default: -infinity) - return only games released on or 
                 after start_date
 
-
         end_date (Optional, default: infinity) - return only games released on or 
                 before end_date
-
 
         developer (Optional, default: any) - return only games developed by any of 
                 the developers in the list developer, or any developers at all if 
                 developers = any
 
-
         platform (Optional, default: [w, m, l]) - return only games available on at
                 least on of the platforms in the list platform
 
-
         genre (optional, default: any) - return only games in at least one of the 
                 specified genres in the list genre
-
 
         sort_by (optional, default: title_a) - return the list of games sorted by 
                 release date or minimum age in ascending or descending order, or 
