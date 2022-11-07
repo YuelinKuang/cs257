@@ -1,7 +1,7 @@
 /*  Written by Lucie Wolf and Yuelin Kuang
     database-schema.sql
-    Nov 6, 2022
-*/
+    Nov 6, 2022 
+    */
 
 CREATE TABLE game (
     id SERIAL,
