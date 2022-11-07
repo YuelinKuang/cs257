@@ -87,7 +87,7 @@ EXAMPLE:
        
 
 
-REQUEST: /stats/output=developers
+REQUEST: /stats/developers
 
 
 GET parameters
@@ -113,14 +113,14 @@ RESPONSE: a JSON dictionary having the following fields.
 
 
 EXAMPLE:
-    /stats/output=dev?genre=[“Action”, “Strategy”]&developer=[“Gearbox Software”, “Valve”]
+    /stats/developers?genre=[“Action”, “Strategy”]&developer=[“Gearbox Software”, “Valve”]
 
        {“graph_title”: “Percentage of games developed by Gearbox Software and/or Valve in genres Action and/or Strategy”, 
        “link_to_graph”: “graph.png”}
 
 
 
-REQUEST: /stats/output=release_dates
+REQUEST: /stats/release_dates
 
 
 GET parameters
@@ -146,14 +146,14 @@ RESPONSE: a JSON dictionary having the following fields.
 
 
 EXAMPLE:
-    /stats/output=dev?genre=[“Action”, “Strategy”]&start_date=2005-04-01&developer=[“Gearbox Software”, “Valve”]
+    /stats/release_dates?genre=[“Action”, “Strategy”]&start_date=2005-04-01&developer=[“Gearbox Software”, “Valve”]
 
        {“graph_title”: “Histogram of games developed by Gearbox Software and/or Valve after 2005-04-01 in genre(s) Action and/or Strategy”, 
        “link_to_graph”: “graph.png”}
 
 
 
-REQUEST: /stats/output=genres
+REQUEST: /stats/genres
 
 
 GET parameters
@@ -179,7 +179,7 @@ RESPONSE: a JSON dictionary having the following fields.
 
 
 EXAMPLE:
-    /stats/output=dev?genre=[“Action”, “Strategy”]&developer=[“Gearbox Software”, “Valve”]&start_date=2005-01-01&end_date=2010-01-01
+    /stats/genres?genre=[“Action”, “Strategy”]&developer=[“Gearbox Software”, “Valve”]&start_date=2005-01-01&end_date=2010-01-01
 
        {“graph_title”: “Percentage of games in Action and/or Strategy developed by Gearbox Software and/or Valve between 2005-01-01 and 2010-01-01”, 
        “link_to_graph”: “graph.png”}
