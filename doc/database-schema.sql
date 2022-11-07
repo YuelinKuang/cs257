@@ -11,57 +11,55 @@ CREATE TABLE game (
     neg_ratings INTEGER,
     price FLOAT,
     described TEXT,
-    website TEXT,
-)
+    website TEXT
+);
 
 CREATE TABLE developer (
     id SERIAL,
     developer_name TEXT
-)
+);
 
 CREATE TABLE publisher (
     id SERIAL,
     publisher_name TEXT
-)
+);
 
 CREATE TABLE category (
     id SERIAL,
     category_name TEXT
-)
+);
 
 CREATE TABLE genre (
     id SERIAL,
     genre_name TEXT
-)
+);
 
 CREATE TABLE media (
     id SERIAL,
     media_link, TEXT
-)
-
-
+);
 
 CREATE TABLE game_developer (
     game_id, INTEGER,
     developer_id INTEGER
-)
+);
 
 CREATE TABLE game_publisher (
     game_id, INTEGER,
     publisher_id INTEGER
-)
+);
 
 CREATE TABLE game_category (
     game_id, INTEGER,
     category_id INTEGER
-)
+);
 
 CREATE TABLE game_genre (
     game_id, INTEGER,
     genre_id INTEGER
-)
+);
 
 CREATE TABLE game_media (
     game_id, INTEGER,
     media_id INTEGER
-)
+);

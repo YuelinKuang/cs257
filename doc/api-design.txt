@@ -3,101 +3,125 @@ Nov 6, 2022
 
 
 
-
 REQUEST: /games
 
 
 GET parameters
-search_text (Optional, default: '') - return only games whose titles contain search_text, case-insensitively
+        search_text (Optional, default: '') - return only games whose titles contain 
+                search_text, case-insensitively
 
 
-min_age_above (Optional, default: 0) - return only games who with a minimum age above or equal to min_age_above
+        min_age_above (Optional, default: 0) - return only games who with a minimum 
+                age above or equal to min_age_above
     
-min_age_below (Optional, default: 18) - return only games who with a minimum age below or equal to min_age_below
+        min_age_below (Optional, default: 18) - return only games who with a minimum 
+                age below or equal to min_age_below
+
+        start_date (Optional, default: -infinity) - return only games released on or 
+                after start_date
 
 
-        start_date (Optional, default: -infinity) - return only games released on or after start_date
+        end_date (Optional, default: infinity) - return only games released on or 
+                before end_date
 
 
-        end_date (Optional, default: infinity) - return only games released on or before end_date
+        developer (Optional, default: any) - return only games developed by any of 
+                the developers in the list developer, or any developers at all if 
+                developers = any
 
 
-        developer (Optional, default: any) - return only games developed by any of the developers in the list developer, or any developers at all if developers = any
+        platform (Optional, default: [w, m, l]) - return only games available on at
+                least on of the platforms in the list platform
 
 
-        platform (Optional, default: [w, m, l]) - return only games available on at least on of the platforms in the list platform
+        genre (optional, default: any) - return only games in at least one of the 
+                specified genres in the list genre
 
 
-        genre (optional, default: any) - return only games in at least one of the specified genres in the list genre
+        sort_by (optional, default: title_a) - return the list of games sorted by 
+                release date or minimum age in ascending or descending order, or 
+                alphabetically by title in ascending order by default
 
 
-        sort_by (optional, default: title_a) - return the list of games sorted by release date or minimum age in ascending or descending order, or alphabetically by title in ascending order by default
+RESPONSE: a JSON list of dictionaries, each of which represents one game, sorted 
+        alphabetically by game title by default, or by release date or minimum age 
+        upon request. Each dictionary in this list will have the following fields.
 
+                title - (TEXT) the title of the game
 
-RESPONSE: a JSON list of dictionaries, each of which represents one game, sorted alphabetically by game title by default, or by release date or minimum age upon request. Each dictionary in this list will have the following fields.
+                description - (TEXT) the description of the game
 
+                links_to_images - (LIST) the list of images, screenshots, or videos of 
+                        the game (would be turned into a list, but in the database we 
+                        have a table of images and one to link between games and images)
 
-title - (TEXT) the title of the game
-description - (TEXT) the description of the game
-links_to_images - (LIST) the list of images, screenshots, or videos of the game (would be turned into a list, but in the database we have a table of images and one to link between games and images)
-developers - (TEXT) the developer or developers of the game
-publisher - (TEXT) the publisher of the game
-release_date - (DATE) the date the game was released
-minimum_age - (INTEGER) the minimum age of the game
-english_support - (BOOLEAN) whether the game supports english
-genres - (LIST) the list of genres of the game
-categories - (LIST) the list of categories of the game
-website - (TEXT) an URL to the website of the game
+                developers - (TEXT) the developer or developers of the game
 
+                publisher - (TEXT) the publisher of the game
+
+                release_date - (DATE) the date the game was released
+
+                minimum_age - (INTEGER) the minimum age of the game
+
+                english_support - (BOOLEAN) whether the game supports english
+
+                genres - (LIST) the list of genres of the game
+
+                categories - (LIST) the list of categories of the game
+
+                website - (TEXT) an URL to the website of the game
 
 
 
 EXAMPLE:
     /games?search_text=rag&platform=[windows]&developer=[“Mark Healey”]&sort_by=“minimum_age_a”
 
-
-       [{"title": "Rag Doll Kung Fu", "description": "Featuring a wide collection of single and multiplayer games, either online or with multiple mice, Rag Doll Kung Fu provides players with one of the most creative and unique game experiences delivered in years. Additionally, between those game rounds, the challenges of an aspiring Kung Fu master are revealed via outlandish cut scenes inspired by classic Kung Fu cinema.", "links_to_images": [“https://steamcdn-a.akamaihd.net/steam/apps/1002/header.jpg?t=1447350828”, “'https://steamcdn-a.akamaihd.net/steam/apps/1002/0000000205.600x338.jpg?t=1447350828”, “https://steamcdn-a.akamaihd.net/steam/apps/1002/page_bg_generated_v6b.jpg?t=1447350828”], "developers": “Mark Healey”, “publisher”: “Mark Healey”, “release_date”: “2005/10/12”, “minimum_age”: 0, “english_support”: True, “genres”: [“Indie”], “categories”: [“Single-player”, “Multi-player”], “website”: “http://www.ragdollkungfu.com/”}]
+       [{"title": "Rag Doll Kung Fu", 
+         "description": "Featuring a wide collection of single and multiplayer games, 
+         either online or with multiple mice, Rag Doll Kung Fu provides players with 
+         one of the most creative and unique game experiences delivered in years. 
+         Additionally, between those game rounds, the challenges of an aspiring Kung 
+         Fu master are revealed via outlandish cut scenes inspired by classic Kung Fu 
+         cinema.", 
+         "links_to_images": [“https://steamcdn-a.akamaihd.net/steam/apps/1002/header.jpg?t=1447350828”, 
+         “'https://steamcdn-a.akamaihd.net/steam/apps/1002/0000000205.600x338.jpg?t=1447350828”, 
+         “https://steamcdn-a.akamaihd.net/steam/apps/1002/page_bg_generated_v6b.jpg?t=1447350828”], 
+         "developers": “Mark Healey”, “publisher”: “Mark Healey”, “release_date”: “2005/10/12”, 
+         “minimum_age”: 0, “english_support”: True, “genres”: [“Indie”], “categories”: [“Single-player”, “Multi-player”], 
+         “website”: “http://www.ragdollkungfu.com/”}]
        
-
-
 
 
 REQUEST: /stats/output=developers
 
 
 GET parameters
-developer (Optional, default: any) - return only games developed by any of the developers in the list developer, or any developers at all if developers = any
+        developer (Optional, default: any) - return only games developed by any of the developers in 
+                the list developer, or any developers at all if developers = any
 
-
-start_date (Optional, default: -infinity) - return only games released on or after start_date
-
+        start_date (Optional, default: -infinity) - return only games released on or after start_date
 
         end_date (Optional, default: infinity) - return only games released on or before end_date
 
-
         genre (optional, default: any) - return only games in at least one of the specified genres in the list genre
 
-
-min_age_above (Optional, default: 0) - return only games who with a minimum age above or equal to min_age_above
+        min_age_above (Optional, default: 0) - return only games who with a minimum age above or equal to min_age_above
     
-min_age_below (Optional, default: 18) - return only games who with a minimum age below or equal to min_age_below
+        min_age_below (Optional, default: 18) - return only games who with a minimum age below or equal to min_age_below
 
 
-RESPONSE: a JSON dictionary having the following fields: 
+RESPONSE: a JSON dictionary having the following fields. 
 
+                graph_title - (TEXT) the title of graph
 
-graph_title - (TEXT) the title of graph
-link_to_graph - (TEXT) a link to the image that displays the graph
+                link_to_graph - (TEXT) a link to the image that displays the graph
 
 
 EXAMPLE:
     /stats/output=dev?genre=[“Action”, “Strategy”]&developer=[“Gearbox Software”, “Valve”]
 
-
-       {“graph_title”: “Percentage of games developed by Gearbox Software and/or Valve in genres Action and/or Strategy”, “link_to_graph”: “graph.png”}
-
-
-
+       {“graph_title”: “Percentage of games developed by Gearbox Software and/or Valve in genres Action and/or Strategy”, 
+       “link_to_graph”: “graph.png”}
 
 
 
@@ -105,38 +129,32 @@ REQUEST: /stats/output=release_dates
 
 
 GET parameters
-developer (Optional, default: any) - return only games developed by any of the developers in the list developer, or any developers at all if developers = any
+        developer (Optional, default: any) - return only games developed by any of the developers 
+                in the list developer, or any developers at all if developers = any
 
-
-start_date (Optional, default: -infinity) - return only games released on or after start_date
-
+        start_date (Optional, default: -infinity) - return only games released on or after start_date
 
         end_date (Optional, default: infinity) - return only games released on or before end_date
 
-
         genre (optional, default: any) - return only games in at least one of the specified genres in the list genre
 
-
-min_age_above (Optional, default: 0) - return only games who with a minimum age above or equal to min_age_above
+        min_age_above (Optional, default: 0) - return only games who with a minimum age above or equal to min_age_above
     
-min_age_below (Optional, default: 18) - return only games who with a minimum age below or equal to min_age_below
+        min_age_below (Optional, default: 18) - return only games who with a minimum age below or equal to min_age_below
 
 
-RESPONSE: a JSON dictionary having the following fields: 
+RESPONSE: a JSON dictionary having the following fields.
 
+                graph_title - (TEXT) the title of graph
 
-graph_title - (TEXT) the title of graph
-link_to_graph - (TEXT) a link to the image that displays the graph
+                link_to_graph - (TEXT) a link to the image that displays the graph
 
 
 EXAMPLE:
     /stats/output=dev?genre=[“Action”, “Strategy”]&start_date=2005-04-01&developer=[“Gearbox Software”, “Valve”]
 
-
-       {“graph_title”: “Histogram of games developed by Gearbox Software and/or Valve after 2005-04-01 in genre(s) Action and/or Strategy”, “link_to_graph”: “graph.png”}
-
-
-
+       {“graph_title”: “Histogram of games developed by Gearbox Software and/or Valve after 2005-04-01 in genre(s) Action and/or Strategy”, 
+       “link_to_graph”: “graph.png”}
 
 
 
@@ -144,32 +162,29 @@ REQUEST: /stats/output=genres
 
 
 GET parameters
-developer (Optional, default: any) - return only games developed by any of the developers in the list developer, or any developers at all if developers = any
+        developer (Optional, default: any) - return only games developed by any of the developers 
+                in the list developer, or any developers at all if developers = any
 
-
-start_date (Optional, default: -infinity) - return only games released on or after start_date
-
+        start_date (Optional, default: -infinity) - return only games released on or after start_date
 
         end_date (Optional, default: infinity) - return only games released on or before end_date
 
-
         genre (optional, default: any) - return only games in at least one of the specified genres in the list genre
 
-
-min_age_above (Optional, default: 0) - return only games who with a minimum age above or equal to min_age_above
+        min_age_above (Optional, default: 0) - return only games who with a minimum age above or equal to min_age_above
     
-min_age_below (Optional, default: 18) - return only games who with a minimum age below or equal to min_age_below
+        min_age_below (Optional, default: 18) - return only games who with a minimum age below or equal to min_age_below
 
 
-RESPONSE: a JSON dictionary having the following fields: 
+RESPONSE: a JSON dictionary having the following fields. 
 
+                graph_title - (TEXT) the title of graph
 
-graph_title - (TEXT) the title of graph
-link_to_graph - (TEXT) a link to the image that displays the graph
+                link_to_graph - (TEXT) a link to the image that displays the graph
 
 
 EXAMPLE:
     /stats/output=dev?genre=[“Action”, “Strategy”]&developer=[“Gearbox Software”, “Valve”]&start_date=2005-01-01&end_date=2010-01-01
 
-
-       {“graph_title”: “Percentage of games in Action and/or Strategy developed by Gearbox Software and/or Valve between 2005-01-01 and 2010-01-01”, “link_to_graph”: “graph.png”}
+       {“graph_title”: “Percentage of games in Action and/or Strategy developed by Gearbox Software and/or Valve between 2005-01-01 and 2010-01-01”, 
+       “link_to_graph”: “graph.png”}
