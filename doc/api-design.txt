@@ -1,4 +1,4 @@
-Written by Yuelin Kuang and Lucie Wolf
+﻿Written by Yuelin Kuang and Lucie Wolf
 API design for the webapp project
 Nov 6, 2022
 
@@ -12,10 +12,10 @@ GET parameters
                 search_text, case-insensitively
 
 
-        min_age_above (Optional, default: 0) - return only games who with a minimum 
+        min_age_above (Optional, default: 0) - return only games with a minimum 
                 age above or equal to min_age_above
     
-        min_age_below (Optional, default: 18) - return only games who with a minimum 
+        min_age_below (Optional, default: 18) - return only games with a minimum 
                 age below or equal to min_age_below
 
         start_date (Optional, default: -infinity) - return only games released on or 
@@ -106,9 +106,9 @@ GET parameters
 
         genre (optional, default: any) - return only games in at least one of the specified genres in the list genre
 
-        min_age_above (Optional, default: 0) - return only games who with a minimum age above or equal to min_age_above
+        min_age_above (Optional, default: 0) - return only games with a minimum age above or equal to min_age_above
     
-        min_age_below (Optional, default: 18) - return only games who with a minimum age below or equal to min_age_below
+        min_age_below (Optional, default: 18) - return only games with a minimum age below or equal to min_age_below
 
 
 RESPONSE: a JSON dictionary having the following fields. 
@@ -139,9 +139,9 @@ GET parameters
 
         genre (optional, default: any) - return only games in at least one of the specified genres in the list genre
 
-        min_age_above (Optional, default: 0) - return only games who with a minimum age above or equal to min_age_above
+        min_age_above (Optional, default: 0) - return only games with a minimum age above or equal to min_age_above
     
-        min_age_below (Optional, default: 18) - return only games who with a minimum age below or equal to min_age_below
+        min_age_below (Optional, default: 18) - return only games with a minimum age below or equal to min_age_below
 
 
 RESPONSE: a JSON dictionary having the following fields.
@@ -172,9 +172,9 @@ GET parameters
 
         genre (optional, default: any) - return only games in at least one of the specified genres in the list genre
 
-        min_age_above (Optional, default: 0) - return only games who with a minimum age above or equal to min_age_above
+        min_age_above (Optional, default: 0) - return only games with a minimum age above or equal to min_age_above
     
-        min_age_below (Optional, default: 18) - return only games who with a minimum age below or equal to min_age_below
+        min_age_below (Optional, default: 18) - return only games with a minimum age below or equal to min_age_below
 
 
 RESPONSE: a JSON dictionary having the following fields. 
