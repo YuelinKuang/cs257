@@ -29,8 +29,15 @@
     </script>
 </head>
 <body>
-    <div id="title">
-        Steam Store Games!
+    <div id="title_box">
+        <div class="title">
+            Steam Store Games!
+        </div>
+        <div class="flex">
+            <a class="head_button" href="mockup1.html">Home</a>
+            <a class="head_button" href="mockup2.html">Search for Games</a>
+            <a class="head_button" href="mockup3.html">Search for Statistics</a>
+        </div>
     </div>
     
     <div style="display: flex;">
@@ -99,7 +106,11 @@
             <input type="radio" name="output" value="dates">
             <label for="output">Release Dates - outputs histogram with time on the x-axis and number of games sorted into bins on the y-axis</label><br>
             <input type="radio" name="output" value="genres">
-            <label for="output_dev">Genres - outputs pie chart with each slice as a genre</label><br>
+            <label for="output">Genres - outputs pie chart with each slice as a genre</label><br>
+
+            <div style="text-align: center; margin-top: 50px">
+                <button class="button">Search</button> 
+            </div>
         </div>
     </div>
     <p>This is the Search for Stats Page.</p>

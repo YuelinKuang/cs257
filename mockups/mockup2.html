@@ -28,8 +28,15 @@
     </script>
 </head>
 <body>
-    <div id="title">
-        Steam Store Games!
+    <div id="title_box">
+        <div class="title">
+            Steam Store Games!
+        </div>
+        <div class="flex">
+            <a class="head_button" href="mockup1.html">Home</a>
+            <a class="head_button" href="mockup2.html">Search for Games</a>
+            <a class="head_button" href="mockup3.html">Search for Statistics</a>
+        </div>
     </div>
 
     <div id="games_search_container" class="row">
@@ -148,7 +155,27 @@
                     </div>
                 </div> 
             </div>
-            <button class="buttons" style="margin-left: 140px;">Search</button> 
+            <div style="text-align: center;">
+                <button class="button">Search</button> 
+            </div>
+            <div>
+                <h2>Sort By</h2>
+
+                <input type="radio" name="sort_by" value="title_a">
+                <label for="sort_by">Title - Ascending</label><br>
+                <input type="radio" name="sort_by" value="title_d">
+                <label for="sort_by">Title - Descending</label><br>
+                <br>
+                <input type="radio" name="sort_by" value="date_a">
+                <label for="output">Release Date - Ascending</label><br>
+                <input type="radio" name="sort_by" value="date_d">
+                <label for="output">Release Date - Descending</label><br>
+                <br>
+                <input type="radio" name="sort_by" value="age_a"> 
+                <label for="output">Minimum Age - Ascending</label><br>
+                <input type="radio" name="sort_by" value="age_d"> 
+                <label for="output">Minimum Age - Descending</label><br>
+            </div>
         </div>
     </div>
 
