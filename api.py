@@ -11,6 +11,7 @@ import flask
 import json
 import config
 import psycopg2
+import queries
 
 api = flask.Blueprint('api', __name__)
 
@@ -22,7 +23,7 @@ def get_connection():
                             user=config.user,
                             password=config.password)
 
-@api.route('/games') 
+@api.route('/games/') 
 def get_games():
     ''' Returns a list of all the authors in our database. See
         get_author_by_id below for description of the author
@@ -37,37 +38,24 @@ def get_games():
         Returns an empty list if there's any database failure.
     '''
 
-    query = ''' SELECT game.title, game.release_date, 
-                    game.english_support, game.windows_support, 
-                    game.mac_support, game.linux_support, 
-                    game.minimum_age, game.pos_ratings, 
-                    game.neg_ratings, game.price, game.described, 
-                    game.link, game.media, developer.developer_name, 
-                    publisher.publisher_name, category.category_name,
-                    genre.genre_name, game.media
-                    FROM game, developer, publisher, category, genre, 
-                    game_developer, game_category, game_genre, game_publisher
-                    WHERE game.id = game_developer.game_id 
-                    AND game.id = game_category.game_id
-                    AND game.id = game_genre.game_id
-                    AND game.id = game_publisher.game_id
-                    ORDER BY game.title'''
+    query = queries.games
 
-            # indices: 
-            #     0 game.title, 1 game.release_date, 
-            #     2 game.english_support, 3 game.windows_support, 
-            #     4 game.mac_support, 5 game.linux_support, 
-            #     6 game.minimum_age, 7 game.pos_ratings, 
-            #     8 game.neg_ratings, 9 game.price, 10 game.described, 
-            #     11 game.link, 12 game.media, 13 developer.developer_name, 
-            #     14 publisher.publisher_name, 15 category.category_name,
-            #     16 genre.genre_name,
+    # indices: 
+    #     0 game.title, 1 game.release_date, 
+    #     2 game.english_support, 3 game.windows_support, 
+    #     4 game.mac_support, 5 game.linux_support, 
+    #     6 game.minimum_age, 7 game.pos_ratings, 
+    #     8 game.neg_ratings, 9 game.price, 10 game.described, 
+    #     11 game.link, 12 game.media, 13 developer.developer_name, 
+    #     14 publisher.publisher_name, 15 category.category_name,
+    #     16 genre.genre_name,
 
     # sort_argument = flask.request.args.get('sort_by')
     # if sort_argument == 'title_a':
     #     query += 'game.title'
     # else:
     #     query += 'game.title DESCENDING'
+    query += ';'
 
     game_list = []
     try:
@@ -143,6 +131,5 @@ def get_games():
     except Exception as e:
         print(e, file=sys.stderr)
 
-    return flask.render_template('games_main.html', data=json.dumps(game_list))
-
-
+    return json.dumps(game_list)
+    #return flask.render_template('games_main.html', data=json.dumps(game_list))
