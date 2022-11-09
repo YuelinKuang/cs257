@@ -27,7 +27,7 @@ GET parameters
                 the developers in the list developer, or any developers at all if 
                 developers = any
 
-        platform (Optional, default: [w, m, l]) - return only games available on at
+        platform (Optional, d   efault: [w, m, l]) - return only games available on at
                 least on of the platforms in the list platform
 
         genre (optional, default: any) - return only games in at least one of the 
@@ -46,9 +46,9 @@ RESPONSE: a JSON list of dictionaries, each of which represents one game, sorted
 
                 description - (TEXT) the description of the game
 
-                links_to_images - (LIST) the list of images, screenshots, or videos of 
-                        the game (would be turned into a list, but in the database we 
-                        have a table of images and one to link between games and images)
+                links_to_images - (DICTIONARY) the dictionary of images, which field "header_image", 
+                        "background", and "screenshots". "screenshots" is a 
+                        list. 
 
                 developers - (TEXT) the developer or developers of the game
 
@@ -59,6 +59,12 @@ RESPONSE: a JSON list of dictionaries, each of which represents one game, sorted
                 minimum_age - (INTEGER) the minimum age of the game
 
                 english_support - (BOOLEAN) whether the game supports english
+
+                windows_support - (BOOLEAN) whether the game is available on Windows
+
+                mac_support - (BOOLEAN) whether the game is available on Mac
+
+                Linux_support - (BOOLEAN) whether the game is available on Linux
 
                 genres - (LIST) the list of genres of the game
 
