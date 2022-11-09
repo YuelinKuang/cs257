@@ -1,3 +1,3 @@
-user='lucie'
+user='yuelin'
 password=''
-database='games'
+database='steam'
