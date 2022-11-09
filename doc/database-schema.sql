@@ -1,7 +1,8 @@
-/*  Written by Lucie Wolf and Yuelin Kuang
-    database-schema.sql
-    Nov 6, 2022 
-    */
+/*  
+Written by Lucie Wolf and Yuelin Kuang
+database-schema.sql
+Nov 6, 2022  
+*/
 
 CREATE TABLE game (
     id SERIAL,
@@ -16,7 +17,8 @@ CREATE TABLE game (
     neg_ratings INTEGER,
     price FLOAT,
     described TEXT,
-    website TEXT
+    website TEXT,
+    media TEXT
 );
 
 CREATE TABLE developer (
@@ -41,30 +43,30 @@ CREATE TABLE genre (
 
 CREATE TABLE media (
     id SERIAL,
-    media_link, TEXT
+    media_link TEXT
 );
 
 CREATE TABLE game_developer (
-    game_id, INTEGER,
+    game_id INTEGER,
     developer_id INTEGER
 );
 
 CREATE TABLE game_publisher (
-    game_id, INTEGER,
+    game_id INTEGER,
     publisher_id INTEGER
 );
 
 CREATE TABLE game_category (
-    game_id, INTEGER,
+    game_id INTEGER,
     category_id INTEGER
 );
 
 CREATE TABLE game_genre (
-    game_id, INTEGER,
+    game_id INTEGER,
     genre_id INTEGER
 );
 
 CREATE TABLE game_media (
-    game_id, INTEGER,
+    game_id INTEGER,
     media_id INTEGER
 );
