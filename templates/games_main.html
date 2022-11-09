@@ -6,54 +6,31 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Search for Games</title>
     <link rel="stylesheet" type="text/css" href="../static/style.css" />
-    <script src="/static/functions.js"></script>
+    <script src="../static/webapp.js"></script>
 </head>
 
 <body>
     {% include 'header.html' %}
 
     <div id="games_search_container" class="row">
+
         <div id="games_container">
+            {%for game in data%}
             <div class="game_item flex">
-                <img class="game_img" src="https://s-media-cache-ak0.pinimg.com/236x/30/7a/d2/307ad2b6fb7a15a34a28ae998c7e2431.jpg">
-                <p style="margin-left: 10px;">Title of the game. <br> Description from the detailed_description column of steam_description_data.csv.</p>
+                <img class="game_img" src="{{game['links_to_images']['header_image']}}" >
+                <p style="margin-left: 10px;"> <strong>
+                    {{ game['title'] }} 
+                    </strong><br>
+                    {{ game['description'] }} 
+                </p>
             </div>
-
-            <div class="game_item flex">
-                <img class="game_img" src="https://s-media-cache-ak0.pinimg.com/236x/30/7a/d2/307ad2b6fb7a15a34a28ae998c7e2431.jpg">
-                <p style="margin-left: 10px;">Title of the game. <br> Description from the detailed_description column of steam_description_data.csv.</p>
-            </div>
-
-            <div class="game_item flex">
-                <img class="game_img" src="https://s-media-cache-ak0.pinimg.com/236x/30/7a/d2/307ad2b6fb7a15a34a28ae998c7e2431.jpg">
-                <p style="margin-left: 10px;">Title of the game. <br> Description from the detailed_description column of steam_description_data.csv.</p>
-            </div>
-
-            <div class="game_item flex">
-                <img class="game_img" src="https://s-media-cache-ak0.pinimg.com/236x/30/7a/d2/307ad2b6fb7a15a34a28ae998c7e2431.jpg">
-                <p style="margin-left: 10px;">Title of the game. <br> Description from the detailed_description column of steam_description_data.csv.</p>
-            </div>
-
-            <div class="game_item flex">
-                <img class="game_img" src="https://s-media-cache-ak0.pinimg.com/236x/30/7a/d2/307ad2b6fb7a15a34a28ae998c7e2431.jpg">
-                <p style="margin-left: 10px;">Title of the game. <br> Description from the detailed_description column of steam_description_data.csv.</p>
-            </div>
-
-            <div class="game_item flex">
-                <img class="game_img" src="https://s-media-cache-ak0.pinimg.com/236x/30/7a/d2/307ad2b6fb7a15a34a28ae998c7e2431.jpg">
-                <p style="margin-left: 10px;">Title of the game. <br> Description from the detailed_description column of steam_description_data.csv.</p>
-            </div>
-
-            <div class="game_item flex">
-                <img class="game_img" src="https://s-media-cache-ak0.pinimg.com/236x/30/7a/d2/307ad2b6fb7a15a34a28ae998c7e2431.jpg">
-                <p style="margin-left: 10px;">Title of the game. <br> Description from the detailed_description column of steam_description_data.csv.</p>
-            </div>
+            {%endfor%}
 
         </div>
 
         <div id="setting_container" class="border">
             <div>
-                <h1>Search</h1>
+                <h1>Search{{title}}</h1>
             </div>
             <div class="flex">
                 <label for="game_name" style="flex:1; text-align: center;">Name</label>

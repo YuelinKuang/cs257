@@ -39,6 +39,7 @@ def get_games():
     '''
 
     query = queries.games
+    
 
     # indices: 
     #     0 game.title, 1 game.release_date, 
@@ -55,81 +56,73 @@ def get_games():
     #     query += 'game.title'
     # else:
     #     query += 'game.title DESCENDING'
-    query += ';'
 
     game_list = []
     try:
+        
         connection = get_connection()
         cursor = connection.cursor()
         cursor.execute(query, tuple())
 
-        current_game_title = 'NA'
-        current_desc = 'NA'
-        current_images = 'NA'
-        current_date = ''
-        current_age = 0
-        current_eng = None
-        current_win = None
-        current_mac = None
-        current_lin = None
-        current_website = 'NA'
-
-        current_developers = []
-        current_publishers = []
-        current_genres = []
-        current_categories = []
+        game = {'title':'',
+                'description':'',
+                'links_to_images':'',
+                'developers':[],
+                'publishers':[], 
+                'release_date': '', 
+                'minimum_age': 0,
+                'english_support': False,
+                'windows_support': False,
+                'mac_support': False,
+                'linux_support': False, 
+                'genres': [], 
+                'categories': [],
+                'website': '' 
+                }
 
         for row in cursor:
-            if row[0] == current_game_title: 
-                current_developers.append(row[13])
-                current_publishers.append(row[14])
-                current_categories.append(row[15])
-                current_genres.append(row[16])
+            if row[0] == game['title']: 
+                game['developers'].append(row[13])
+                game['publishers'].append(row[14])
+                game['categories'].append(row[15])
+                game['genres'].append(row[16])
 
             else: 
-                developers = ', '.join(set(current_developers))
-                publishers = ', '.join(set(current_publishers))
-                genres = ', '.join(set(current_genres))
-                categories = ', '.join(set(current_categories))
+                game['developers'] = ', '.join(set(game['developers']))
+                game['publishers'] = ', '.join(set(game['publishers']))
+                game['genres'] = ', '.join(set(game['genres']))
+                game['categories'] = ', '.join(set(game['categories']))
 
-                game = {'title':current_game_title,
-                        'description':current_desc,
-                        'links_to_images':current_images,
-                        'developers':developers,
-                        'publisher':publishers, 
-                        'release_date': current_date, 
-                        'minimum_age': current_age,
-                        'english_support': current_eng,
-                        'windows_support': current_win,
-                        'mac_support': current_mac,
-                        'linux_support': current_lin, 
-                        'genres': genres, 
-                        'categories': categories,
-                        'website': current_website 
-                        }
                 game_list.append(game)
 
-                current_game_title = row[0]
-                current_desc = row[10]
-                current_images = row[12]
-                current_date = row[1]
-                current_age = row[6]
-                current_eng = row[2]
-                current_win = row[3]
-                current_mac = row[4]
-                current_lin = row[5]
-                current_website = row[11]
-                current_developers = [row[13]]
-                current_publishers = [row[14]]
-                current_categories = [row[15]]
-                current_genres = [row[16]]
+                images = json.loads(row[12].replace("'", '"'))
+                if images['header_image'] == '':
+                    images['header_image'] = 'https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fwww.simplystamps.com%2Fmedia%2Fcatalog%2Fproduct%2F5%2F8%2F5802-n-a-stock-stamp-hcb.png&f=1&nofb=1&ipt=4c91608ffabe756cef98c89e32321f03e9ae4c3ab4a92fb4b68453801fd7cf7e&ipo=images'
 
+                game = {'title':row[0],
+                        'description':row[10],
+                        'links_to_images':images,
+                        'developers':[row[13]],
+                        'publishers':[row[14]], 
+                        'release_date': str(row[1]), 
+                        'minimum_age': row[6],
+                        'english_support': row[2],
+                        'windows_support': row[3],
+                        'mac_support': row[4],
+                        'linux_support': row[5], 
+                        'genres': [row[16]], 
+                        'categories': [row[15]],
+                        'website': row[11] 
+                        }
+
+        game_list.append(game)
         game_list.pop(0)
 
         cursor.close()
         connection.close()
+
+
     except Exception as e:
         print(e, file=sys.stderr)
 
-    return json.dumps(game_list)
-    #return flask.render_template('games_main.html', data=json.dumps(game_list))
+    return flask.render_template('games_main.html', data=game_list)

@@ -2,17 +2,6 @@
 // Yuelin Kuang and Lucie Wolf 
 // Nov 9, 2022
 
-window.onload = initialize;
-
-function initialize() {
-    loadAuthorsSelector();
-
-    let element = document.getElementById('author_selector');
-    if (element) {
-        element.onchange = onAuthorsSelectionChanged;
-    }
-}
-
 // Returns the base URL of the API, onto which endpoint
 // components can be appended.
 function getAPIBaseURL() {
@@ -23,29 +12,24 @@ function getAPIBaseURL() {
     return baseURL;
 }
 
-function loadGames() {
-    let url = getAPIBaseURL() + '/games/';
+function loadGames(data) {
+    console.log(data);
+    parsed = JSON.parse(data);
+    var gameList = '';
 
-    fetch(url, {method: 'get'})
+    for (var i = 0; i < parsed.length; i++) {
+        var game = parsed[i];
+        gameList += '<div class="game_item flex">' 
+                    + '<img class="game_img" src=\'{{game[\'links_to_images\'][\'header_image\']}}\''
+                    + '> <p style="margin-left: 10px;"> jkhj'// + game['title <br>']
+                    //+ game['description'] + '</p>'
+                    + '</p></div>\n';
+    }
 
-    .then((response) => response.json())
-
-    .then(function(games) {
-        var gameList = '';
-        for (var k = 0; k < games.length; k++) {
-            var game = games[k];
-             gameList += '<div class="game_item flex">' 
-                      + '<img class="game_img" src=' + game['links_to_images']['header_image']
-                      + '> <p style="margin-left: 10px;">' + game['title <br>']
-                      + game['description'] + '</p>'
-                      + '</div>\n';
-        }
-
-        var games_container = document.getElementById('games_container');
-        if (games_container) {
-            games_container.innerHTML = gameList;
-        }
-    })
+    var games_container = document.getElementById('games_container');
+    if (games_container) {
+        games_container.innerHTML = gameList;
+    }
 }
 
 function selectOrDeselect() {
