@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Search for Statistics</title>
+    <link rel="stylesheet" type="text/css" href="../static/style.css" />
+    <script>
+        function selectOrDeselect() {
+            var inputs = document.getElementsByTagName("input");
+
+            var selected = true;
+            for(var i = 0; i < inputs.length; i++) {
+                if(inputs[i].type == "checkbox") {
+                    if(inputs[i].checked == false) {
+                        selected = false;
+                    }
+                }  
+            }
+
+            for(var i = 0; i < inputs.length; i++) {
+                if(inputs[i].type == "checkbox") {
+                    inputs[i].checked = !selected; 
+                }  
+            }
+        }
+    </script>
+</head>
+<body>
+    <div id="title_box">
+        <div class="title">
+            Steam Store Games!
+        </div>
+        <div class="flex">
+            <a class="head_button" href="index.html">Home</a>
+            <a class="head_button" href="games_main.html">Search for Games</a>
+            <a class="head_button" href="stats_main.html">Search for Statistics</a>
+        </div>
+    </div>
+    
+    <div style="display: flex;">
+        <div style="flex: 1; padding-left: 20px;">
+            <h1>Filters</h1>
+
+            <div style="padding-bottom: 20px">
+                <h2>Developer</h2>
+                <select list="devs" name="end_date" class="form-control" placeholder="Developer">
+                    <option value="any">Any</option>
+                    <option value="dev1">Dev 1</option>
+                    <option value="dev2">Dev 2</option>
+                    <option value="dev3">Dev 3</option>
+                    <option value="dev4">Dev 4</option>
+                </select>
+            </div>
+
+            <div style="padding-bottom: 20px">
+                <h2>Release Date</h2>
+                <div style="padding-bottom: 5px">
+                    <label for="start_date">After</label>
+                    <input type="date" name="start_date" class="form-control" placeholder="mm/dd/yy">
+                </div>
+                <div>
+                    <label for="end_date">Before</label>
+                    <input type="date" name="end_date" class="form-control" placeholder="mm/dd/yy">
+                </div>
+            </div>
+
+            <div style="padding-bottom: 20px">
+                <h2>Genres</h2>
+                <input type="checkbox" name="genre1">
+                <label for="genre1">Genre 1</label><br>
+                <input type="checkbox" name="genre2">
+                <label for="genre2">Genre 2</label><br>
+                <input type="checkbox" name="genre3">
+                <label for="genre3">Genre 3</label><br>
+                <button onclick="selectOrDeselect()">Select/Deselect All</button>
+            </div>
+
+            <div style="padding-bottom: 20px">
+                <h2>Minimum Age</h2>
+                <div style="padding-bottom: 5px">
+                    <label for="min_age">Above</label>
+                    <input type="number" name="min_age" class="form-control" placeholder="" min="0">
+                </div>
+                <div>
+                    <label for="max_age">Below</label>
+                    <input type="number" name="max_age" class="form-control" placeholder="" min="0">
+                </div> 
+            </div>
+        </div>
+
+
+        <div style="flex: 2; text-align: center;">
+            <h1>[Graph Name]</h1>
+            <img src="pie_chart.png" alt="Pie Chart" width="470" height="470">
+        </div>
+
+        
+        <div style="flex: 1;">
+            <h1>Output</h1>
+
+            <input type="radio" name="output" value="devs">
+            <label for="output">Developers - outputs pie chart with each slice as a developer</label><br>
+            <input type="radio" name="output" value="dates">
+            <label for="output">Release Dates - outputs histogram with time on the x-axis and number of games sorted into bins on the y-axis</label><br>
+            <input type="radio" name="output" value="genres">
+            <label for="output">Genres - outputs pie chart with each slice as a genre</label><br>
+
+            <div style="text-align: center; margin-top: 50px">
+                <button class="button">Search</button> 
+            </div>
+        </div>
+    </div>
+    <p>This is the Search for Stats Page.</p>
+</body>
+</html>
