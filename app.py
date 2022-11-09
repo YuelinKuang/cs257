@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 '''
-    app.py
+    app.p
     Lucie Wolf and Yuelin Kuang
     8 Nov 2022
 
