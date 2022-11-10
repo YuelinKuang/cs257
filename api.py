@@ -5,7 +5,6 @@
 
     Web application project for CS257.
 '''
-
 import sys
 import flask
 import json
@@ -23,8 +22,8 @@ def get_connection():
                             user=config.user,
                             password=config.password)
 
-@api.route('/games/') 
-def get_games():
+@api.route('/games/ids/') 
+def get_ids():
     ''' Returns a list of all the authors in our database. See
         get_author_by_id below for description of the author
         resource representation.
@@ -37,7 +36,40 @@ def get_games():
 
         Returns an empty list if there's any database failure.
     '''
+    query = '''SELECT id
+               FROM games'''
 
+
+    ids_list = []
+    try:
+        connection = get_connection()
+        cursor = connection.cursor()
+        cursor.execute(query, tuple())
+        for row in cursor:
+            author = {'id':row[0]}
+            ids_list.append(author)
+        cursor.close()
+        connection.close()
+    except Exception as e:
+        print(e, file=sys.stderr)
+
+    return json.dumps(ids_list)
+
+
+@api.route('/games/games/id/<game_id>') 
+def get_games(game_id):
+    ''' Returns a list of all the authors in our database. See
+        get_author_by_id below for description of the author
+        resource representation.
+
+        By default, the list is presented in alphabetical order
+        by surname, then given_name. You may, however, use
+        the GET parameter sort to request sorting by birth year.
+
+            http://.../authors/?sort=birth_year
+
+        Returns an empty list if there's any database failure.
+    '''
     query = queries.games
     
 
@@ -51,18 +83,12 @@ def get_games():
     #     14 publisher.publisher_name, 15 category.category_name,
     #     16 genre.genre_name,
 
-    # sort_argument = flask.request.args.get('sort_by')
-    # if sort_argument == 'title_a':
-    #     query += 'game.title'
-    # else:
-    #     query += 'game.title DESCENDING'
-
     game_list = []
     try:
         
         connection = get_connection()
         cursor = connection.cursor()
-        cursor.execute(query, tuple())
+        cursor.execute(query, (game_id,))
 
         game = {'title':'',
                 'description':'',
@@ -125,4 +151,4 @@ def get_games():
     except Exception as e:
         print(e, file=sys.stderr)
 
-    return flask.render_template('games_main.html', data=game_list)
+    return json.dumps(game_list)

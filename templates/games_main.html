@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+id_argument = flask.request.args.get('id')<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -15,7 +15,7 @@
     <div id="games_search_container" class="row">
 
         <div id="games_container">
-            {%for game in data%}
+            <!-- {%for game in data%}
             <div class="game_item flex">
                 <img class="game_img" src="{{game['links_to_images']['header_image']}}" >
                 <p style="margin-left: 10px;"> <strong>
@@ -24,7 +24,7 @@
                     {{ game['description'] }} 
                 </p>
             </div>
-            {%endfor%}
+            {%endfor%} -->
 
         </div>
 
@@ -32,7 +32,10 @@
             <div>
                 <h1>Search{{title}}</h1>
             </div>
-            <div class="flex">
+
+            <p>Games <select id="game_selector"></select></p>
+
+            <!-- <div class="flex">
                 <label for="game_name" style="flex:1; text-align: center;">Name</label>
                 <input style="flex:3;" type="text" name="game_name" class="form-control" placeholder="Name">
             </div>
@@ -125,7 +128,7 @@
                 <label for="output">Minimum Age - Ascending</label><br>
                 <input type="radio" name="sort_by" value="age_d"> 
                 <label for="output">Minimum Age - Descending</label><br>
-            </div>
+            </div> -->
         </div>
     </div>
 </body>

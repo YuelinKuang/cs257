@@ -11,18 +11,18 @@ import sys
 import argparse
 import flask
 import json
-from api import api
+import api
 
-app = flask.Flask(__name__)
-app.register_blueprint(api)
+app = flask.Flask(__name__, static_folder='static', template_folder='templates')
+app.register_blueprint(api.api, url_prefix='/api')
 
 @app.route('/')
 def home():
     return flask.render_template('index.html')
 
-# @app.route('/games/')
-# def show_games():
-#     return flask.render_template('games_main.html')
+@app.route('/games/')
+def show_games():
+    return flask.render_template('games_main.html')
 
 @app.route('/stats/')
 def show_stats():
