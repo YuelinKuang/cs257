@@ -1,5 +1,5 @@
-games='''
-SELECT game.id, game.title, game.release_date, 
+all_game_information_search='''
+SELECT game.title, game.release_date, 
 game.english_support, game.windows_support, 
 game.mac_support, game.linux_support, 
 game.minimum_age, game.pos_ratings, 
@@ -19,7 +19,7 @@ AND game.id = game_genre.game_id
 AND game_genre.genre_id = genre.id
 AND game.id = game_publisher.game_id
 AND game_publisher.publisher_id = publisher.id
-AND game.id = %s
+AND genre.id = %s
 
 ORDER BY game.title;
 '''

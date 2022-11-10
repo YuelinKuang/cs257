@@ -1,4 +1,4 @@
-id_argument = flask.request.args.get('id')<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -12,20 +12,9 @@ id_argument = flask.request.args.get('id')<!DOCTYPE html>
 <body>
     {% include 'header.html' %}
 
-    <div id="games_search_container" class="row">
+    <div id="games_search_container">
 
         <div id="games_container">
-            <!-- {%for game in data%}
-            <div class="game_item flex">
-                <img class="game_img" src="{{game['links_to_images']['header_image']}}" >
-                <p style="margin-left: 10px;"> <strong>
-                    {{ game['title'] }} 
-                    </strong><br>
-                    {{ game['description'] }} 
-                </p>
-            </div>
-            {%endfor%} -->
-
         </div>
 
         <div id="setting_container" class="border">
@@ -33,7 +22,7 @@ id_argument = flask.request.args.get('id')<!DOCTYPE html>
                 <h1>Search{{title}}</h1>
             </div>
 
-            <p>Games <select id="game_selector"></select></p>
+            <p>Genre <select id="genre_selector"></select></p>
 
             <!-- <div class="flex">
                 <label for="game_name" style="flex:1; text-align: center;">Name</label>

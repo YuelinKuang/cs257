@@ -8,12 +8,12 @@
 window.onload = initialize;
 
 function initialize() {
-    loadGamesSelector();
+    loadGenresSelector();
 
-    // let element = document.getElementById('author_selector');
-    // if (element) {
-    //     element.onchange = onAuthorsSelectionChanged;
-    // }
+    let element = document.getElementById('genre_selector');
+    if (element) {
+        element.onchange = onGenreSelectionChanged;
+    }
 }
 
 // Returns the base URL of the API, onto which endpoint
@@ -26,30 +26,27 @@ function getAPIBaseURL() {
     return baseURL;
 }
 
-function loadGamesSelector() {
-    let element = document.getElementById('game_selector');
-    if (!element) {
-        return;
-    }
-    let gameID = element.value; 
+function loadGenresSelector() {
+    let url = getAPIBaseURL() + '/genres/';
 
-    let url = getAPIBaseURL() + '/games/games/id/' + gameID;
-
+    // Send the request to the books API /genres/ endpoint
     fetch(url, {method: 'get'})
 
+    // When the results come back, transform them from a JSON string into
+    // a Javascript object (in this case, a list of author dictionaries).
     .then((response) => response.json())
 
-    .then(function(games) {
+    // Once you have your list of author dictionaries, use it to build
+    // an HTML table displaying the author names and lifespan.
+    .then(function(genres) {
         // Add the <option> elements to the <select> element
-        let selectorBody = '';
-        for (let k = 0; k < games.length; k++) {
-            let game = games[k];
-            selectorBody += '<option value="' + game['id'] + '">'
-                                + game['title']
-                                + '</option>\n';
+        let selectorBody = '<option value="None">Choose a Genre!</option>\n';
+        for (let k = 0; k < genres.length; k++) {
+            let genre = genres[k];
+            selectorBody += '<option value="' + genre['id'] + '">' + genre['genre_name'] + '</option>\n';
         }
 
-        let selector = document.getElementById('game_selector');
+        let selector = document.getElementById('genre_selector');
         if (selector) {
             selector.innerHTML = selectorBody;
         }
@@ -61,33 +58,33 @@ function loadGamesSelector() {
     });
 }
 
-function onIdSelectionChanged() {
-    let element = document.getElementById('game_selector');
+function onGenreSelectionChanged() {
+    let element = document.getElementById('genre_selector');
     if (!element) {
         return;
     }
     let authorID = element.value; 
 
-    let url = getAPIBaseURL() + '/games/games/id/' + authorID;
+    let url = getAPIBaseURL() + '/games/genres/' + authorID;
 
     fetch(url, {method: 'get'})
 
     .then((response) => response.json())
 
-    .then(function(books) {
-        let tableBody = '';
-        for (var i = 0; i < parsed.length; i++) {
-            var game = parsed[i];
-            gameList += '<div class="game_item flex">' 
-                        + '<img class="game_img" src=\'{{game[\'links_to_images\'][\'header_image\']}}\''
-                        + '> <p style="margin-left: 10px;"> jkhj'// + game['title <br>']
-                        //+ game['description'] + '</p>'
+    .then(function(games) {
+        let game_html = '';
+        for (var i = 0; i < games.length; i++) {
+            var game = games[i];
+            game_html += '<div class="game_item flex">' 
+                        + '<img class="game_img" alt="Header Image for ' + game['title'] + '" src="' + game['media']['header_image'] + '">'
+                        + '<p style="margin-left: 10px;"><strong>' + game['title'] + '</strong><br>'
+                        + game['description'] + '</p>'
                         + '</p></div>\n';
         }
     
         var games_container = document.getElementById('games_container');
         if (games_container) {
-            games_container.innerHTML = gameList;
+            games_container.innerHTML = game_html;
         }
     })
 

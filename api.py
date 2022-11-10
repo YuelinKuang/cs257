@@ -22,56 +22,33 @@ def get_connection():
                             user=config.user,
                             password=config.password)
 
-@api.route('/games/ids/') 
-def get_ids():
-    ''' Returns a list of all the authors in our database. See
-        get_author_by_id below for description of the author
-        resource representation.
+@api.route('/genres/') 
+def get_genres():
+    #Returns a list of all the genres in our database
 
-        By default, the list is presented in alphabetical order
-        by surname, then given_name. You may, however, use
-        the GET parameter sort to request sorting by birth year.
+    query = '''SELECT genre.id, genre.genre_name
+               FROM genre
+               ORDER BY genre.genre_name;'''
 
-            http://.../authors/?sort=birth_year
-
-        Returns an empty list if there's any database failure.
-    '''
-    query = '''SELECT id
-               FROM games'''
-
-
-    ids_list = []
+    genres_list = []
     try:
         connection = get_connection()
         cursor = connection.cursor()
         cursor.execute(query, tuple())
         for row in cursor:
-            author = {'id':row[0]}
-            ids_list.append(author)
+            genre = {'id':row[0], 'genre_name':row[1]}
+            genres_list.append(genre)
         cursor.close()
         connection.close()
     except Exception as e:
         print(e, file=sys.stderr)
+    print(genres_list)
+    return json.dumps(genres_list)
 
-    return json.dumps(ids_list)
 
-
-@api.route('/games/games/id/<game_id>') 
-def get_games(game_id):
-    ''' Returns a list of all the authors in our database. See
-        get_author_by_id below for description of the author
-        resource representation.
-
-        By default, the list is presented in alphabetical order
-        by surname, then given_name. You may, however, use
-        the GET parameter sort to request sorting by birth year.
-
-            http://.../authors/?sort=birth_year
-
-        Returns an empty list if there's any database failure.
-    '''
-    query = queries.games
-    
+@api.route('/games/genres/<game_genre>') 
+def get_games_from_genre(game_genre):
+    # Returns a list of all the games in our database, based on genre
 
     # indices: 
     #     0 game.title, 1 game.release_date, 
@@ -83,28 +60,32 @@ def get_games(game_id):
     #     14 publisher.publisher_name, 15 category.category_name,
     #     16 genre.genre_name,
 
+    query = queries.all_game_information_search
+
     game_list = []
+
     try:
-        
         connection = get_connection()
         cursor = connection.cursor()
-        cursor.execute(query, (game_id,))
+        cursor.execute(query, (game_genre,))
 
-        game = {'title':'',
-                'description':'',
-                'links_to_images':'',
-                'developers':[],
-                'publishers':[], 
+        game = {'title': '',
                 'release_date': '', 
-                'minimum_age': 0,
                 'english_support': False,
                 'windows_support': False,
                 'mac_support': False,
                 'linux_support': False, 
-                'genres': [], 
+                'minimum_age': 0,
+                'pos_ratings': 0,
+                'neg_ratings': 0,
+                'price': 0.0,
+                'description': '',
+                'website': '',
+                'media': '',
+                'developers': [],
+                'publishers': [], 
                 'categories': [],
-                'website': '' 
-                }
+                'genres': []}
 
         for row in cursor:
             if row[0] == game['title']: 
@@ -116,31 +97,35 @@ def get_games(game_id):
             else: 
                 game['developers'] = ', '.join(set(game['developers']))
                 game['publishers'] = ', '.join(set(game['publishers']))
-                game['genres'] = ', '.join(set(game['genres']))
                 game['categories'] = ', '.join(set(game['categories']))
+                game['genres'] = ', '.join(set(game['genres']))
 
                 game_list.append(game)
 
                 images = json.loads(row[12].replace("'", '"'))
+
                 if images['header_image'] == '':
                     images['header_image'] = 'https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fwww.simplystamps.com%2Fmedia%2Fcatalog%2Fproduct%2F5%2F8%2F5802-n-a-stock-stamp-hcb.png&f=1&nofb=1&ipt=4c91608ffabe756cef98c89e32321f03e9ae4c3ab4a92fb4b68453801fd7cf7e&ipo=images'
 
-                game = {'title':row[0],
-                        'description':row[10],
-                        'links_to_images':images,
-                        'developers':[row[13]],
-                        'publishers':[row[14]], 
+                game = {'title': row[0],
                         'release_date': str(row[1]), 
-                        'minimum_age': row[6],
                         'english_support': row[2],
                         'windows_support': row[3],
                         'mac_support': row[4],
                         'linux_support': row[5], 
-                        'genres': [row[16]], 
+                        'minimum_age': row[6],
+                        'pos_ratings': row[7],
+                        'neg_ratings': row[8],
+                        'price': row[9],
+                        'description': row[10],
+                        'website': row[11],
+                        'media': images,
+                        'developers': [row[13]],
+                        'publishers': [row[14]], 
                         'categories': [row[15]],
-                        'website': row[11] 
+                        'genres': [row[16]]
                         }
-
+        
         game_list.append(game)
         game_list.pop(0)
 
