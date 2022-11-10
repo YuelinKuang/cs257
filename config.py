@@ -1,3 +1,3 @@
-user='lucie'
+user='jondich'
 password=''
-database='games'
+database='grading'
