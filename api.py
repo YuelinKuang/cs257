@@ -46,9 +46,9 @@ def get_genres():
     return json.dumps(genres_list)
 
 
-@api.route('/games/genres/<game_genre>') 
-def get_games_from_genre(game_genre):
-    # Returns a list of all the games in our database, based on genre
+@api.route('/games/') 
+def get_games_from_genre():
+    # Returns a list of all the games in our database, based on input parameters
 
     # indices: 
     #     0 game.title, 1 game.release_date, 
@@ -62,12 +62,27 @@ def get_games_from_genre(game_genre):
 
     query = queries.all_game_information_search
 
+    if 'genre_id' in flask.request.args: 
+        game_genre_id = flask.request.args.get('genre_id')
+        query += 'AND genre.id = ' + str(game_genre_id) + ' '
+    if 'title' in flask.request.args:
+        title = flask.request.args.get('title')
+        query += "AND game.title ILIKE '%" + str(title) + "%' "
+
+    # implementation not complete
+    if 'sort_by' in flask.request.args:
+        sort = flask.request.args.get('sort_by') 
+        query += 'ORDER BY game.title;' 
+    else: 
+        query += 'ORDER BY game.title;'
+
     game_list = []
 
     try:
         connection = get_connection()
         cursor = connection.cursor()
-        cursor.execute(query, (game_genre,))
+        cursor.execute(query)
+        # , (game_genre_id,)
 
         game = {'title': '',
                 'release_date': '', 

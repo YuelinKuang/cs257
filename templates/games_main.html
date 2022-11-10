@@ -14,19 +14,23 @@
 
     <div id="games_search_container">
 
-        <div id="games_container">
-        </div>
+        <div id="games_container"></div>
 
         <div id="setting_container" class="border">
             <div>
                 <h1>Search{{title}}</h1>
             </div>
 
-            <p>Genre <select id="genre_selector"></select></p>
-
             <!-- <div class="flex">
                 <label for="game_name" style="flex:1; text-align: center;">Name</label>
-                <input style="flex:3;" type="text" name="game_name" class="form-control" placeholder="Name">
+                <input id="title_search" style="flex:3;" type="text" name="game_name" class="form-control" placeholder="Name">
+            </div>
+
+            <p>Genre <select id="genre_selector"></select></p>-->
+
+            <div class="flex">
+                <label for="game_name" style="flex:1; text-align: center;">Name</label>
+                <input id="title_search" style="flex:3;" type="text" name="game_name" class="form-control" placeholder="Name">
             </div>
 
             <div class="flex">
@@ -63,6 +67,7 @@
                         <label for="system2"> Mac</label><br>
                         <input type="checkbox" id="linux" name="system3" value="Linux">
                         <label for="system3"> Linux</label><br>
+                        <button onclick="selectOrDeselect()">Select/Deselect All</button>
                     </div>
                 </div> 
 
@@ -86,20 +91,11 @@
 
                     <div style="padding-bottom: 20px;">
                         <h2>Genre</h2>
-                        <input type="checkbox" name="genre_genre1" value="genre_genre1">
-                        <label for="genre_genre1"> Genre 1</label><br>
-                        <input type="checkbox" name="genre_genre2" value="genre_genre2">
-                        <label for="genre_genre2"> Genre 2</label><br>
-                        <input type="checkbox" name="genre_genre3" value="genre_genre3">
-                        <label for="genre_genre3"> Genre 3</label><br>
-
-                        <button onclick="selectOrDeselect()">Select/Deselect All</button>
+                        <select id="genre_selector"></select>
                     </div>
                 </div> 
             </div>
-            <div style="text-align: center;">
-                <button id="games_search" class="button">Search</button> 
-            </div>
+
             <div>
                 <h2>Sort By</h2>
 
@@ -117,7 +113,12 @@
                 <label for="output">Minimum Age - Ascending</label><br>
                 <input type="radio" name="sort_by" value="age_d"> 
                 <label for="output">Minimum Age - Descending</label><br>
-            </div> -->
+            </div>
+
+            <div style="text-align: center;">
+                <button id="search_button" class="button">Search</button> 
+            </div> 
+
         </div>
     </div>
 </body>

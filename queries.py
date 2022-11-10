@@ -19,7 +19,4 @@ AND game.id = game_genre.game_id
 AND game_genre.genre_id = genre.id
 AND game.id = game_publisher.game_id
 AND game_publisher.publisher_id = publisher.id
-AND genre.id = %s
-
-ORDER BY game.title;
 '''

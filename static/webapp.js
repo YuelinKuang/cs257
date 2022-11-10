@@ -10,9 +10,9 @@ window.onload = initialize;
 function initialize() {
     loadGenresSelector();
 
-    let element = document.getElementById('genre_selector');
+    let element = document.getElementById('search_button');
     if (element) {
-        element.onchange = onGenreSelectionChanged;
+        element.onclick = onGamesFilerChanged;
     }
 }
 
@@ -58,14 +58,30 @@ function loadGenresSelector() {
     });
 }
 
-function onGenreSelectionChanged() {
-    let element = document.getElementById('genre_selector');
-    if (!element) {
-        return;
-    }
-    let authorID = element.value; 
+function onGamesFilerChanged() {
+    let url = getAPIBaseURL() + '/games/?';
 
-    let url = getAPIBaseURL() + '/games/genres/' + authorID;
+    let genre_selector = document.getElementById('genre_selector');
+    let genreID = genre_selector.value;
+
+    let title_input = document.getElementById('title_search').value;
+
+    if (genreID != 'None') {
+        url += 'genre_id=' + genreID; 
+    }
+    
+    if (title_input != '') {
+        if (url.charAt(url.length - 1) == '?') {
+            url += 'title=' + title_input;
+        }
+        else {
+            url += '&title=' + title_input;
+        }    
+    }
+
+    if (url.charAt(url.length - 1) == '?') {
+        url.slice(0, -1);
+    }
 
     fetch(url, {method: 'get'})
 
