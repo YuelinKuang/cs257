@@ -42,7 +42,7 @@ def get_genres():
         connection.close()
     except Exception as e:
         print(e, file=sys.stderr)
-    print(genres_list)
+
     return json.dumps(genres_list)
 
 
