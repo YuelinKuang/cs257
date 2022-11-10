@@ -12,7 +12,7 @@ function initialize() {
 
     let element = document.getElementById('search_button');
     if (element) {
-        element.onclick = onGamesFilerChanged;
+        element.onclick = onGamesFilterChanged;
     }
 }
 
@@ -58,7 +58,7 @@ function loadGenresSelector() {
     });
 }
 
-function onGamesFilerChanged() {
+function onGamesFilterChanged() {
     let url = getAPIBaseURL() + '/games/?';
 
     let genre_selector = document.getElementById('genre_selector');
@@ -91,7 +91,7 @@ function onGamesFilerChanged() {
         let game_html = '';
         for (var i = 0; i < games.length; i++) {
             var game = games[i];
-            game_html += '<div class="game_item flex">' 
+            game_html += '<div class="game_item flex" id="' + game['id'] + '">'
                         + '<img class="game_img" alt="Header Image for ' + game['title'] + '" src="' + game['media']['header_image'] + '">'
                         + '<p style="margin-left: 10px;"><strong>' + game['title'] + '</strong><br>'
                         + game['description'] + '</p>'
