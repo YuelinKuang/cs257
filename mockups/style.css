@@ -118,11 +118,6 @@ table, th, td {
 .game_item {
     border: 0.1em red solid;
     margin-bottom: 20px;
-    background-color: transparent;
-}
-
-.text_align_left {
-    text-align: left;
 }
 
 .game_img {

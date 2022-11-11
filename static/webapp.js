@@ -91,11 +91,14 @@ function onGamesFilterChanged() {
         let game_html = '';
         for (var i = 0; i < games.length; i++) {
             var game = games[i];
-            game_html += '<div class="game_item flex" id="' + game['id'] + '">'
+            game_id = game['id']
+            game_html += '<button class="game_item flex text_align_left" id="' + game_id 
+                        + '" value="' + game_id + '" onclick="onGameSelected(this.value)">'
                         + '<img class="game_img" alt="Header Image for ' + game['title'] + '" src="' + game['media']['header_image'] + '">'
                         + '<p style="margin-left: 10px;"><strong>' + game['title'] + '</strong><br>'
                         + game['description'] + '</p>'
-                        + '</p></div>\n';
+                        + '</p></button>\n';
+            // https://stackoverflow.com/questions/40134104/how-to-pass-the-button-value-into-my-onclick-event-function
         }
     
         var games_container = document.getElementById('games_container');
@@ -109,6 +112,47 @@ function onGamesFilterChanged() {
     });
 }
 
+function onGameSelected(game_id) {
+    let url = getAPIBaseURL() + '/games/specific/' + game_id; 
+    
+    fetch(url, {method: 'get'})
+
+    .then((response) => response.json())
+
+    .then(function(game) {
+        let game_html = '';
+        
+        game_html += '<div style="width:100%; display: flex;">'
+                    + '<img class="game_img" alt="Header Image for ' + game['title'] 
+                    + '" src="' + game['media']['header_image'] + '">'
+                    + '<p style="margin-left: 10px;"><strong>' + game['title'] + '</strong><br>' 
+                    + game['description'] + '</p> </div>\n'
+                    + '<div class="flex">'
+                    + '<div style="flex: 2"> <ul>'
+                    + '<li>Developer: ' + game['developers'] + '</li>'
+                    + '<li>Publisher: ' + game['publishers'] + '</li>'
+                    + '<li>Released on: ' + game['release_date'] + '</li>'
+                    + '<li>Minimum age: ' + game['minimum_age'] + '</li>'
+                    + '<li>English support: ' + game['english_support'] + '</li>'
+                    + '<li>Genres: ' + game['genres'] + '</li>'
+                    + '<li>Categories: ' + game['categories'] + '</li>'
+                    + '<li>Genres: ' + game['genres'] + '</li>'
+                    + '<li>Price: ' + game['price'] + '</li>'
+                    + '<li>Positive ratings: ' + game['pos_ratings'] + '</li>'
+                    + '<li>Negative ratings: ' + game['neg_ratings'] + '</li>'
+                    + '</ul> </div>'
+
+        var selected_game_button = document.getElementById(game_id);
+        if (selected_game_button) {
+            selected_game_button.innerHTML = game_html;
+        }
+    })
+
+    .catch(function(error) {
+        console.log(error);
+    });
+//     alert('click on ' + game_id)
+}
 
 function selectOrDeselect() {
     var inputs = document.getElementsByTagName("input");

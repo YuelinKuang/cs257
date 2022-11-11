@@ -123,7 +123,6 @@ def get_a_specific_game(game_id):
         connection = get_connection()
         cursor = connection.cursor()
         cursor.execute(query, (game_id,))
-        rows = cursor.fetchall()
 
         # indices: 
         #     0 game.title, 1 game.release_date, 
@@ -153,8 +152,9 @@ def get_a_specific_game(game_id):
                 'categories': [],
                 'genres': []}
 
-        for row in rows:
-            if row.row_number() == 1: 
+        count = 0
+        for row in cursor:
+            if count == 0: 
                 images = json.loads(row[12].replace("'", '"'))
                 if images['header_image'] == '':
                     images['header_image'] = 'https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fwww.simplystamps.com%2Fmedia%2Fcatalog%2Fproduct%2F5%2F8%2F5802-n-a-stock-stamp-hcb.png&f=1&nofb=1&ipt=4c91608ffabe756cef98c89e32321f03e9ae4c3ab4a92fb4b68453801fd7cf7e&ipo=images'
@@ -177,6 +177,7 @@ def get_a_specific_game(game_id):
                         'categories': [row[15]],
                         'genres': [row[16]]
                         }
+                count += 1
             else: 
                 game['developers'].append(row[13])
                 game['publishers'].append(row[14])
