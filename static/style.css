@@ -95,8 +95,10 @@ body {
 table, th, td {
     border: 0.1em red solid;
     border-collapse: collapse;
-    margin-right: 20px;
-    margin-bottom: 20px;
+    margin-right: 10px;
+    margin-bottom: 10px;
+    margin-left: 10px;
+    margin-top: 10px;;
     background-color: rgb(246, 229, 232);
 }
 
@@ -119,6 +121,7 @@ table, th, td {
     border: 0.1em red solid;
     margin-bottom: 20px;
     background-color: transparent;
+    width:100%;
 }
 
 .text_align_left {

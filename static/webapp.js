@@ -122,12 +122,12 @@ function onGameSelected(game_id) {
     .then(function(game) {
         let game_html = '';
         
-        game_html += '<div style="width:100%; display: flex;">'
+        game_html += '<div style="max-width:100%; display: flex;">'
                     + '<img class="game_img" alt="Header Image for ' + game['title'] 
                     + '" src="' + game['media']['header_image'] + '">'
                     + '<p style="margin-left: 10px;"><strong>' + game['title'] + '</strong><br>' 
                     + game['description'] + '</p> </div>\n'
-                    + '<div class="flex">'
+                    + '<div class="flex" style="max-width:100%">'
                     + '<div style="flex: 2"> <ul>'
                     + '<li>Developer: ' + game['developers'] + '</li>'
                     + '<li>Publisher: ' + game['publishers'] + '</li>'
@@ -141,6 +141,20 @@ function onGameSelected(game_id) {
                     + '<li>Positive ratings: ' + game['pos_ratings'] + '</li>'
                     + '<li>Negative ratings: ' + game['neg_ratings'] + '</li>'
                     + '</ul> </div>'
+                    + '<div style="flex: 3">' + '<table>'
+                    + '<tr><th></th><th>Windows</th><th>Mac</th><th>Linux</th></tr>'
+                    + '<tr><td>Available On</td><td>' + game['windows_support'] 
+                    + '</td><td>' + game['mac_support'] +'</td><td>' + game['linux_support'] + '</td></tr>'
+                    + '</table>'
+
+        images = game['media']['screenshots'];
+        for (var i = 0; i < images.length && i < 5; i++) {
+            var image = images[i];
+            game_html += '<img class="game_img" src="' + image + '">'
+        }
+        
+        game_html += '</div>'
+                    
 
         var selected_game_button = document.getElementById(game_id);
         if (selected_game_button) {
