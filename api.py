@@ -51,26 +51,33 @@ def get_games():
 
     query = queries.all_game_information_search
 
+    additional_arguments = []
+
     if 'genre_id' in flask.request.args: 
+        query += ' AND genre.id = %s'
         game_genre_id = flask.request.args.get('genre_id')
-        query += ' AND genre.id = ' + str(game_genre_id)
+        additional_arguments.append(str(game_genre_id))
     if 'title' in flask.request.args:
+        query += " AND game.title ILIKE CONCAT('%%', %s, '%%')"
         title = flask.request.args.get('title')
-        query += " AND game.title ILIKE '%" + str(title) + "%'"
+        additional_arguments.append(str(title))
 
     # implementation not complete
     if 'sort_by' in flask.request.args:
         sort = flask.request.args.get('sort_by') 
-        query += ' ORDER BY game.title;' 
+        query += " ORDER BY game.title;"
+        # additional_arguments.append(str(sort))
     else: 
-        query += ' ORDER BY game.title;'
+        query += " ORDER BY game.title;"
 
     game_list = []
 
     try:
         connection = get_connection()
         cursor = connection.cursor()
-        cursor.execute(query)
+        cursor.execute(query, additional_arguments)
+        # cursor.execute(query, (user_input,))
+        print(cursor.query)
 
         game = {'id': 0,
                 'title': '',
