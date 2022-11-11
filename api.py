@@ -77,7 +77,6 @@ def get_games():
         cursor = connection.cursor()
         cursor.execute(query, additional_arguments)
         # cursor.execute(query, (user_input,))
-        print(cursor.query)
 
         game = {'id': 0,
                 'title': '',

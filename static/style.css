@@ -72,6 +72,7 @@ body {
     display: inline-block;
     text-align: center;
     line-height: 200px;
+    font-size: x-large;
 }
 
 .button {
@@ -81,6 +82,11 @@ body {
     color: beige;
     box-shadow: 5px 10px 18px #7b7b7b;
     font-size: large;
+}
+
+.button:hover {
+    background-color: rgb(218, 157, 157);
+    cursor: pointer;
 }
 
 .small_button {
@@ -122,6 +128,11 @@ table, th, td {
     margin-bottom: 20px;
     background-color: transparent;
     width:100%;
+}
+
+.game_item:hover {
+    background-color: rgb(245, 223, 223);
+    cursor: pointer;
 }
 
 .text_align_left {

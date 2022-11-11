@@ -97,7 +97,7 @@ function onGamesFilterChanged() {
                         + '<img class="game_img" alt="Header Image for ' + game['title'] + '" src="' + game['media']['header_image'] + '">'
                         + '<p style="margin-left: 10px;"><strong>' + game['title'] + '</strong><br>'
                         + game['description'] + '</p>'
-                        + '</p></button>\n';
+                        + '</button>\n';
             // https://stackoverflow.com/questions/40134104/how-to-pass-the-button-value-into-my-onclick-event-function
         }
     
@@ -122,7 +122,9 @@ function onGameSelected(game_id) {
     .then(function(game) {
         let game_html = '';
         
-        game_html += '<div style="max-width:100%; display: flex;">'
+        game_html += '<button class="game_item flex text_align_left" id="' + game_id 
+                    + '" value="' + game_id + '" onclick="onGameDeselected(this.value)">'
+                    + '<div style="max-width:100%; display: flex;">'
                     + '<img class="game_img" alt="Header Image for ' + game['title'] 
                     + '" src="' + game['media']['header_image'] + '">'
                     + '<p style="margin-left: 10px;"><strong>' + game['title'] + '</strong><br>' 
@@ -147,25 +149,54 @@ function onGameSelected(game_id) {
                     + '</td><td>' + game['mac_support'] +'</td><td>' + game['linux_support'] + '</td></tr>'
                     + '</table>'
 
-        images = game['media']['screenshots'];
+        let images = game['media']['screenshots'];
         for (var i = 0; i < images.length && i < 5; i++) {
             var image = images[i];
             game_html += '<img class="game_img" src="' + image + '">'
         }
         
-        game_html += '</div>'
-                    
+        game_html += '</div>' + '</button>\n'
 
         var selected_game_button = document.getElementById(game_id);
         if (selected_game_button) {
-            selected_game_button.innerHTML = game_html;
+            //outer_html = selected_game_button.outerHTML.replace('onGameSelected(this.value)', 'onGameDeselected(this.value)');
+            selected_game_button.outerHTML = game_html;
+            //selected_game_button.outerHTML = outer_html;
         }
     })
 
     .catch(function(error) {
         console.log(error);
     });
-//     alert('click on ' + game_id)
+}
+
+function onGameDeselected(game_id) {
+    let url = getAPIBaseURL() + '/games/specific/' + game_id; 
+    
+    fetch(url, {method: 'get'})
+
+    .then((response) => response.json())
+
+    .then(function(game) {
+        let game_html = '';
+        
+        game_html += '<button class="game_item flex text_align_left" id="' + game_id 
+                    + '" value="' + game_id + '" onclick="onGameSelected(this.value)">'
+                    + '<img class="game_img" alt="Header Image for ' + game['title'] + '" src="' + game['media']['header_image'] + '">'
+                    + '<p style="margin-left: 10px;"><strong>' + game['title'] + '</strong><br>'
+                    + game['description'] + '</p>' + '</button>\n'
+        
+        var deselected_game_button = document.getElementById(game_id);
+        if (deselected_game_button) {
+            //outer_html = deselected_game_button.outerHTML.replace('onGameDeselected(this.value)', 'onGameSelected(this.value)');
+            //deselected_game_button.innerHTML = inner_html;
+            deselected_game_button.outerHTML = game_html;
+        }
+    })
+
+    .catch(function(error) {
+        console.log(error);
+    });
 }
 
 function selectOrDeselect() {
