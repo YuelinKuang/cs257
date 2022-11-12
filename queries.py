@@ -1,3 +1,11 @@
+get_genres='''SELECT genre.id, genre.genre_name
+               FROM genre
+               ORDER BY genre.genre_name;'''
+
+get_developers='''SELECT developer.id, developer.developer_name
+               FROM developer
+               ORDER BY developer.developer_name;'''
+
 all_game_information_search='''
 SELECT game.id, game.title, game.release_date, 
 game.english_support, game.windows_support, 
