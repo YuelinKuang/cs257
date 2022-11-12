@@ -28,13 +28,11 @@ body {
     flex: 2;
 }
 
-#setting_container {
-    flex: 1;
+#search_container {
+    flex: 1; 
     margin-left: 20px;
-    margin-right: 20px;
-    padding-left: 20px;
-    padding-right: 20px;
 }
+
 
 
 
@@ -101,10 +99,7 @@ body {
 table, th, td {
     border: 0.1em red solid;
     border-collapse: collapse;
-    margin-right: 10px;
-    margin-bottom: 10px;
-    margin-left: 10px;
-    margin-top: 10px;;
+    padding: 10px;
     background-color: rgb(246, 229, 232);
 }
 
@@ -127,6 +122,7 @@ table, th, td {
     border: 0.1em red solid;
     margin-bottom: 20px;
     background-color: transparent;
+    padding: 20px;
     width:100%;
 }
 

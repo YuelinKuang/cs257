@@ -92,13 +92,13 @@ function onGamesFilterChanged() {
         for (var i = 0; i < games.length; i++) {
             var game = games[i];
             game_id = game['id']
-            game_html += '<button class="game_item flex text_align_left" id="' + game_id 
-                        + '" value="' + game_id + '" onclick="onGameSelected(this.value)">'
-                        + '<img class="game_img" alt="Header Image for ' + game['title'] + '" src="' + game['media']['header_image'] + '">'
-                        + '<p style="margin-left: 10px;"><strong>' + game['title'] + '</strong><br>'
-                        + game['description'] + '</p>'
-                        + '</button>\n';
-            // https://stackoverflow.com/questions/40134104/how-to-pass-the-button-value-into-my-onclick-event-function
+            game_html += `
+            <button class="game_item text_align_left" id="${game_id}" value="${game_id}" onclick="onGameSelected(${game_id})">
+                <div class="flex">
+                    <img class="game_img" alt="Header Image for ${game['title']}" src="${game['media']['header_image']}">
+                    <p style="margin-left: 10px;"><strong>${game['title']}</strong><br>${game['description']}</p>
+                </div>
+            </button>`;
         }
     
         var games_container = document.getElementById('games_container');
@@ -120,42 +120,61 @@ function onGameSelected(game_id) {
     .then((response) => response.json())
 
     .then(function(game) {
-        let game_html = '';
-        
-        game_html += '<button class="game_item flex text_align_left" id="' + game_id 
-                    + '" value="' + game_id + '" onclick="onGameDeselected(this.value)">'
-                    + '<div style="max-width:100%; display: flex;">'
-                    + '<img class="game_img" alt="Header Image for ' + game['title'] 
-                    + '" src="' + game['media']['header_image'] + '">'
-                    + '<p style="margin-left: 10px;"><strong>' + game['title'] + '</strong><br>' 
-                    + game['description'] + '</p> </div>\n'
-                    + '<div class="flex" style="max-width:100%">'
-                    + '<div style="flex: 2"> <ul>'
-                    + '<li>Developer: ' + game['developers'] + '</li>'
-                    + '<li>Publisher: ' + game['publishers'] + '</li>'
-                    + '<li>Released on: ' + game['release_date'] + '</li>'
-                    + '<li>Minimum age: ' + game['minimum_age'] + '</li>'
-                    + '<li>English support: ' + game['english_support'] + '</li>'
-                    + '<li>Genres: ' + game['genres'] + '</li>'
-                    + '<li>Categories: ' + game['categories'] + '</li>'
-                    + '<li>Genres: ' + game['genres'] + '</li>'
-                    + '<li>Price: ' + game['price'] + '</li>'
-                    + '<li>Positive ratings: ' + game['pos_ratings'] + '</li>'
-                    + '<li>Negative ratings: ' + game['neg_ratings'] + '</li>'
-                    + '</ul> </div>'
-                    + '<div style="flex: 3">' + '<table>'
-                    + '<tr><th></th><th>Windows</th><th>Mac</th><th>Linux</th></tr>'
-                    + '<tr><td>Available On</td><td>' + game['windows_support'] 
-                    + '</td><td>' + game['mac_support'] +'</td><td>' + game['linux_support'] + '</td></tr>'
-                    + '</table>'
+        for (trait in game){
+            let value = String(game[trait]);
+            if (value == 'true') {
+                game[trait] = '√'
+            } else if (value == 'false') {
+                game[trait] = 'X'
+            }
+        }
+
+        if (game['minimum_age'] == 0) {
+            game['minimum_age'] = '0 or unlisted';
+        }
+
+        let game_html = `
+        <button class="game_item text_align_left" id="${game_id}" value="${game_id}" onclick="onGameDeselected(${game_id})">
+            <div class="flex">
+                <img class="game_img" alt="Header Image for ${game['title']}" src="${game['media']['header_image']}">
+                <p style="margin-left: 10px;"><strong>${game['title']}</strong><br>${game['description']}</p>
+            </div>
+            <div class="flex">
+                <div style="flex: 4"> 
+                    <ul>
+                        <li>Developer: ${game['developers']} </li>
+                        <li>Publisher: ${game['publishers']} </li>
+                        <br>
+                        <li>Genres: ${game['genres']} </li>
+                        <li>Categories: ${game['categories']} </li>
+                        <br>
+                        <li>Positive Ratings: ${game['pos_ratings']} </li>
+                        <li>Negative Ratings: ${game['neg_ratings']} </li>
+                        <li>Percentage of Ratings as Positive: ${Math.round(game['pos_ratings'] * 100 / (game['neg_ratings'] + game['pos_ratings']))}%</li>
+                        <br>
+                        <li>Price: $${game['price']} </li>
+                        <li>Released on: ${game['release_date']} </li>
+                        <li>Minimum age: ${game['minimum_age']} </li>
+                        <li>English support: ${game['english_support']} </li>
+                    </ul>
+                    <table>
+                        <tr><th></th><th>Windows</th><th>Mac</th><th>Linux</th></tr>
+                        <tr><td>Available On</td>
+                            <td> ${game['windows_support']} </td>
+                            <td> ${game['mac_support']} </td>
+                            <td> ${game['linux_support']} </td>
+                        </tr>
+                    </table>
+                </div>
+                <div style="flex: 3">`;
 
         let images = game['media']['screenshots'];
-        for (var i = 0; i < images.length && i < 5; i++) {
+        for (var i = 0; i < images.length && i < 6; i++) {
             var image = images[i];
-            game_html += '<img class="game_img" src="' + image + '">'
+            game_html += `<img class="game_img" src="${image}">`;
         }
         
-        game_html += '</div>' + '</button>\n'
+        game_html += '</div></div></button>'
 
         var selected_game_button = document.getElementById(game_id);
         if (selected_game_button) {
@@ -178,13 +197,13 @@ function onGameDeselected(game_id) {
     .then((response) => response.json())
 
     .then(function(game) {
-        let game_html = '';
-        
-        game_html += '<button class="game_item flex text_align_left" id="' + game_id 
-                    + '" value="' + game_id + '" onclick="onGameSelected(this.value)">'
-                    + '<img class="game_img" alt="Header Image for ' + game['title'] + '" src="' + game['media']['header_image'] + '">'
-                    + '<p style="margin-left: 10px;"><strong>' + game['title'] + '</strong><br>'
-                    + game['description'] + '</p>' + '</button>\n'
+        let game_html = `
+        <button class="game_item text_align_left" id="${game_id}" value="${game_id}" onclick="onGameSelected(${game_id})">
+            <div class="flex">
+                <img class="game_img" alt="Header Image for ${game['title']}" src="${game['media']['header_image']}">
+                <p style="margin-left: 10px;"><strong>${game['title']}</strong><br>${game['description']}</p>
+            </div>
+        </button>`;
         
         var deselected_game_button = document.getElementById(game_id);
         if (deselected_game_button) {
