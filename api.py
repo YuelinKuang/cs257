@@ -155,12 +155,23 @@ def get_games():
     #     additional_arguments.append(str(neg_ratings_lower_than))
 
     # implementation not complete
-    if 'sort_by' in flask.request.args:
-        sort = flask.request.args.get('sort_by')
-        query += " ORDER BY game.title;"
-        # additional_arguments.append(str(sort))
-    else: 
-        query += " ORDER BY game.title;"
+
+    sort_params = flask.request.args.get('sort_by').split('-')
+    sort_by = sort_params[0]
+    sort_order = sort_params[1]
+    if sort_by == 'title': 
+        query += ' ORDER BY game.title'
+    elif sort_by == 'date':
+        query += ' ORDER BY game.release_date'
+    elif sort_by == 'price':
+        query += ' ORDER BY game.price'
+    elif sort_by == 'age':
+        query += ' ORDER BY game.minimum_age'
+    elif sort_by == 'pos_ratings':
+        query += ' ORDER BY game.pos_ratings'
+    
+    query += ' ' + sort_order + ';'
+    
 
     game_list = []
 

@@ -94,73 +94,73 @@ function loadDevelopersSelector() {
 function onGamesFilterChanged() {
     let url = getAPIBaseURL() + '/games/?';
 
+    let sort_by = ''
+    if (document.getElementById('sort_title').checked) {
+        sort_by = 'title'
+    }
+    else if (document.getElementById('sort_date').checked) {
+        sort_by = 'date'
+    }
+    else if (document.getElementById('sort_price').checked) {
+        sort_by = 'price'
+    }
+    else if (document.getElementById('sort_age').checked) {
+        sort_by = 'age'
+    }
+    else if (document.getElementById('sort_pos_ratings').checked) {
+        sort_by = 'pos_ratings'
+    }
+    else {
+        sort_by = 'title'
+    }
+
+    if (document.getElementById('sort_asc').checked) {
+        sort_by += '-asc'
+    }
+    else if (document.getElementById('sort_desc').checked) {
+        sort_by += '-desc'
+    }
+    else {
+        sort_by += '-asc'
+    }
+    url += 'sort_by=' + sort_by
+
     let genre_selector = document.getElementById('genre_selector');
     let genreID = genre_selector.value;
     if (genreID != 'None') {
-        url += 'genre_id=' + genreID; 
+        url += '&genre_id=' + genreID; 
     }
 
 
     let title_input = document.getElementById('title_search').value;
     if (title_input != '') {
-        if (url.charAt(url.length - 1) == '?') {
-            url += 'title=' + title_input;
-        }
-        else {
-            url += '&title=' + title_input;
-        }    
+        url += '&title=' + title_input;   
     }
 
 
     let min_age_above = document.getElementById('min_age_above').value;
     let min_age_below = document.getElementById('min_age_below').value;
     if (min_age_above != 0 && min_age_above != '') {
-        if (url.charAt(url.length - 1) == '?') {
-            url += 'min_age_above=' + min_age_above;
-        }
-        else {
-            url += '&min_age_above=' + min_age_above;
-        }    
+        url += '&min_age_above=' + min_age_above;   
     }
     if (min_age_below != 18 && min_age_below != '') {
-        if (url.charAt(url.length - 1) == '?') {
-            url += 'min_age_below=' + min_age_below;
-        }
-        else {
-            url += '&min_age_below=' + min_age_below;
-        }    
+        url += '&min_age_below=' + min_age_below;   
     }
 
 
     let start_date = document.getElementById('start_date').value;
     let end_date = document.getElementById('end_date').value;
     if (start_date != '') {
-        if (url.charAt(url.length - 1) == '?') {
-            url += 'start_date=' + start_date;
-        }
-        else {
-            url += '&start_date=' + start_date;
-        }
+        url += '&start_date=' + start_date;
     }
     if (end_date != '') {
-        if (url.charAt(url.length - 1) == '?') {
-            url += 'end_date=' + end_date;
-        }
-        else {
-            url += '&end_date=' + end_date;
-        }
+        url += '&end_date=' + end_date;
     }
 
 
     let developerID = document.getElementById('developer_selector').value;
     if (developerID != 'None') {
-        if (url.charAt(url.length - 1) == '?') {
-            url += 'developer_id=' + developerID;
-        }
-        else {
-            url += '&developer_id=' + developerID;
-        }
-         
+            url += '&developer_id=' + developerID;  
     }
 
 
@@ -192,75 +192,35 @@ function onGamesFilterChanged() {
     });
     if (platforms.length != 0) {
         platforms = platforms.toString();
-        if (url.charAt(url.length - 1) == '?') {
-            url += 'platforms=' + platforms;
-        }
-        else {
-            url += '&platforms=' + platforms;
-        }
+        url += '&platforms=' + platforms;
     }
     
 
     let price_above = document.getElementById('price_above').value;
     let price_below = document.getElementById('price_below').value;
     if (price_above != '') {
-        if (url.charAt(url.length - 1) == '?') {
-            url += 'price_above=' + price_above;
-        }
-        else {
-            url += '&price_above=' + price_above;
-        }    
+        url += '&price_above=' + price_above;
     }
     if (price_below != '') {
-        if (url.charAt(url.length - 1) == '?') {
-            url += 'price_below=' + price_below;
-        }
-        else {
-            url += '&price_below=' + price_below;
-        }    
+        url += '&price_below=' + price_below; 
     }
 
     let pos_ratings_above = document.getElementById('pos_ratings_above').value;
     let pos_ratings_below = document.getElementById('pos_ratings_below').value;
     if (pos_ratings_above != '') {
-        if (url.charAt(url.length - 1) == '?') {
-            url += 'pos_ratings_above=' + pos_ratings_above;
-        }
-        else {
-            url += '&pos_ratings_above=' + pos_ratings_above;
-        }    
+        url += '&pos_ratings_above=' + pos_ratings_above;  
     }
     if (pos_ratings_below != '') {
-        if (url.charAt(url.length - 1) == '?') {
-            url += 'pos_ratings_below=' + pos_ratings_below;
-        }
-        else {
-            url += '&pos_ratings_below=' + pos_ratings_below;
-        }    
+        url += '&pos_ratings_below=' + pos_ratings_below;
     }
 
     let total_ratings_above = document.getElementById('total_ratings_above').value;
     let total_ratings_below = document.getElementById('total_ratings_below').value;
     if (total_ratings_above != '') {
-        if (url.charAt(url.length - 1) == '?') {
-            url += 'total_ratings_above=' + total_ratings_above;
-        }
-        else {
-            url += '&total_ratings_above=' + total_ratings_above;
-        }    
+        url += '&total_ratings_above=' + total_ratings_above;  
     }
     if (total_ratings_below != '') {
-        if (url.charAt(url.length - 1) == '?') {
-            url += 'total_ratings_below=' + total_ratings_below;
-        }
-        else {
-            url += '&total_ratings_below=' + total_ratings_below;
-        }    
-    }
-
-
-    if (url.charAt(url.length - 1) == '?') {
-        url.slice(0, -2);
+        url += '&total_ratings_below=' + total_ratings_below;
     }
 
     fetch(url, {method: 'get'})
