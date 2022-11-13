@@ -220,6 +220,44 @@ function onGamesFilterChanged() {
         }    
     }
 
+    let pos_ratings_above = document.getElementById('pos_ratings_above').value;
+    let pos_ratings_below = document.getElementById('pos_ratings_below').value;
+    if (pos_ratings_above != '') {
+        if (url.charAt(url.length - 1) == '?') {
+            url += 'pos_ratings_above=' + pos_ratings_above;
+        }
+        else {
+            url += '&pos_ratings_above=' + pos_ratings_above;
+        }    
+    }
+    if (pos_ratings_below != '') {
+        if (url.charAt(url.length - 1) == '?') {
+            url += 'pos_ratings_below=' + pos_ratings_below;
+        }
+        else {
+            url += '&pos_ratings_below=' + pos_ratings_below;
+        }    
+    }
+
+    let total_ratings_above = document.getElementById('total_ratings_above').value;
+    let total_ratings_below = document.getElementById('total_ratings_below').value;
+    if (total_ratings_above != '') {
+        if (url.charAt(url.length - 1) == '?') {
+            url += 'total_ratings_above=' + total_ratings_above;
+        }
+        else {
+            url += '&total_ratings_above=' + total_ratings_above;
+        }    
+    }
+    if (total_ratings_below != '') {
+        if (url.charAt(url.length - 1) == '?') {
+            url += 'total_ratings_below=' + total_ratings_below;
+        }
+        else {
+            url += '&total_ratings_below=' + total_ratings_below;
+        }    
+    }
+
 
     if (url.charAt(url.length - 1) == '?') {
         url.slice(0, -2);

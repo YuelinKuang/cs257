@@ -138,11 +138,11 @@ def get_games():
         pos_ratings_below = flask.request.args.get('pos_ratings_below')
         additional_arguments.append(str(pos_ratings_below))
     if 'total_ratings_above' in flask.request.args:
-        query += ' AND SUM(game.pos_ratings + game.neg_ratings) >= %s'
+        query += ' AND (game.pos_ratings + game.neg_ratings) >= %s'
         total_ratings_above = flask.request.args.get('total_ratings_above')
         additional_arguments.append(str(total_ratings_above))
     if 'total_ratings_below' in flask.request.args:
-        query += ' AND SUM(game.pos_ratings + game.neg_ratings) <= %s'
+        query += ' AND (game.pos_ratings + game.neg_ratings) <= %s'
         total_ratings_below = flask.request.args.get('total_ratings_below')
         additional_arguments.append(str(total_ratings_below))
     # if 'neg_ratings_higher_than' in flask.request.args: 
