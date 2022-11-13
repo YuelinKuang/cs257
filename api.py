@@ -81,19 +81,19 @@ def get_games():
         title = flask.request.args.get('title')
         additional_arguments.append(str(title))
     if 'min_age_above' in flask.request.args: 
-        query += 'AND game.minimum_age >= %s'
+        query += ' AND game.minimum_age >= %s'
         min_age_above = flask.request.args.get('min_age_above')
         additional_arguments.append(str(min_age_above))
     if 'min_age_below' in flask.request.args: 
-        query += 'AND game.minimum_age <= %s'
+        query += ' AND game.minimum_age <= %s'
         min_age_below = flask.request.args.get('min_age_below')
         additional_arguments.append(str(min_age_below))  
     if 'start_date' in flask.request.args: 
-        query += 'AND game.release_date >= %s'
+        query += ' AND game.release_date >= %s'
         start_date = flask.request.args.get('start_date')
         additional_arguments.append(str(start_date))
     if 'end_date' in flask.request.args: 
-        query += 'AND game.release_date <= %s'
+        query += ' AND game.release_date <= %s'
         end_date = flask.request.args.get('end_date')
         additional_arguments.append(str(end_date))
     if 'developer_id' in flask.request.args: 
@@ -101,47 +101,58 @@ def get_games():
         developer_id = flask.request.args.get('developer_id')
         additional_arguments.append(str(developer_id))
     if 'platforms' in flask.request.args: 
-        platforms = flask.request.args.get('platforms') # [w, m, l]
+        # "w, m, l"
+        platforms = flask.request.args.get('platforms').split(',')
         if len(platforms) == 1: 
             if 'w' in platforms: 
-                query += ' AND game.windows_support == True'
+                query += ' AND game.windows_support = true'
             if 'm' in platforms: 
-                query += ' AND game.mac_support == True'
+                query += ' AND game.mac_support = true'
             if 'l' in platforms: 
-                query += ' AND game.linux_support == True'
+                query += ' AND game.linux_support = true'
         elif len(platforms) == 2: 
             if 'w' in platforms and 'm' in platforms: 
-                query += ' AND (game.windows_support == True OR game.mac_support == True)'
+                query += ' AND (game.windows_support = true AND game.mac_support = true)'
             if 'w' in platforms and 'l' in platforms: 
-                query += ' AND (game.windows_support == True OR game.linux_support == True)'
+                query += ' AND (game.windows_support = true AND game.linux_support = true)'
             if 'm' in platforms and 'l' in platforms: 
-                query += ' AND (game.mac_support == True OR game.linux_support == True)'
+                query += ' AND (game.mac_support = true AND game.linux_support = true)'
+        elif len(platforms) == 3: 
+            query += ' AND (game.windows_support = true AND game.mac_support = true AND game.linux_support = true)'
         else: 
             pass
-    if 'price_lower_than' in flask.request.args: 
-        query += ' AND game.price <= %s'
-        price_lower_than = flask.request.args.get('price_lower_than')
-        additional_arguments.append(str(price_lower_than))
-    if 'price_higher_than' in flask.request.args: 
+    if 'price_above' in flask.request.args: 
         query += ' AND game.price >= %s'
-        price_higher_than = flask.request.args.get('price_higher_than')
-        additional_arguments.append(str(price_higher_than))
-    if 'pos_ratings_higher_than' in flask.request.args: 
+        price_above = flask.request.args.get('price_above')
+        additional_arguments.append(str(price_above))
+    if 'price_below' in flask.request.args: 
+        query += ' AND game.price <= %s'
+        price_below = flask.request.args.get('price_below')
+        additional_arguments.append(str(price_below))
+    if 'pos_ratings_above' in flask.request.args: 
         query += ' AND game.pos_ratings >= %s'
-        pos_ratings_higher_than = flask.request.args.get('pos_ratings_higher_than')
-        additional_arguments.append(str(pos_ratings_higher_than))
-    if 'pos_ratings_lower_than' in flask.request.args: 
+        pos_ratings_above = flask.request.args.get('pos_ratings_above')
+        additional_arguments.append(str(pos_ratings_above))
+    if 'pos_ratings_below' in flask.request.args: 
         query += ' AND game.pos_ratings <= %s'
-        pos_ratings_lower_than = flask.request.args.get('pos_ratings_lower_than')
-        additional_arguments.append(str(pos_ratings_lower_than))
-    if 'neg_ratings_higher_than' in flask.request.args: 
-        query += ' AND game.neg_ratings >= %s'
-        neg_ratings_higher_than = flask.request.args.get('neg_ratings_higher_than')
-        additional_arguments.append(str(neg_ratings_higher_than))
-    if 'neg_ratings_lower_than' in flask.request.args: 
-        query += ' AND game.neg_ratings <= %s'
-        neg_ratings_lower_than = flask.request.args.get('neg_ratings_lower_than')
-        additional_arguments.append(str(neg_ratings_lower_than))
+        pos_ratings_below = flask.request.args.get('pos_ratings_below')
+        additional_arguments.append(str(pos_ratings_below))
+    if 'total_ratings_above' in flask.request.args:
+        query += ' AND SUM(game.pos_ratings + game.neg_ratings) >= %s'
+        total_ratings_above = flask.request.args.get('total_ratings_above')
+        additional_arguments.append(str(total_ratings_above))
+    if 'total_ratings_below' in flask.request.args:
+        query += ' AND SUM(game.pos_ratings + game.neg_ratings) <= %s'
+        total_ratings_below = flask.request.args.get('total_ratings_below')
+        additional_arguments.append(str(total_ratings_below))
+    # if 'neg_ratings_higher_than' in flask.request.args: 
+    #     query += ' AND game.neg_ratings >= %s'
+    #     neg_ratings_higher_than = flask.request.args.get('neg_ratings_higher_than')
+    #     additional_arguments.append(str(neg_ratings_higher_than))
+    # if 'neg_ratings_lower_than' in flask.request.args: 
+    #     query += ' AND game.neg_ratings <= %s'
+    #     neg_ratings_lower_than = flask.request.args.get('neg_ratings_lower_than')
+    #     additional_arguments.append(str(neg_ratings_lower_than))
 
     # implementation not complete
     if 'sort_by' in flask.request.args:

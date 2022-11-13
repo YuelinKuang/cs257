@@ -9,6 +9,7 @@ window.onload = initialize;
 
 function initialize() {
     loadGenresSelector();
+    loadDevelopersSelector();
 
     let element = document.getElementById('search_button');
     if (element) {
@@ -58,18 +59,49 @@ function loadGenresSelector() {
     });
 }
 
+function loadDevelopersSelector() {
+    let url = getAPIBaseURL() + '/developers/';
+
+    // Send the request to the books API /genres/ endpoint
+    fetch(url, {method: 'get'})
+
+    // When the results come back, transform them from a JSON string into
+    // a Javascript object (in this case, a list of author dictionaries).
+    .then((response) => response.json())
+
+    // Once you have your list of author dictionaries, use it to build
+    // an HTML table displaying the author names and lifespan.
+    .then(function(developers) {
+        // Add the <option> elements to the <select> element
+        let selectorBody = '<option value="None">Choose a Developer!</option>\n';
+        for (let k = 0; k < developers.length; k++) {
+            let developer = developers[k];
+            selectorBody += '<option value="' + developer['id'] + '">' + developer['developer_name'] + '</option>\n';
+        }
+
+        let developer_selector = document.getElementById('developer_selector');
+        if (developer_selector) {
+            developer_selector.innerHTML = selectorBody;
+        }
+    })
+
+    // Log the error if anything went wrong during the fetch.
+    .catch(function(error) {
+        console.log(error);
+    });
+}
+
 function onGamesFilterChanged() {
     let url = getAPIBaseURL() + '/games/?';
 
     let genre_selector = document.getElementById('genre_selector');
     let genreID = genre_selector.value;
-
-    let title_input = document.getElementById('title_search').value;
-
     if (genreID != 'None') {
         url += 'genre_id=' + genreID; 
     }
-    
+
+
+    let title_input = document.getElementById('title_search').value;
     if (title_input != '') {
         if (url.charAt(url.length - 1) == '?') {
             url += 'title=' + title_input;
@@ -79,8 +111,118 @@ function onGamesFilterChanged() {
         }    
     }
 
+
+    let min_age_above = document.getElementById('min_age_above').value;
+    let min_age_below = document.getElementById('min_age_below').value;
+    if (min_age_above != 0 && min_age_above != '') {
+        if (url.charAt(url.length - 1) == '?') {
+            url += 'min_age_above=' + min_age_above;
+        }
+        else {
+            url += '&min_age_above=' + min_age_above;
+        }    
+    }
+    if (min_age_below != 18 && min_age_below != '') {
+        if (url.charAt(url.length - 1) == '?') {
+            url += 'min_age_below=' + min_age_below;
+        }
+        else {
+            url += '&min_age_below=' + min_age_below;
+        }    
+    }
+
+
+    let start_date = document.getElementById('start_date').value;
+    let end_date = document.getElementById('end_date').value;
+    if (start_date != '') {
+        if (url.charAt(url.length - 1) == '?') {
+            url += 'start_date=' + start_date;
+        }
+        else {
+            url += '&start_date=' + start_date;
+        }
+    }
+    if (end_date != '') {
+        if (url.charAt(url.length - 1) == '?') {
+            url += 'end_date=' + end_date;
+        }
+        else {
+            url += '&end_date=' + end_date;
+        }
+    }
+
+
+    let developerID = document.getElementById('developer_selector').value;
+    if (developerID != 'None') {
+        if (url.charAt(url.length - 1) == '?') {
+            url += 'developer_id=' + developerID;
+        }
+        else {
+            url += '&developer_id=' + developerID;
+        }
+         
+    }
+
+
+    let windows = document.getElementById('windows').checked;
+    if (windows == false) {
+        windows = '';
+    }
+    else {
+        windows = 'w'
+    }
+    let mac = document.getElementById('mac').checked;
+    if (mac == false) {
+        mac = '';
+    }
+    else {
+        mac = 'm'
+    }
+    let linux = document.getElementById('linux').checked;
+    if (linux == false) {
+        linux = '';
+    }
+    else {
+        linux = 'l'
+    }
+
+    let platforms = new Array(windows, mac, linux)
+    platforms = platforms.filter(empty_string => {
+        return empty_string !== '';
+    });
+    if (platforms.length != 0) {
+        platforms = platforms.toString();
+        if (url.charAt(url.length - 1) == '?') {
+            url += 'platforms=' + platforms;
+        }
+        else {
+            url += '&platforms=' + platforms;
+        }
+    }
+    
+
+    let price_above = document.getElementById('price_above').value;
+    let price_below = document.getElementById('price_below').value;
+    if (price_above != '') {
+        if (url.charAt(url.length - 1) == '?') {
+            url += 'price_above=' + price_above;
+        }
+        else {
+            url += '&price_above=' + price_above;
+        }    
+    }
+    if (price_below != '') {
+        if (url.charAt(url.length - 1) == '?') {
+            url += 'price_below=' + price_below;
+        }
+        else {
+            url += '&price_below=' + price_below;
+        }    
+    }
+
+
     if (url.charAt(url.length - 1) == '?') {
-        url.slice(0, -1);
+        url.slice(0, -2);
     }
 
     fetch(url, {method: 'get'})
@@ -89,6 +231,9 @@ function onGamesFilterChanged() {
 
     .then(function(games) {
         let game_html = '';
+        if (games.length == 0) {
+            game_html += '<p><strong>No game found 😔 Please try again!</strong></p>'
+        }
         for (var i = 0; i < games.length; i++) {
             var game = games[i];
             game_id = game['id']

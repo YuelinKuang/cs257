@@ -33,11 +33,11 @@
                             <h2>Release Date</h2>
                             <div class='flex' style="padding-bottom: 5px;">
                                 <label for="start_date" style="flex: 1;">After</label>
-                                <input style="flex: 1;" type="date" name="start_date" class="form-control" placeholder="mm/dd/yy">
+                                <input id="start_date" style="flex: 1;" type="date" name="start_date" class="form-control" placeholder="mm/dd/yy">
                             </div>
                             <div class="flex" style="padding-bottom: 5px;">
                                 <label for="end_date" style="flex: 1;">Before</label>
-                                <input style="flex: 1;" type="date" name="end_date" class="form-control" placeholder="mm/dd/yy">
+                                <input id="end_date" style="flex: 1;" type="date" name="end_date" class="form-control" placeholder="mm/dd/yy">
                             </div>
                         </div>
 
@@ -45,21 +45,21 @@
                             <h2>Minimum Age</h2>
                             <div class='flex' style="padding-bottom: 5px;">
                                 <label for="quantity" style="flex: 1;">Above</label>
-                                <input type="number" id="quantity" name="quantity" min="0" max="18">   
+                                <input id="min_age_above" type="number" id="quantity" name="quantity" min="0" max="18">   
                             </div>
                             <div class="flex" style="padding-bottom: 5px;">
                                 <label for="quantity" style="flex: 1;">Below</label>
-                                <input type="number" id="quantity" name="quantity" min="0" max="18"> 
+                                <input id="min_age_below" type="number" id="quantity" name="quantity" min="0" max="18"> 
                             </div>
                         </div>
 
                         <div style="padding-bottom: 20px;">
                             <h2>Available On</h2>
-                            <input type="checkbox" id="windows" name="system1" value="Windows">
+                            <input type="checkbox" id="windows" name="system1">
                             <label for="system1"> Windows</label><br>
-                            <input type="checkbox" id="mac" name="system2" value="Mac">
+                            <input type="checkbox" id="mac" name="system2">
                             <label for="system2"> Mac</label><br>
-                            <input type="checkbox" id="linux" name="system3" value="Linux">
+                            <input type="checkbox" id="linux" name="system3">
                             <label for="system3"> Linux</label><br>
                             <button onclick="selectOrDeselect()">Select/Deselect All</button>
                         </div>
@@ -84,19 +84,7 @@
                     <div style="flex: 1; margin-left: 20px;">
                         <div style="padding-bottom: 20px;">
                             <h2>Developer</h2>
-                            <select name="developers" placeholder="Developer" style="margin-bottom: 10px">
-                                <option value="dev1">Developer 1</option>
-                                <option value="dev2">Developer 2</option>
-                                <option value="dev3">Developer 3</option>
-                            </select>
-                            <br>
-                            <select name="developers2" id="developers2" placeholder="Developer">
-                                <option value="dev1">Developer 1</option>
-                                <option value="dev2">Developer 2</option>
-                                <option value="dev3">Developer 3</option>
-                            </select>
-
-                            <p>Will allow the user to add more developers in the future. </p>
+                            <select id="developer_selector" style="width: 100%;"></select>
                         </div>
 
                         <div style="padding-bottom: 20px;">
@@ -105,14 +93,26 @@
                         </div>
 
                         <div style="padding-bottom: 20px;">
+                            <h2>Price</h2>
+                            <div class='flex' style="padding-bottom: 5px;">
+                                <label for="min_price" style="flex: 1;">Above</label>
+                                <input id="price_above" type="number" name="min_price" min="0" max="999999">   
+                            </div>
+                            <div class="flex" style="padding-bottom: 5px;">
+                                <label for="max_price" style="flex: 1;">Below</label>
+                                <input id="price_below" type="number" name="max_price" min="0" max="999999"> 
+                            </div>
+                        </div>
+
+                        <div style="padding-bottom: 20px;">
                             <h2>Number of Ratings</h2>
                             <div class='flex' style="padding-bottom: 5px;">
                                 <label for="min_num_ratings" style="flex: 1;">Above</label>
-                                <input type="number" name="min_num_ratings" min="0" max="999999">   
+                                <input id="total_ratings_above" type="number" name="min_num_ratings" min="0" max="999999">   
                             </div>
                             <div class="flex" style="padding-bottom: 5px;">
                                 <label for="max_num_ratings" style="flex: 1;">Below</label>
-                                <input type="number" name="max_num_ratings" min="0" max="999999"> 
+                                <input id="total_ratings_below" type="number" name="max_num_ratings" min="0" max="999999"> 
                             </div>
                         </div>
 
@@ -120,11 +120,11 @@
                             <h2>Number of Postive Ratings</h2>
                             <div class='flex' style="padding-bottom: 5px;">
                                 <label for="min_num_pos_ratings" style="flex: 1;">Above</label>
-                                <input type="number" name="min_num_pos_ratings" min="0" max="999999">   
+                                <input id="pos_ratings_below" type="number" name="min_num_pos_ratings" min="0" max="999999">   
                             </div>
                             <div class="flex" style="padding-bottom: 5px;">
                                 <label for="max_num_pos_ratings" style="flex: 1;">Below</label>
-                                <input type="number" name="max_num_pos_ratings" min="0" max="999999"> 
+                                <input id="pos_ratings_below" type="number" name="max_num_pos_ratings" min="0" max="999999"> 
                             </div>
                         </div>
 
