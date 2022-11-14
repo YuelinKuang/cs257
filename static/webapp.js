@@ -238,7 +238,7 @@ function onGamesFilterChanged() {
             game_html += `
             <button class="game_item text_align_left" id="${game_id}" value="${game_id}" onclick="onGameSelected(${game_id})">
                 <div class="flex">
-                    <img class="game_img" alt="Header Image for ${game['title']}" src="${game['media']['header_image']}">
+                    <img id="header${game_id}" onclick="imgEnlarge(this.id)" class="game_img" alt="Header Image for ${game['title']}" src="${game['media']['header_image']}">
                     <p style="margin-left: 10px;"><strong>${game['title']}</strong><br>${game['description']}</p>
                 </div>
             </button>`;
@@ -279,7 +279,7 @@ function onGameSelected(game_id) {
         let game_html = `
         <button class="game_item text_align_left" id="${game_id}" value="${game_id}" onclick="onGameDeselected(${game_id})">
             <div class="flex">
-                <img class="game_img" alt="Header Image for ${game['title']}" src="${game['media']['header_image']}">
+                <img id="header${game_id}" onclick="imgEnlarge(this.id)" class="game_img" alt="Header Image for ${game['title']}" src="${game['media']['header_image']}">
                 <p style="margin-left: 10px;"><strong>${game['title']}</strong><br>${game['description']}</p>
             </div>
             <div class="flex">
@@ -314,7 +314,7 @@ function onGameSelected(game_id) {
         let images = game['media']['screenshots'];
         for (var i = 0; i < images.length && i < 6; i++) {
             var image = images[i];
-            game_html += `<img class="game_img" src="${image}">`;
+            game_html += `<img id="${game_id}+${i}" onclick="imgEnlarge(this.id)" class="game_img" src="${image}">`;
         }
         
         game_html += '</div></div></button>'
@@ -377,5 +377,24 @@ function selectOrDeselect() {
         if(inputs[i].type == "checkbox") {
             inputs[i].checked = !selected; 
         }  
+    }
+}
+
+function imgEnlarge(img_id) {
+    event.stopPropagation();
+    var modal = document.getElementById("myModal");
+
+    // Get the image and insert it inside the modal - use its "alt" text as a caption
+    var img = document.getElementById(img_id);
+    var imgEnlarged = document.getElementById("imgEnlarged");
+    modal.style.display = "block";
+    imgEnlarged.src = img.src;
+
+    // Get the <span> element that closes the modal
+    var span = document.getElementsByClassName("close")[0];
+
+    // When the user clicks on <span> (x), close the modal
+    span.onclick = function() { 
+        modal.style.display = "none";
     }
 }
