@@ -59,7 +59,7 @@ function loadGenresSelector() {
     // an HTML table displaying the author names and lifespan.
     .then(function(genres) {
         // Add the <option> elements to the <select> element
-        let selectorBody = '<option value="None">Choose a Genre!</option>\n';
+        let selectorBody = '<option value="None">Any</option>\n';
         for (let k = 0; k < genres.length; k++) {
             let genre = genres[k];
             selectorBody += '<option value="' + genre['id'] + '">' + genre['genre_name'] + '</option>\n';
@@ -91,7 +91,7 @@ function loadDevelopersSelector() {
     // an HTML table displaying the author names and lifespan.
     .then(function(developers) {
         // Add the <option> elements to the <select> element
-        let selectorBody = '<option value="None">Choose a Developer!</option>\n';
+        let selectorBody = '<option value="None">Any</option>\n';
         for (let k = 0; k < developers.length; k++) {
             let developer = developers[k];
             selectorBody += '<option value="' + developer['id'] + '">' + developer['developer_name'] + '</option>\n';
@@ -263,7 +263,7 @@ function onGamesFilterChanged() {
             game_html += `
             <button class="game_item text_align_left" id="${game_id}" value="${game_id}" onclick="onGameSelected(${game_id})">
                 <div class="flex">
-                    <img id="header${game_id}" onclick="imgEnlarge(this.id)" class="game_img" alt="Header Image for ${game['title']}" src="${game['media']['header_image']}">
+                    <img id="header${game_id}" onclick="imgEnlarge(this.id)" class="game_img" alt="Header Image for ${game['title']}" src="${game['header_image']}">
                     <p style="margin-left: 10px;"><strong>${game['title']}</strong><br>${game['description']}</p>
                 </div>
             </button>`;

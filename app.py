@@ -28,6 +28,13 @@ def show_games():
 def show_stats():
     return flask.render_template('stats_main.html')
 
+@app.route('/help/')
+def show_help():
+    f = open('doc/api-design.txt')
+    text = f.read()
+    print(text)
+    return text
+
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser('A sample Flask application demonstrating templates.')

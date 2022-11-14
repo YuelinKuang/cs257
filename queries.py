@@ -7,7 +7,7 @@ get_developers='''SELECT developer.id, developer.developer_name
                ORDER BY developer.developer_name;'''
 
 all_game_information_search='''
-SELECT game.id, game.title, game.described, game.media, developer.developer_name
+SELECT game.id, game.title, game.described, game.media
 
 FROM game, developer, publisher, category, genre, 
 game_developer, game_category, game_genre, game_publisher

@@ -24,6 +24,14 @@ def get_connection():
 
 
 
+api.route('/help/')
+def get_help():
+    f = open('doc/api-design.txt')
+    text = f.read()
+    f.close()
+    return text
+
+
 @api.route('/genres/') 
 def get_genres():
     #Returns a list of all the genres in our database
@@ -115,13 +123,13 @@ def get_games():
             game_description = row[2]
             game_media = row[3]
             if game_id not in game_ids: 
-                images = json.loads(game_media.replace("'", '"'))
-                if images['header_image'] == '':
-                    images['header_image'] = 'https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fwww.simplystamps.com%2Fmedia%2Fcatalog%2Fproduct%2F5%2F8%2F5802-n-a-stock-stamp-hcb.png&f=1&nofb=1&ipt=4c91608ffabe756cef98c89e32321f03e9ae4c3ab4a92fb4b68453801fd7cf7e&ipo=images'
+                header_image = json.loads(game_media.replace("'", '"'))['header_image']
+                if header_image == '':
+                    header_image = 'https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fwww.simplystamps.com%2Fmedia%2Fcatalog%2Fproduct%2F5%2F8%2F5802-n-a-stock-stamp-hcb.png&f=1&nofb=1&ipt=4c91608ffabe756cef98c89e32321f03e9ae4c3ab4a92fb4b68453801fd7cf7e&ipo=images'
                 game = {'id': str(game_id),
                         'title': game_title,
                         'description': game_description,
-                        'media': images}
+                        'header_image': header_image}
                 game_ids.append(game_id)
                 game_list.append(game)
             
