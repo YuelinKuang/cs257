@@ -18,18 +18,6 @@
         </div>
 
         <div style="padding-bottom: 20px;">
-            <h2>Minimum Age</h2>
-            <div class='flex' style="padding-bottom: 5px;">
-                <label for="quantity" style="flex: 1;">Above</label>
-                <input id="min_age_above" type="number" id="quantity" name="quantity" min="0" max="18">   
-            </div>
-            <div class="flex" style="padding-bottom: 5px;">
-                <label for="quantity" style="flex: 1;">Below</label>
-                <input id="min_age_below" type="number" id="quantity" name="quantity" min="0" max="18"> 
-            </div>
-        </div>
-
-        <div style="padding-bottom: 20px;">
             <h2>Available On</h2>
             <input type="checkbox" id="windows" name="system1">
             <label for="system1"> Windows</label><br>
@@ -63,7 +51,6 @@
                 <input id="percent_pos_ratings_below" type="number" name="max_num_perc_pos_ratings" min="0" max="99"> 
             </div>
         </div>
-
     </div> 
 
     <div style="flex: 1; margin-left: 20px;">
@@ -89,28 +76,14 @@
             </div>
         </div>
 
-        <div>
-            <h2>Sort By</h2>
-
-            <input id="sort_title" type="radio" name="sort_by_type" value="title">
-            <label for="sort_by_type">Title</label><br>
-            <input id="sort_date" type="radio" name="sort_by_type" value="date">
-            <label for="sort_by_type">Release Date</label><br>
-            <input id="sort_price" type="radio" name="sort_by_type" value="price"> 
-            <label for="sort_by_type">Price</label><br>
-            <input id="sort_age" type="radio" name="sort_by_type" value="age"> 
-            <label for="sort_by_type">Minimum Age</label><br>
-            <input id="sort_pos_ratings" type="radio" name="sort_by_type" value="pos_ratings"> 
-            <label for="sort_by_type">Number of Positive Ratings</label><br>
-
-            <br>
-
-            <input id="sort_asc" type="radio" name="sort_by_asc_or_desc" value="asc">
-            <label for="sort_by_asc_or_desc">Ascending</label><br>
-            <input id="sort_desc" type="radio" name="sort_by_asc_or_desc" value="desc">
-            <label for="sort_by_asc_or_desc">Descending</label>
-            
+        <div style="padding-bottom: 20px;">
+            <h2>Minimum Age</h2>
+            <div class='flex' style="padding-bottom: 5px;">
+                <label for="quantity" style="flex: 1;">Above</label>
+                <input id="min_age_above" type="number" id="quantity" name="quantity" min="0" max="18">   
+            </div>
+            <div class="flex" style="padding-bottom: 5px;">
+                <label for="quantity" style="flex: 1;">Below</label>
+                <input id="min_age_below" type="number" id="quantity" name="quantity" min="0" max="18"> 
+            </div>
         </div>
-
-    </div> 
-</div>

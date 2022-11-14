@@ -392,8 +392,24 @@ function onGameDeselected(game_id) {
 
 function onStatsFilterChanged() {
     var loading_text_html = document.getElementById('loading_stats');
+    var chart_title_html = document.getElementById('chart_title');
+    var chart_element = document.getElementById('chart');
+
     if (loading_text_html) {
         loading_text_html.innerHTML = 'Loading...';
+    } else {
+        return
+    }
+    if (chart_title_html) {
+        chart_title_html.innerHTML = '';
+    } else {
+        return
+    }
+    if (chart_element) {
+        chart_element = chart_element.getContext('2d');
+        var chart = new Chart(chart_element, {})
+        chart.destroy();
+        chart = null;
     } else {
         return
     }
@@ -514,20 +530,21 @@ function onStatsFilterChanged() {
             delete stats['OBJECTIVE_TITLE']
 
             loading_text_html.innerHTML = '';
+            chart_title_html.innerHTML = chart_title;
 
-            var chart_title_html = document.getElementById('chart_title');
-            if (chart_title_html) {
-                chart_title_html.innerHTML = chart_title;
-            } else {
-                return
-            }
+            // var sum = 0;
+            // for (value in Object.values(stats)) {
+            //     sum += value;
+            // }
 
-            var chart_element = document.getElementById('chart');
-            if (chart_element) {
-                chart_element = chart_element.getContext('2d');
-            } else {
-                return
-            }
+            // var other = 0;
+            // for (key in Object.keys(stats)) {
+            //     if (stats[key] < sum * 0.01) {
+            //         other += stats[key];
+            //     }
+            //     delete stats[key];
+            // }
+            // stats['Other'] = other;
 
             const data = {
                 labels: Object.keys(stats),
@@ -538,11 +555,16 @@ function onStatsFilterChanged() {
                     hoverOffset: 4
                 }]
             };
-            
 
             new Chart(chart_element, {
                 type: 'pie',
                 data: data,
+                options: {
+                    plugins: {
+                        tooltip: true,
+                        
+                    }
+                  }
             });
         }
     })

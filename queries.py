@@ -46,7 +46,7 @@ AND game_publisher.publisher_id = publisher.id
 AND game.id = %s
 '''
 
-statistics_after_from_statement='''
+statistics_after_sum_statement='''
 FROM game, developer, publisher, category, genre, 
 game_developer, game_category, game_genre, game_publisher
 
@@ -58,7 +58,7 @@ AND game.id = game_genre.game_id
 AND game_genre.genre_id = genre.id
 AND game.id = game_publisher.game_id
 AND game_publisher.publisher_id = publisher.id
-GROUP BY '''
+GROUP BY'''
 
 get_genre_from_genre_id = '''
 SELECT genre.genre_name

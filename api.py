@@ -22,6 +22,8 @@ def get_connection():
                             user=config.user,
                             password=config.password)
 
+
+
 @api.route('/genres/') 
 def get_genres():
     #Returns a list of all the genres in our database
@@ -68,95 +70,11 @@ def get_developers():
 def get_games():
     # Returns a list of all the games in our database, based on input parameters
 
-    query = queries.all_game_information_search
+    #get initial filters
+    result_query, query_args = add_args_to_query(flask.request.args, False)[:2]
+    query = queries.all_game_information_search + result_query
 
-    additional_arguments = []
-
-    if 'genre_id' in flask.request.args: 
-        query += ' AND genre.id = %s'
-        game_genre_id = flask.request.args.get('genre_id')
-        additional_arguments.append(str(game_genre_id))
-    if 'title' in flask.request.args:
-        query += " AND game.title ILIKE CONCAT('%%', %s, '%%')"
-        title = flask.request.args.get('title')
-        additional_arguments.append(str(title))
-    if 'min_age_above' in flask.request.args: 
-        query += ' AND game.minimum_age >= %s'
-        min_age_above = flask.request.args.get('min_age_above')
-        additional_arguments.append(str(min_age_above))
-    if 'min_age_below' in flask.request.args: 
-        query += ' AND game.minimum_age <= %s'
-        min_age_below = flask.request.args.get('min_age_below')
-        additional_arguments.append(str(min_age_below))  
-    if 'start_date' in flask.request.args: 
-        query += ' AND game.release_date >= %s'
-        start_date = flask.request.args.get('start_date')
-        additional_arguments.append(str(start_date))
-    if 'end_date' in flask.request.args: 
-        query += ' AND game.release_date <= %s'
-        end_date = flask.request.args.get('end_date')
-        additional_arguments.append(str(end_date))
-    if 'developer_id' in flask.request.args: 
-        query += ' AND developer.id = %s'
-        developer_id = flask.request.args.get('developer_id')
-        additional_arguments.append(str(developer_id))
-    if 'platforms' in flask.request.args: 
-        # "w, m, l"
-        platforms = flask.request.args.get('platforms').split(',')
-        if len(platforms) == 1: 
-            if 'w' in platforms: 
-                query += ' AND game.windows_support = true'
-            if 'm' in platforms: 
-                query += ' AND game.mac_support = true'
-            if 'l' in platforms: 
-                query += ' AND game.linux_support = true'
-        elif len(platforms) == 2: 
-            if 'w' in platforms and 'm' in platforms: 
-                query += ' AND (game.windows_support = true AND game.mac_support = true)'
-            if 'w' in platforms and 'l' in platforms: 
-                query += ' AND (game.windows_support = true AND game.linux_support = true)'
-            if 'm' in platforms and 'l' in platforms: 
-                query += ' AND (game.mac_support = true AND game.linux_support = true)'
-        elif len(platforms) == 3: 
-            query += ' AND (game.windows_support = true AND game.mac_support = true AND game.linux_support = true)'
-        else: 
-            pass
-    if 'price_above' in flask.request.args: 
-        query += ' AND game.price >= %s'
-        price_above = flask.request.args.get('price_above')
-        additional_arguments.append(str(price_above))
-    if 'price_below' in flask.request.args: 
-        query += ' AND game.price <= %s'
-        price_below = flask.request.args.get('price_below')
-        additional_arguments.append(str(price_below))
-    if 'percent_pos_ratings_above' in flask.request.args: 
-        query += ' AND (100.0 * game.pos_ratings / (game.pos_ratings + game.neg_ratings)) >= %s'
-        percent_pos_ratings_above = flask.request.args.get('percent_pos_ratings_above')
-        additional_arguments.append(str(percent_pos_ratings_above))
-    if 'percent_pos_ratings_below' in flask.request.args: 
-        query += ' AND (100.0 * game.pos_ratings / (game.pos_ratings + game.neg_ratings)) <= %s'
-        percent_pos_ratings_below = flask.request.args.get('percent_pos_ratings_below')
-        additional_arguments.append(str(percent_pos_ratings_below))
-    if 'total_ratings_above' in flask.request.args:
-        query += ' AND (game.pos_ratings + game.neg_ratings) >= %s'
-        total_ratings_above = flask.request.args.get('total_ratings_above')
-        additional_arguments.append(str(total_ratings_above))
-    if 'total_ratings_below' in flask.request.args:
-        query += ' AND (game.pos_ratings + game.neg_ratings) <= %s'
-        total_ratings_below = flask.request.args.get('total_ratings_below')
-        additional_arguments.append(str(total_ratings_below))
-    print(query)
-    # if 'neg_ratings_higher_than' in flask.request.args: 
-    #     query += ' AND game.neg_ratings >= %s'
-    #     neg_ratings_higher_than = flask.request.args.get('neg_ratings_higher_than')
-    #     additional_arguments.append(str(neg_ratings_higher_than))
-    # if 'neg_ratings_lower_than' in flask.request.args: 
-    #     query += ' AND game.neg_ratings <= %s'
-    #     neg_ratings_lower_than = flask.request.args.get('neg_ratings_lower_than')
-    #     additional_arguments.append(str(neg_ratings_lower_than))
-
-    # implementation not complete
-
+    #add order by information to query
     sort_params = flask.request.args.get('sort_by').split('-')
     sort_by = sort_params[0]
     sort_order = sort_params[1]
@@ -179,7 +97,7 @@ def get_games():
     try:
         connection = get_connection()
         cursor = connection.cursor()
-        cursor.execute(query, additional_arguments)
+        cursor.execute(query, query_args)
         
         # indices: 
         # 0 game.id, 1 game.title, 2 game.release_date, 
@@ -214,7 +132,6 @@ def get_games():
         print(e, file=sys.stderr)
 
     return json.dumps(game_list)
-
 
 @api.route('/games/specific/<game_id>') 
 def get_a_specific_game(game_id):
@@ -306,7 +223,7 @@ def get_a_specific_game(game_id):
 def get_stats():
     # Returns a chart charted the requested data, as well as a name of the chart
 
-    #setup query, what is it being sorted by
+    #set up query, what is it being sorted by
     output = flask.request.args.get('output')
     if output == 'devs': 
         output_sql_value = 'developer.developer_name'
@@ -320,127 +237,22 @@ def get_stats():
     else:
         output_sql_value = 'genre.genre_name'
         chart_title = 'Genres of Games Released'
-    query = f'SELECT {output_sql_value}, SUM(CASE WHEN 1=1'
     
-    #add relevent filers
-    additional_arguments = []
-    
-    if 'genre_id' in flask.request.args: 
-        query += ' AND genre.id = %s'
-        game_genre_id = str(flask.request.args.get('genre_id'))
-        additional_arguments.append(game_genre_id)
-        try:
-            connection = get_connection()
-            cursor = connection.cursor()
-            cursor.execute(queries.get_genre_from_genre_id, (game_genre_id, ))
-            for row in cursor:
-                genre_name = row[0]
-        except Exception as e:
-            print(e, file=sys.stderr)
-        chart_title += f', In the Genre {genre_name}' 
+    #create query and finish title
+    result_query, query_args, result_chart_title = add_args_to_query(flask.request.args, True)
+    query_sum_arg = f'SUM(CASE WHEN (1=1{result_query}) THEN 1 ELSE 0 END)'
 
-    if 'title' in flask.request.args:
-        query += " AND game.title ILIKE CONCAT('%%', %s, '%%')"
-        game_title = str(flask.request.args.get('title'))
-        additional_arguments.append(game_title)
-        chart_title += f', with "{game_title}" in Game Title' 
+    query = f'SELECT {output_sql_value}, {query_sum_arg} {queries.statistics_after_sum_statement} {output_sql_value} ORDER BY {query_sum_arg} DESC;'
+    if len(result_chart_title) > 0:
+        chart_title += result_chart_title[1:]
 
-    if 'min_age_above' in flask.request.args: 
-        query += ' AND game.minimum_age >= %s'
-        min_age_above = str(flask.request.args.get('min_age_above'))
-        additional_arguments.append(min_age_above)
-        chart_title += f', Minimum Age Above {min_age_above}' 
-
-    if 'min_age_below' in flask.request.args: 
-        query += ' AND game.minimum_age <= %s'
-        min_age_below = str(flask.request.args.get('min_age_below'))
-        additional_arguments.append(min_age_below)
-        chart_title += f', Minimum Age Below {min_age_below}' 
-
-    if 'start_date' in flask.request.args: 
-        query += ' AND game.release_date >= %s'
-        start_date = str(flask.request.args.get('start_date'))
-        additional_arguments.append(start_date)
-        chart_title += f', Released Before {start_date}' 
-
-    if 'end_date' in flask.request.args: 
-        query += ' AND game.release_date <= %s'
-        end_date = str(flask.request.args.get('end_date'))
-        additional_arguments.append(end_date)
-        chart_title += f', Released After {end_date}' 
-
-    if 'developer_id' in flask.request.args: 
-        query += ' AND developer.id = %s'
-        developer_id = flask.request.args.get('developer_id')
-        additional_arguments.append(str(developer_id))
-        try:
-            connection = get_connection()
-            cursor = connection.cursor()
-            cursor.execute(queries.get_developer_from_developer_id, (developer_id, ))
-            for row in cursor:
-                developer_name = row[0]
-        except Exception as e:
-            print(e, file=sys.stderr)
-        chart_title += f', Developed by {developer_name}' 
-
-    if 'platforms' in flask.request.args: 
-        # "w, m, l"
-        platforms = flask.request.args.get('platforms').split(',')
-        if 'w' in platforms: 
-            query += ' AND game.windows_support = true'
-            chart_title += ', with Windows Support' 
-        if 'm' in platforms: 
-            query += ' AND game.mac_support = true'
-            chart_title += ', with Mac Support' 
-        if 'l' in platforms: 
-            query += ' AND game.linux_support = true'
-            chart_title += ', with Linux Support' 
-
-    if 'price_above' in flask.request.args: 
-        query += ' AND game.price >= %s'
-        price_above = str(flask.request.args.get('price_above'))
-        additional_arguments.append(price_above)
-        chart_title += f', Costing Above ${price_above}' 
-
-    if 'price_below' in flask.request.args: 
-        query += ' AND game.price <= %s'
-        price_below = flask.request.args.get('price_below')
-        additional_arguments.append(str(price_below))
-        chart_title += f', Costing Below ${price_below}' 
-
-    if 'percent_pos_ratings_above' in flask.request.args: 
-        query += ' AND (100.0 * game.pos_ratings / (game.pos_ratings + game.neg_ratings)) >= %s'
-        percent_pos_ratings_above = str(flask.request.args.get('percent_pos_ratings_above'))
-        additional_arguments.append(percent_pos_ratings_above)
-        chart_title += f', With at Least {percent_pos_ratings_above}% Positive Ratings' 
-
-    if 'percent_pos_ratings_below' in flask.request.args: 
-        query += ' AND (100.0 * game.pos_ratings / (game.pos_ratings + game.neg_ratings)) <= %s'
-        percent_pos_ratings_below = str(flask.request.args.get('percent_pos_ratings_below'))
-        additional_arguments.append(percent_pos_ratings_below)
-        chart_title += f', With at Most {percent_pos_ratings_below}% Positive Ratings' 
-
-    if 'total_ratings_above' in flask.request.args:
-        query += ' AND (game.pos_ratings + game.neg_ratings) >= %s'
-        total_ratings_above = str(flask.request.args.get('total_ratings_above'))
-        additional_arguments.append(total_ratings_above)
-        chart_title += f', With at Least {percent_pos_ratings_below} Ratings' 
-
-    if 'total_ratings_below' in flask.request.args:
-        query += ' AND (game.pos_ratings + game.neg_ratings) <= %s'
-        total_ratings_below = str(flask.request.args.get('total_ratings_below'))
-        additional_arguments.append(total_ratings_below)
-        chart_title += f', With at Most {percent_pos_ratings_below} Ratings' 
-    
-    #finish query
-    query += f' THEN 1 ELSE 0 END) {queries.statistics_after_from_statement}{output_sql_value};'
-
+    #get results
     results = {}
 
     try:
         connection = get_connection()
         cursor = connection.cursor()
-        cursor.execute(query, tuple(additional_arguments))
+        cursor.execute(query, tuple(query_args + query_args))
 
         results['OBJECTIVE_TITLE'] = chart_title
         for row in cursor: 
@@ -454,3 +266,122 @@ def get_stats():
 
     return json.dumps(results)
 
+
+
+def add_args_to_query(args, get_genre_dev_name = False):
+    query = ''
+    query_args = []
+    chart_title = ''
+
+    if 'title' in args:
+        game_title = str(args.get('title'))
+        query_args.append(game_title)
+        query += " AND game.title ILIKE CONCAT('%%', %s, '%%')"
+        chart_title += f', with "{game_title}" in Game Title' 
+
+    if 'min_age_above' in args: 
+        min_age_above = str(args.get('min_age_above'))
+        query_args.append(min_age_above)
+        query += ' AND game.minimum_age >= %s'
+        chart_title += f', Minimum Age Above {min_age_above}' 
+
+    if 'min_age_below' in args: 
+        min_age_below = str(args.get('min_age_below'))
+        query_args.append(min_age_below)
+        query += ' AND game.minimum_age <= %s'
+        chart_title += f', Minimum Age Below {min_age_below}' 
+
+    if 'start_date' in args: 
+        start_date = str(args.get('start_date'))
+        query_args.append(start_date)
+        query += ' AND game.release_date >= %s'
+        chart_title += f', Released Before {start_date}' 
+
+    if 'end_date' in args: 
+        end_date = str(args.get('end_date'))
+        query_args.append(end_date)
+        query += ' AND game.release_date <= %s'
+        chart_title += f', Released After {end_date}' 
+
+    if 'platforms' in args: 
+        # "w, m, l"
+        platforms = args.get('platforms').split(',')
+        if 'w' in platforms: 
+            query += ' AND game.windows_support = true'
+            chart_title += ', with Windows Support' 
+        if 'm' in platforms: 
+            query += ' AND game.mac_support = true'
+            chart_title += ', with Mac Support' 
+        if 'l' in platforms: 
+            query += ' AND game.linux_support = true'
+            chart_title += ', with Linux Support' 
+
+    if 'price_above' in args: 
+        price_above = str(args.get('price_above'))
+        query_args.append(price_above)
+        query += ' AND game.price >= %s'
+        chart_title += f', Costing Above ${price_above}' 
+
+    if 'price_below' in args: 
+        price_below = str(args.get('price_below'))
+        query_args.append(price_below)
+        query += ' AND game.price <= %s'
+        chart_title += f', Costing Below ${price_below}' 
+
+    if 'percent_pos_ratings_above' in args: 
+        percent_pos_ratings_above = str(args.get('percent_pos_ratings_above'))
+        query_args.append(percent_pos_ratings_above)
+        query += ' AND (100.0 * game.pos_ratings / (game.pos_ratings + game.neg_ratings)) >= %s'
+        chart_title += f', With at Least {percent_pos_ratings_above}% Positive Ratings' 
+
+    if 'percent_pos_ratings_below' in args: 
+        percent_pos_ratings_below = str(args.get('percent_pos_ratings_below'))
+        query_args.append(percent_pos_ratings_below)
+        query += ' AND (100.0 * game.pos_ratings / (game.pos_ratings + game.neg_ratings)) <= %s'
+        chart_title += f', With at Most {percent_pos_ratings_below}% Positive Ratings' 
+
+    if 'total_ratings_above' in args:
+        total_ratings_above = str(args.get('total_ratings_above'))
+        query_args.append(total_ratings_above)
+        query += ' AND (game.pos_ratings + game.neg_ratings) >= %s'
+        chart_title += f', With at Least {percent_pos_ratings_below} Ratings' 
+
+    if 'total_ratings_below' in args:
+        total_ratings_below = str(args.get('total_ratings_below'))
+        query_args.append(total_ratings_below)
+        query += ' AND (game.pos_ratings + game.neg_ratings) <= %s'
+        chart_title += f', With at Most {percent_pos_ratings_below} Ratings' 
+
+    if 'genre_id' in args: 
+        genre_id = str(args.get('genre_id'))
+        query_args.append(genre_id)
+        query += ' AND genre.id = %s'
+        
+        if get_genre_dev_name:
+            try:
+                connection = get_connection()
+                cursor = connection.cursor()
+                cursor.execute(queries.get_genre_from_genre_id, (genre_id, ))
+                for row in cursor:
+                    genre_name = row[0]
+            except Exception as e:
+                print(e, file=sys.stderr)
+            chart_title += f', Developed by {genre_name}' 
+
+    if 'developer_id' in args: 
+        developer_id = str(args.get('developer_id'))
+        query_args.append(developer_id)
+        query += ' AND developer.id = %s'
+        
+        if get_genre_dev_name:
+            try:
+                connection = get_connection()
+                cursor = connection.cursor()
+                cursor.execute(queries.get_developer_from_developer_id, (developer_id, ))
+                for row in cursor:
+                    developer_name = row[0]
+            except Exception as e:
+                print(e, file=sys.stderr)
+            chart_title += f', Developed by {developer_name}' 
+
+    return query, query_args, chart_title
