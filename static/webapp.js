@@ -11,10 +11,28 @@ function initialize() {
     loadGenresSelector();
     loadDevelopersSelector();
 
-    let element = document.getElementById('search_button');
-    if (element) {
-        element.onclick = onGamesFilterChanged;
+    let games_search_button = document.getElementById('games_search_button');
+    if (games_search_button) {
+        games_search_button.onclick = onGamesFilterChanged;
     }
+
+    let stats_search_button = document.getElementById('stats_search_button');
+    if (stats_search_button) {
+        stats_search_button.onclick = onStatsFilterChanged;
+    }
+}
+
+
+//function from https://stackoverflow.com/questions/28828915/how-set-color-family-to-pie-chart-in-chart-js
+function getColors(length) {
+    let pallet = ["#0074D9", "#FF4136", "#2ECC40", "#FF851B", "#7FDBFF", "#B10DC9", "#FFDC00", "#001f3f", "#39CCCC", "#01FF70", "#85144b", "#F012BE", "#3D9970", "#111111", "#AAAAAA"];
+    let colors = [];
+
+    for (let i = 0; i < length; i++) {
+        colors.push(pallet[i % (pallet.length - 1)]);
+    }
+
+    return colors;
 }
 
 // Returns the base URL of the API, onto which endpoint
@@ -204,14 +222,14 @@ function onGamesFilterChanged() {
     if (price_below != '') {
         url += '&price_below=' + price_below; 
     }
-
-    let pos_ratings_above = document.getElementById('pos_ratings_above').value;
-    let pos_ratings_below = document.getElementById('pos_ratings_below').value;
-    if (pos_ratings_above != '') {
-        url += '&pos_ratings_above=' + pos_ratings_above;  
+    console.log(url)
+    let percent_pos_ratings_above = document.getElementById('percent_pos_ratings_above').value;
+    let percent_pos_ratings_below = document.getElementById('percent_pos_ratings_below').value;
+    if (percent_pos_ratings_above != '') {
+        url += '&percent_pos_ratings_above=' + percent_pos_ratings_above;  
     }
-    if (pos_ratings_below != '') {
-        url += '&pos_ratings_below=' + pos_ratings_below;
+    if (percent_pos_ratings_below != '') {
+        url += '&percent_pos_ratings_below=' + percent_pos_ratings_below;
     }
 
     let total_ratings_above = document.getElementById('total_ratings_above').value;
@@ -361,6 +379,169 @@ function onGameDeselected(game_id) {
     });
 }
 
+
+
+function onStatsFilterChanged() {
+    var loading_text_html = document.getElementById('loading');
+    if (loading_text_html) {
+        loading_text_html.innerHTML = 'Loading...';
+    } else {
+        return
+    }
+
+    let url = getAPIBaseURL() + '/stats/?';
+
+    let output = ''
+    if (document.getElementById('output_devs').checked) {
+        output = 'devs'
+    } else if (document.getElementById('output_dates').checked) {
+        output = 'dates'
+    } else if (document.getElementById('output_ratings').checked) {
+        output = 'ratings'
+    } else {
+        output = 'genres'
+    }
+    url += 'output=' + output
+
+    let genre_selector = document.getElementById('genre_selector');
+    let genreID = genre_selector.value;
+    if (genreID != 'None') {
+        url += '&genre_id=' + genreID; 
+    }
+
+
+    let title_input = document.getElementById('title_search').value;
+    if (title_input != '') {
+        url += '&title=' + title_input;   
+    }
+
+
+    let min_age_above = document.getElementById('min_age_above').value;
+    let min_age_below = document.getElementById('min_age_below').value;
+    if (min_age_above != 0 && min_age_above != '') {
+        url += '&min_age_above=' + min_age_above;   
+    } if (min_age_below != 18 && min_age_below != '') {
+        url += '&min_age_below=' + min_age_below;   
+    }
+
+
+    let start_date = document.getElementById('start_date').value;
+    let end_date = document.getElementById('end_date').value;
+    if (start_date != '') {
+        url += '&start_date=' + start_date;
+    } if (end_date != '') {
+        url += '&end_date=' + end_date;
+    }
+
+
+    let developerID = document.getElementById('developer_selector').value;
+    if (developerID != 'None') {
+            url += '&developer_id=' + developerID;  
+    }
+
+
+    let windows = document.getElementById('windows').checked;
+    if (windows == false) {
+        windows = '';
+    } else {
+        windows = 'w'
+    }
+    let mac = document.getElementById('mac').checked;
+    if (mac == false) {
+        mac = '';
+    } else {
+        mac = 'm'
+    }
+    let linux = document.getElementById('linux').checked;
+    if (linux == false) {
+        linux = '';
+    } else {
+        linux = 'l'
+    }
+
+    let platforms = new Array(windows, mac, linux)
+    platforms = platforms.filter(empty_string => {
+        return empty_string !== '';
+    });
+    if (platforms.length != 0) {
+        platforms = platforms.toString();
+        url += '&platforms=' + platforms;
+    }
+    
+
+    let price_above = document.getElementById('price_above').value;
+    let price_below = document.getElementById('price_below').value;
+    if (price_above != '') {
+        url += '&price_above=' + price_above;
+    } if (price_below != '') {
+        url += '&price_below=' + price_below; 
+    }
+
+    let percent_pos_ratings_above = document.getElementById('percent_pos_ratings_above').value;
+    let percent_pos_ratings_below = document.getElementById('percent_pos_ratings_below').value;
+    if (percent_pos_ratings_above != '') {
+        url += '&percent_pos_ratings_above=' + percent_pos_ratings_above;  
+    } if (percent_pos_ratings_below != '') {
+        url += '&percent_pos_ratings_below=' + percent_pos_ratings_below;
+    }
+
+    let total_ratings_above = document.getElementById('total_ratings_above').value;
+    let total_ratings_below = document.getElementById('total_ratings_below').value;
+    if (total_ratings_above != '') {
+        url += '&total_ratings_above=' + total_ratings_above;  
+    } if (total_ratings_below != '') {
+        url += '&total_ratings_below=' + total_ratings_below;
+    }
+
+    fetch(url, {method: 'get'})
+
+    .then((response) => response.json())
+
+    .then(function(stats) {
+        if (stats.length == 1) {
+            loading_text_html = 'No data found!';
+        } else {
+            const chart_title = stats['OBJECTIVE_TITLE'];
+            delete stats['OBJECTIVE_TITLE']
+
+            loading_text_html.innerHTML = '';
+
+            var chart_title_html = document.getElementById('chart_title');
+            if (chart_title_html) {
+                chart_title_html.innerHTML = chart_title;
+            } else {
+                return
+            }
+
+            var chart_element = document.getElementById('chart');
+            if (chart_element) {
+                chart_element = chart_element.getContext('2d');
+            } else {
+                return
+            }
+
+            const data = {
+                labels: Object.keys(stats),
+                datasets: [{
+                    label: chart_title,
+                    data: Object.values(stats),
+                    backgroundColor: getColors(Object.values(stats).length),
+                    hoverOffset: 4
+                }]
+            };
+            
+
+            new Chart(chart_element, {
+                type: 'pie',
+                data: data,
+            });
+        }
+    })
+    .catch(function(error) {
+        console.log(error);
+    });
+}
+
 function selectOrDeselect() {
     var inputs = document.getElementsByTagName("input");
 
@@ -382,7 +563,7 @@ function selectOrDeselect() {
 
 function imgEnlarge(img_id) {
     event.stopPropagation();
-    var modal = document.getElementById("myModal");
+    var modal = document.getElementById("imgModal");
 
     // Get the image and insert it inside the modal - use its "alt" text as a caption
     var img = document.getElementById(img_id);

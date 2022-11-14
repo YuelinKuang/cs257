@@ -16,7 +16,6 @@ body {
 #title_box {
     text-align: center;
     color: beige;
-    margin-bottom: 30px;
 }
 
 #games_search_container {
@@ -31,6 +30,16 @@ body {
 #search_container {
     flex: 1; 
     margin-left: 20px;
+}
+
+#chart_container {
+    flex: 4; 
+    text-align: center;
+}
+
+#stats_search_button, #games_search_button {
+    text-align: center; 
+    margin-top: 50px;
 }
 
 
@@ -210,8 +219,7 @@ img:hover {
     transition: 0.3s;
   }
   
-  .close:hover,
-  .close:focus {
+  .close:hover, .close:focus {
     color:  rgb(245, 223, 223);
     text-decoration: none;
     cursor: pointer;

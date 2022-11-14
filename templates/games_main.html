@@ -19,133 +19,17 @@
         <div id="search_container">
             <div class="border" style="padding: 20px;">
                 <div>
-                    <h1>Search{{title}}</h1>
+                    <h1>Search</h1>
                 </div>
 
-                <div id="myModal" class="modal">
+                <div id="imgModal" class="modal">
                     <span class="close">&times;</span>
                     <img class="modal-content" id="imgEnlarged">
                 </div>
 
-                <div class="flex">
-                    <label for="game_name" style="flex:1; text-align: center;">Name</label>
-                    <input id="title_search" style="flex:3;" type="text" name="game_name" class="form-control" placeholder="Name">
-                </div>
+                {% include 'search_options.html' %}
 
-                <div class="flex">
-                    <div style="flex: 1; margin-right: 20px;">
-                        <div style="padding-bottom: 20px;">
-                            <h2>Release Date</h2>
-                            <div class='flex' style="padding-bottom: 5px;">
-                                <label for="start_date" style="flex: 1;">After</label>
-                                <input id="start_date" style="flex: 1;" type="date" name="start_date" class="form-control" placeholder="mm/dd/yy">
-                            </div>
-                            <div class="flex" style="padding-bottom: 5px;">
-                                <label for="end_date" style="flex: 1;">Before</label>
-                                <input id="end_date" style="flex: 1;" type="date" name="end_date" class="form-control" placeholder="mm/dd/yy">
-                            </div>
-                        </div>
-
-                        <div style="padding-bottom: 20px;">
-                            <h2>Minimum Age</h2>
-                            <div class='flex' style="padding-bottom: 5px;">
-                                <label for="quantity" style="flex: 1;">Above</label>
-                                <input id="min_age_above" type="number" id="quantity" name="quantity" min="0" max="18">   
-                            </div>
-                            <div class="flex" style="padding-bottom: 5px;">
-                                <label for="quantity" style="flex: 1;">Below</label>
-                                <input id="min_age_below" type="number" id="quantity" name="quantity" min="0" max="18"> 
-                            </div>
-                        </div>
-
-                        <div style="padding-bottom: 20px;">
-                            <h2>Available On</h2>
-                            <input type="checkbox" id="windows" name="system1">
-                            <label for="system1"> Windows</label><br>
-                            <input type="checkbox" id="mac" name="system2">
-                            <label for="system2"> Mac</label><br>
-                            <input type="checkbox" id="linux" name="system3">
-                            <label for="system3"> Linux</label><br>
-                            <button onclick="selectOrDeselect()">Select/Deselect All</button>
-                        </div>
-
-                        <div>
-                            <h2>Sort By</h2>
-
-                            <input id="sort_title" type="radio" name="sort_by_type" value="title">
-                            <label for="sort_by_type">Title</label><br>
-                            <input id="sort_date" type="radio" name="sort_by_type" value="date">
-                            <label for="sort_by_type">Release Date</label><br>
-                            <input id="sort_price" type="radio" name="sort_by_type" value="price"> 
-                            <label for="sort_by_type">Price</label><br>
-                            <input id="sort_age" type="radio" name="sort_by_type" value="age"> 
-                            <label for="sort_by_type">Minimum Age</label><br>
-                            <input id="sort_pos_ratings" type="radio" name="sort_by_type" value="pos_ratings"> 
-                            <label for="sort_by_type">Number of Positive Ratings</label><br>
-
-                            <br>
-
-                            <input id="sort_asc" type="radio" name="sort_by_asc_or_desc" value="asc">
-                            <label for="sort_by_asc_or_desc">Ascending</label><br>
-                            <input id="sort_desc" type="radio" name="sort_by_asc_or_desc" value="desc">
-                            <label for="sort_by_asc_or_desc">Descending</label>
-                            
-                        </div>
-                    </div> 
-
-                    <div style="flex: 1; margin-left: 20px;">
-                        <div style="padding-bottom: 20px;">
-                            <h2>Developer</h2>
-                            <select id="developer_selector" style="width: 100%;"></select>
-                        </div>
-
-                        <div style="padding-bottom: 20px;">
-                            <h2>Genre</h2>
-                            <select id="genre_selector"></select>
-                        </div>
-
-                        <div style="padding-bottom: 20px;">
-                            <h2>Price</h2>
-                            <div class='flex' style="padding-bottom: 5px;">
-                                <label for="min_price" style="flex: 1;">Above</label>
-                                <input id="price_above" type="number" name="min_price" min="0" max="999999">   
-                            </div>
-                            <div class="flex" style="padding-bottom: 5px;">
-                                <label for="max_price" style="flex: 1;">Below</label>
-                                <input id="price_below" type="number" name="max_price" min="0" max="999999"> 
-                            </div>
-                        </div>
-
-                        <div style="padding-bottom: 20px;">
-                            <h2>Number of Ratings</h2>
-                            <div class='flex' style="padding-bottom: 5px;">
-                                <label for="min_num_ratings" style="flex: 1;">Above</label>
-                                <input id="total_ratings_above" type="number" name="min_num_ratings" min="0" max="999999">   
-                            </div>
-                            <div class="flex" style="padding-bottom: 5px;">
-                                <label for="max_num_ratings" style="flex: 1;">Below</label>
-                                <input id="total_ratings_below" type="number" name="max_num_ratings" min="0" max="999999"> 
-                            </div>
-                        </div>
-
-                        <div style="padding-bottom: 20px;">
-                            <h2>Number of Postive Ratings</h2>
-                            <div class='flex' style="padding-bottom: 5px;">
-                                <label for="min_num_pos_ratings" style="flex: 1;">Above</label>
-                                <input id="pos_ratings_above" type="number" name="min_num_pos_ratings" min="0" max="999999">   
-                            </div>
-                            <div class="flex" style="padding-bottom: 5px;">
-                                <label for="max_num_pos_ratings" style="flex: 1;">Below</label>
-                                <input id="pos_ratings_below" type="number" name="max_num_pos_ratings" min="0" max="999999"> 
-                            </div>
-                        </div>
-
-                    </div> 
-                </div>
-
-                <div style="text-align: center;">
-                    <button id="search_button" class="button">Search</button> 
-                </div> 
+                <button id="games_search_button" class="button">Search</button> 
             </div>
         </div>
     </div>
