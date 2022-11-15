@@ -317,13 +317,13 @@ def add_args_to_query(args, get_genre_dev_name = False):
         start_date = str(args.get('start_date'))
         query_args.append(start_date)
         query += ' AND game.release_date >= %s'
-        chart_title += f', Released Before {start_date}' 
+        chart_title += f', Released After {start_date}' 
 
     if 'end_date' in args: 
         end_date = str(args.get('end_date'))
         query_args.append(end_date)
         query += ' AND game.release_date <= %s'
-        chart_title += f', Released After {end_date}' 
+        chart_title += f', Released Before {end_date}' 
 
     if 'platforms' in args: 
         # "w, m, l"
