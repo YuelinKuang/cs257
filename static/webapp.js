@@ -110,14 +110,19 @@ function loadDevelopersSelector() {
 }
 
 function onGamesFilterChanged() {
+    var games_container = document.getElementById('games_container');
+    if (games_container) {
+        games_container.innerHTML = '';
+    } else {
+        return; 
+    }
+
     var loading_text_html = document.getElementById('loading_games');
     if (loading_text_html) {
         loading_text_html.style.display = 'inline';
-    } else {
-        return
     }
 
-    let url = getAPIBaseURL() + '/games/?';
+    let url = getAPIBaseURL() + '/games?';
 
     let sort_by = ''
     if (document.getElementById('sort_title').checked) {
@@ -270,11 +275,7 @@ function onGamesFilterChanged() {
         }
 
         loading_text_html.style.display = 'none';
-    
-        var games_container = document.getElementById('games_container');
-        if (games_container) {
-            games_container.innerHTML = game_html;
-        }
+        games_container.innerHTML = game_html;
     })
 
     .catch(function(error) {
@@ -414,7 +415,7 @@ function onStatsFilterChanged() {
         return
     }
 
-    let url = getAPIBaseURL() + '/stats/?';
+    let url = getAPIBaseURL() + '/stats?';
 
     let output = ''
     if (document.getElementById('output_devs').checked) {

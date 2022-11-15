@@ -13,3 +13,4 @@ FEATURES NOT YET WORKING:
 - ability to click on game name to go to game website
 - ability to get histograms of game data using a variety of filters
 - add additional developers and genres in search, so that they can select more than one at a time
+- display random header images of games on the main page

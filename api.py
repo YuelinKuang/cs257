@@ -24,13 +24,12 @@ def get_connection():
 
 
 
-api.route('/help/')
+@api.route('/help/')
 def get_help():
-    f = open('doc/api-design.txt')
+    f = open('doc/api-design.txt','r')
     text = f.read()
     f.close()
     return text
-
 
 @api.route('/genres/') 
 def get_genres():
@@ -74,7 +73,7 @@ def get_developers():
 
     return json.dumps(developers_list)
 
-@api.route('/games/') 
+@api.route('/games') 
 def get_games():
     # Returns a list of all the games in our database, based on input parameters
 
@@ -227,7 +226,7 @@ def get_a_specific_game(game_id):
 
 
 
-@api.route('/stats/') 
+@api.route('/stats') 
 def get_stats():
     # Returns a chart charted the requested data, as well as a name of the chart
 

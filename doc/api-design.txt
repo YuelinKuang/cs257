@@ -1,12 +1,58 @@
 ﻿Written by Yuelin Kuang and Lucie Wolf
 API design for the webapp project
 Nov 6, 2022
+Revised on Nov 14, 2022
+
+
+REQUEST: /help 
+RESPONSE: this text file, api-design.txt
+
+
+
+REQUEST: /genres/
+RESPONSE: a list of dictionaries, each of which represents a genre, sorted alphabetically
+        by genre name. Each dictionary will have the following fields. 
+
+        id - (TEXT) the id for the genre as stored in our database
+
+        genre_name - (TEXT) the name of the genre
+EXAMPLE: 
+        /genres/
+
+        [{"id": 26, "genre_name": "Accounting"}, {"id": 0, "genre_name": "Action"}, 
+        {"id": 3, "genre_name": "Adventure"}, {"id": 6, "genre_name": "Animation & Modeling"}, 
+        {"id": 23, "genre_name": "Audio Production"}, {"id": 8, "genre_name": "Casual"}, 
+        {"id": 18, "genre_name": "Design & Illustration"}, {"id": 27, "genre_name": "Documentary"}, 
+        {"id": 15, "genre_name": "Early Access"}, {"id": 20, "genre_name": "Education"}, 
+        {"id": 1, "genre_name": "Free to Play"}, {"id": 24, "genre_name": "Game Development"}, 
+        {"id": 16, "genre_name": "Gore"}, {"id": 4, "genre_name": "Indie"}, 
+        {"id": 12, "genre_name": "Massively Multiplayer"}, {"id": 13, "genre_name": "Nudity"}, 
+        {"id": 25, "genre_name": "Photo Editing"}, {"id": 5, "genre_name": "RPG"}, 
+        {"id": 10, "genre_name": "Racing"}, {"id": 22, "genre_name": "Sexual Content"}, 
+        {"id": 9, "genre_name": "Simulation"}, {"id": 21, "genre_name": "Software Training"}, 
+        {"id": 14, "genre_name": "Sports"}, {"id": 2, "genre_name": "Strategy"}, 
+        {"id": 28, "genre_name": "Tutorial"}, {"id": 17, "genre_name": "Utilities"}, 
+        {"id": 7, "genre_name": "Video Production"}, {"id": 11, "genre_name": "Violent"}, 
+        {"id": 19, "genre_name": "Web Publishing"}]
+
+
+
+REQUEST: /developers/
+RESPONSE: a list of dictionaries, each of which represents a developer. Each dictionary will 
+        have the following fields. 
+
+        id - (TEXT) the id for the developer as stored in our database
+
+        developer_name - (TEXT) the name of the developer
+
+EXAMPLE: 
+        /developers/
+
+        [{'id': '9343', 'developer_name': '"Ellie"'}, {'id': '17372', 'developer_name': '#workshop'}, ...]
 
 
 
 REQUEST: /games
-
-
 GET parameters
         title (optional) - return only games whose titles contain search_text, 
                 case-insensitively
@@ -52,7 +98,6 @@ GET parameters
         total_ratings_below (optional) - return only games with at most total_ratings_below
                 ratings, inclusive
 
-
 RESPONSE: a JSON list of dictionaries, each of which represents one game, sorted alphabetically 
         by game title by default, or by release date or minimum age upon request. Each 
         dictionary in this list will have the following fields.
@@ -63,123 +108,153 @@ RESPONSE: a JSON list of dictionaries, each of which represents one game, sorted
 
         description - (TEXT) the description of the game
 
-        header_image - (DICTIONARY) the dictionary of images, which field "header_image", 
-                "background", and "screenshots", with "screenshots" as a list
-
-
+        header_image - (TEXT) the link to the header image of the game
 
 EXAMPLE:
-    /games?search_text=rag&platform=[windows]&developer=[“Mark Healey”]&sort_by=“minimum_age_a”
+        /games?sort_by=title-asc&developer_id=3
 
-       [{"title": "Rag Doll Kung Fu", 
-         "description": "Featuring a wide collection of single and multiplayer games, 
-         either online or with multiple mice, Rag Doll Kung Fu provides players with 
-         one of the most creative and unique game experiences delivered in years. 
-         Additionally, between those game rounds, the challenges of an aspiring Kung 
-         Fu master are revealed via outlandish cut scenes inspired by classic Kung Fu 
-         cinema.", 
-         "links_to_images": [“https://steamcdn-a.akamaihd.net/steam/apps/1002/header.jpg?t=1447350828”, 
-         “'https://steamcdn-a.akamaihd.net/steam/apps/1002/0000000205.600x338.jpg?t=1447350828”, 
-         “https://steamcdn-a.akamaihd.net/steam/apps/1002/page_bg_generated_v6b.jpg?t=1447350828”], 
-         "developers": “Mark Healey”, “publisher”: “Mark Healey”, “release_date”: “2005/10/12”, 
-         “minimum_age”: 0, “english_support”: True, “genres”: [“Indie”], “categories”: [“Single-player”, “Multi-player”], 
-         “website”: “http://www.ragdollkungfu.com/”}]
-       
+       [{"id": "1002", "title": "Rag Doll Kung Fu", "description": "Featuring a wide collection of 
+        single and multiplayer games, either online or with multiple mice, Rag Doll Kung Fu provides 
+        players with one of the most creative and unique game experiences delivered in years.", 
+        "header_image": "https://steamcdn-a.akamaihd.net/steam/apps/1002/header.jpg?t=1447350828"}]
 
 
-REQUEST: /stats/developers
+
+REQUEST: /games/specific/<game_id>
+RESPONSE: a JSON dictionary that represents the game with the game_id. The dictionary will
+        have the following fields. 
+
+        title - (TEXT) the title of the game
+
+        release_date - (TEXT) the release date of the game as stored in our database
+
+        english_support - (BOOLEAN) True or False, representing whether or not the game 
+                supports English
+
+        windows_support - (BOOLEAN) True or False, representing whether or not the game
+                supports Windows platform
+
+        mac_support - (BOOLEAN) True or False, representing whether or not the game
+                supports Mac platform
+
+        linux_support - (BOOLEAN) True or False, representing whether or not the game
+                supports Linux platform
+
+        minimum_age - (INTEGER) the minimum age required to play the game
+
+        pos_ratings - (INTEGER) the numer of positive ratings the game received
+
+        neg_ratings - (INTEGER) the numer of negative ratings the game received
+
+        price - (FLOAT) the price of the game
+
+        description - (TEXT) the description of the game
+
+        website - (TEXT) the link to the website of the game
+
+        media - (DICTIONARY) a JSON dictionaries with the fields 'header_image', 'background', 
+                and 'screenshots'
+
+        developers - (TEXT) the name(s) of the develoepr(s) of the game
+
+        publishers - (TEXT) the name(s) of the publisher(s) of the game
+
+        categories - (TEXT) the categories that the game belongs to
+
+        genres - (TEXT) the genre(s) of the game
+
+EXAMPLE: 
+        /games/specific/15000
+
+        {"title": "Tom Clancy's Rainbow Six Lockdown\u2122", "release_date": "2009-08-27", 
+         "english_support": true, "windows_support": true, "mac_support": false, "linux_support": false, 
+         "minimum_age": 0, "pos_ratings": 80, "neg_ratings": 79, "price": 4.29, 
+         "description": "Engineered specifically for the PC by Red Storm Entertainment, Rainbow Six 
+         returns to deliver the tensest close-quarters battles ever experienced online. In this episode, 
+         Rainbow faces independent terrorist threats, tied together by one common element - the Legion virus.", 
+         "website": "N/A", "media": {"header_image": "https://steamcdn-a.akamaihd.net/steam/apps/15000/header.jpg?t=1447351287", 
+         "background": "https://steamcdn-a.akamaihd.net/steam/apps/15000/page_bg_generated_v6b.jpg?t=1447351287", 
+         "screenshots": ["https://steamcdn-a.akamaihd.net/steam/apps/15000/0000003969.1920x1080.jpg?t=1447351287", 
+         "https://steamcdn-a.akamaihd.net/steam/apps/15000/0000003970.1920x1080.jpg?t=1447351287", 
+         "https://steamcdn-a.akamaihd.net/steam/apps/15000/0000003971.1920x1080.jpg?t=1447351287", 
+         "https://steamcdn-a.akamaihd.net/steam/apps/15000/0000003972.1920x1080.jpg?t=1447351287", 
+         "https://steamcdn-a.akamaihd.net/steam/apps/15000/0000003973.1920x1080.jpg?t=1447351287", 
+         "https://steamcdn-a.akamaihd.net/steam/apps/15000/0000003974.1920x1080.jpg?t=1447351287"]}, 
+         "developers": "Red Storm Entertainment", "publishers": "Ubisoft", 
+         "categories": "Single-player, Multi-player", "genres": "Action"}
 
 
+
+REQUEST: /stats
 GET parameters
-        developer (Optional, default: any) - return only games developed by any of the developers in 
-                the list developer, or any developers at all if developers = any
+        title (optional) - return only games whose titles contain search_text, 
+                case-insensitively
 
-        start_date (Optional, default: -infinity) - return only games released on or after start_date
-
-        end_date (Optional, default: infinity) - return only games released on or before end_date
-
-        genre (optional, default: any) - return only games in at least one of the specified genres in the list genre
-
-        min_age_above (Optional, default: 0) - return only games with a minimum age above or equal to min_age_above
+        min_age_above (optional) - return only games with a minimum age above min_age_below,
+                inclusive
     
-        min_age_below (Optional, default: 18) - return only games with a minimum age below or equal to min_age_below
+        min_age_below (optional) - return only games with a minimum age below min_age_below,
+                inclusive
 
+        price_above (optional) - return only games with a price above min_price, inclusive
 
-RESPONSE: a JSON dictionary having the following fields. 
+        price_below (optional) - return only games with a price below min_price, inclusive
 
-                graph_title - (TEXT) the title of graph
+        start_date (optional) - return only games released after start_date, inclusive
 
-                link_to_graph - (TEXT) a link to the image that displays the graph
+        end_date (optional) - return only games released before end_date, inclusive
 
+        developer_id (optional, default: any) - return only games developed by any of the 
+                developers whose id is in the list developer, or any developers at all if 
+                developers = any
 
-EXAMPLE:
-    /stats/developers?genre=[“Action”, “Strategy”]&developer=[“Gearbox Software”, “Valve”]
+        platforms (optional, default: [w, m, l]) - return only games available on at least 
+                on of the platforms in the list platform
 
-       {“graph_title”: “Percentage of games developed by Gearbox Software and/or Valve in genres Action and/or Strategy”, 
-       “link_to_graph”: “graph.png”}
+        genre_id (optional, default: any) - return only games in the genres of any of the 
+                genres whose id is in the list genre, or any genre at all if 
+                genres = any
+        
+        percent_pos_ratings_above (optional) - return only games with a percentage of
+                positive ratings above percent_pos_ratings_above, inclusive
+        
+        percent_pos_ratings_below (optional) - return only games with a percentage of
+                positive ratings below percent_pos_ratings_above, inclusive
+        
+        total_ratings_above (optional) - return only games with at least total_ratings_above
+                ratings, inclusive
+        
+        total_ratings_below (optional) - return only games with at most total_ratings_below
+                ratings, inclusive
 
-
-
-REQUEST: /stats/release_dates
-
-
-GET parameters
-        developer (Optional, default: any) - return only games developed by any of the developers 
-                in the list developer, or any developers at all if developers = any
-
-        start_date (Optional, default: -infinity) - return only games released on or after start_date
-
-        end_date (Optional, default: infinity) - return only games released on or before end_date
-
-        genre (optional, default: any) - return only games in at least one of the specified genres in the list genre
-
-        min_age_above (Optional, default: 0) - return only games with a minimum age above or equal to min_age_above
-    
-        min_age_below (Optional, default: 18) - return only games with a minimum age below or equal to min_age_below
-
+        output (optional) - the property being analyzed and the type of graph being shown
 
 RESPONSE: a JSON dictionary having the following fields.
 
-                graph_title - (TEXT) the title of graph
+                OBJECTIVE_TITLE - (TEXT) the title of graph/chart
 
-                link_to_graph - (TEXT) a link to the image that displays the graph
+                Output1 - (INTEGER) the number of occurances of this output in the filtered dataset. 
+                        Output1 might be a genre name, developer name, date, or percent of ratings 
+                        as positive. 
 
+                Output2 - (INTEGER) the number of occurances of this output in the filtered dataset. 
+                        Output2 might be a genre name, developer name, date, or percent of ratings 
+                        as positive.       
 
-EXAMPLE:
-    /stats/release_dates?genre=[“Action”, “Strategy”]&start_date=2005-04-01&developer=[“Gearbox Software”, “Valve”]
+                Output3 - (INTEGER) the number of occurances of this output in the filtered dataset. 
+                        Output3 might be a genre name, developer name, date, or percent of ratings 
+                        as positive. 
 
-       {“graph_title”: “Histogram of games developed by Gearbox Software and/or Valve after 2005-04-01 in genre(s) Action and/or Strategy”, 
-       “link_to_graph”: “graph.png”}
-
-
-
-REQUEST: /stats/genres
-
-
-GET parameters
-        developer (Optional, default: any) - return only games developed by any of the developers 
-                in the list developer, or any developers at all if developers = any
-
-        start_date (Optional, default: -infinity) - return only games released on or after start_date
-
-        end_date (Optional, default: infinity) - return only games released on or before end_date
-
-        genre (optional, default: any) - return only games in at least one of the specified genres in the list genre
-
-        min_age_above (Optional, default: 0) - return only games with a minimum age above or equal to min_age_above
-    
-        min_age_below (Optional, default: 18) - return only games with a minimum age below or equal to min_age_below
-
-
-RESPONSE: a JSON dictionary having the following fields. 
-
-                graph_title - (TEXT) the title of graph
-
-                link_to_graph - (TEXT) a link to the image that displays the graph
-
+                ... 
 
 EXAMPLE:
-    /stats/genres?genre=[“Action”, “Strategy”]&developer=[“Gearbox Software”, “Valve”]&start_date=2005-01-01&end_date=2010-01-01
+        /stats?output=genres
 
-       {“graph_title”: “Percentage of games in Action and/or Strategy developed by Gearbox Software and/or Valve between 2005-01-01 and 2010-01-01”, 
-       “link_to_graph”: “graph.png”}
+       {"OBJECTIVE_TITLE": "Genres of Games Released", "Indie": 74265, "Action": 52996, "Adventure": 35979, 
+       "Casual": 34140, "Strategy": 21094, "Simulation": 17413, "RPG": 16938, "Early Access": 10305, 
+       "Free to Play": 6642, "Sports": 6221, "Racing": 5226, "Massively Multiplayer": 3870, "Violent": 2823, 
+       "Gore": 1899, "Nudity": 789, "Sexual Content": 721, "Utilities": 284, "Design & Illustration": 189, 
+       "Animation & Modeling": 177, "Education": 130, "Web Publishing": 65, "Software Training": 65, 
+       "Video Production": 55, "Audio Production": 43, "Game Development": 33, "Photo Editing": 20, 
+       "Accounting": 8, "Documentary": 2, "Tutorial": 2}
+
