@@ -149,7 +149,7 @@ function onGamesFilterChanged() {
             if (game['website'] == 'N/A' || game['website'] == '') {
                 game_html += `<p style="margin-left: 10px;"><strong style="cursor: not-allowed;">${game['title']}</strong><br>${game['description']}</p>`
             } else {
-                game_html += `<p style="margin-left: 10px;"><strong><a href="${game['website']}">${game['title']}</a></strong><br>${game['description']}</p>`
+                game_html += `<p style="margin-left: 10px;"><strong><a href="${game['website']}" target="_blank" onclick="event.stopPropagation();">${game['title']}</a></strong><br>${game['description']}</p>`
             }
                 
             game_html += `</div></button>`;
