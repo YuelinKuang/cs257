@@ -20,15 +20,15 @@ app.register_blueprint(api.api, url_prefix='/api')
 def home():
     return flask.render_template('index.html')
 
-@app.route('/games/')
+@app.route('/games')
 def show_games():
     return flask.render_template('games_main.html')
 
-@app.route('/stats/')
+@app.route('/stats')
 def show_stats():
     return flask.render_template('stats_main.html')
 
-@app.route('/help/')
+@app.route('/help')
 def show_help():
     f = open('doc/api-design.txt')
     text = f.read()

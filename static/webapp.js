@@ -22,19 +22,6 @@ function initialize() {
     }
 }
 
-
-//function from https://stackoverflow.com/questions/28828915/how-set-color-family-to-pie-chart-in-chart-js
-function getColors(length) {
-    let pallet = ["#0074D9", "#FF4136", "#2ECC40", "#FF851B", "#7FDBFF", "#B10DC9", "#FFDC00", "#001f3f", "#39CCCC", "#01FF70", "#85144b", "#F012BE", "#3D9970", "#111111", "#AAAAAA"];
-    let colors = [];
-
-    for (let i = 0; i < length; i++) {
-        colors.push(pallet[i % (pallet.length - 1)]);
-    }
-
-    return colors;
-}
-
 // Returns the base URL of the API, onto which endpoint
 // components can be appended.
 function getAPIBaseURL() {
@@ -46,9 +33,9 @@ function getAPIBaseURL() {
 }
 
 function loadGenresSelector() {
-    let url = getAPIBaseURL() + '/genres/';
+    let url = getAPIBaseURL() + '/genres';
 
-    // Send the request to the books API /genres/ endpoint
+    // Send the request to the books API /genres endpoint
     fetch(url, {method: 'get'})
 
     // When the results come back, transform them from a JSON string into
@@ -78,7 +65,7 @@ function loadGenresSelector() {
 }
 
 function loadDevelopersSelector() {
-    let url = getAPIBaseURL() + '/developers/';
+    let url = getAPIBaseURL() + '/developers';
 
     // Send the request to the books API /genres/ endpoint
     fetch(url, {method: 'get'})
@@ -116,142 +103,31 @@ function onGamesFilterChanged() {
     } else {
         return; 
     }
-
     var loading_text_html = document.getElementById('loading_games');
     if (loading_text_html) {
-        loading_text_html.style.display = 'inline';
+        loading_text_html.innerHTML = 'Loading...';
     }
-
-    let url = getAPIBaseURL() + '/games?';
 
     let sort_by = ''
-    if (document.getElementById('sort_title').checked) {
-        sort_by = 'title'
-    }
-    else if (document.getElementById('sort_date').checked) {
+    if (document.getElementById('sort_date').checked) {
         sort_by = 'date'
-    }
-    else if (document.getElementById('sort_price').checked) {
+    } else if (document.getElementById('sort_price').checked) {
         sort_by = 'price'
-    }
-    else if (document.getElementById('sort_age').checked) {
+    } else if (document.getElementById('sort_age').checked) {
         sort_by = 'age'
-    }
-    else if (document.getElementById('sort_pos_ratings').checked) {
+    } else if (document.getElementById('sort_pos_ratings').checked) {
         sort_by = 'pos_ratings'
-    }
-    else {
+    } else {
         sort_by = 'title'
     }
-
-    if (document.getElementById('sort_asc').checked) {
-        sort_by += '-asc'
-    }
-    else if (document.getElementById('sort_desc').checked) {
+    if (document.getElementById('sort_desc').checked){
         sort_by += '-desc'
-    }
-    else {
+    } else {
         sort_by += '-asc'
     }
-    url += 'sort_by=' + sort_by
-
-    let genre_selector = document.getElementById('genre_selector');
-    let genreID = genre_selector.value;
-    if (genreID != 'None') {
-        url += '&genre_id=' + genreID; 
-    }
 
 
-    let title_input = document.getElementById('title_search').value;
-    if (title_input != '') {
-        url += '&title=' + title_input;   
-    }
-
-
-    let min_age_above = document.getElementById('min_age_above').value;
-    let min_age_below = document.getElementById('min_age_below').value;
-    if (min_age_above != 0 && min_age_above != '') {
-        url += '&min_age_above=' + min_age_above;   
-    }
-    if (min_age_below != 18 && min_age_below != '') {
-        url += '&min_age_below=' + min_age_below;   
-    }
-
-
-    let start_date = document.getElementById('start_date').value;
-    let end_date = document.getElementById('end_date').value;
-    if (start_date != '') {
-        url += '&start_date=' + start_date;
-    }
-    if (end_date != '') {
-        url += '&end_date=' + end_date;
-    }
-
-
-    let developerID = document.getElementById('developer_selector').value;
-    if (developerID != 'None') {
-            url += '&developer_id=' + developerID;  
-    }
-
-
-    let windows = document.getElementById('windows').checked;
-    if (windows == false) {
-        windows = '';
-    }
-    else {
-        windows = 'w'
-    }
-    let mac = document.getElementById('mac').checked;
-    if (mac == false) {
-        mac = '';
-    }
-    else {
-        mac = 'm'
-    }
-    let linux = document.getElementById('linux').checked;
-    if (linux == false) {
-        linux = '';
-    }
-    else {
-        linux = 'l'
-    }
-
-    let platforms = new Array(windows, mac, linux)
-    platforms = platforms.filter(empty_string => {
-        return empty_string !== '';
-    });
-    if (platforms.length != 0) {
-        platforms = platforms.toString();
-        url += '&platforms=' + platforms;
-    }
-    
-
-    let price_above = document.getElementById('price_above').value;
-    let price_below = document.getElementById('price_below').value;
-    if (price_above != '') {
-        url += '&price_above=' + price_above;
-    }
-    if (price_below != '') {
-        url += '&price_below=' + price_below; 
-    }
-    console.log(url)
-    let percent_pos_ratings_above = document.getElementById('percent_pos_ratings_above').value;
-    let percent_pos_ratings_below = document.getElementById('percent_pos_ratings_below').value;
-    if (percent_pos_ratings_above != '') {
-        url += '&percent_pos_ratings_above=' + percent_pos_ratings_above;  
-    }
-    if (percent_pos_ratings_below != '') {
-        url += '&percent_pos_ratings_below=' + percent_pos_ratings_below;
-    }
-
-    let total_ratings_above = document.getElementById('total_ratings_above').value;
-    let total_ratings_below = document.getElementById('total_ratings_below').value;
-    if (total_ratings_above != '') {
-        url += '&total_ratings_above=' + total_ratings_above;  
-    }
-    if (total_ratings_below != '') {
-        url += '&total_ratings_below=' + total_ratings_below;
-    }
+    let url = `${getAPIBaseURL()}/games?sort_by=${sort_by}${addFiltersToURL()}`;
 
     fetch(url, {method: 'get'})
 
@@ -260,7 +136,7 @@ function onGamesFilterChanged() {
     .then(function(games) {
         let game_html = '';
         if (games.length == 0) {
-            game_html += '<p><strong>No game found 😔 Please try again!</strong></p>'
+            game_html += '<p><strong>No games found 😔 Please try again!</strong></p>'
         }
         for (var i = 0; i < games.length; i++) {
             var game = games[i];
@@ -268,13 +144,17 @@ function onGamesFilterChanged() {
             game_html += `
             <button class="game_item text_align_left" id="${game_id}" value="${game_id}" onclick="onGameSelected(${game_id})">
                 <div class="flex">
-                    <img id="header${game_id}" onclick="imgEnlarge(this.id)" class="game_img" alt="Header Image for ${game['title']}" src="${game['header_image']}">
-                    <p style="margin-left: 10px;"><strong>${game['title']}</strong><br>${game['description']}</p>
-                </div>
-            </button>`;
+                    <img id="header${game_id}" onclick="imgEnlarge(this.id)" class="game_img" alt="Header Image for ${game['title']}" src="${game['header_image']}">`
+            
+            if (game['website'] == 'N/A' || game['website'] == '') {
+                game_html += `<p style="margin-left: 10px;"><strong style="cursor: not-allowed;">${game['title']}</strong><br>${game['description']}</p>`
+            } else {
+                game_html += `<p style="margin-left: 10px;"><strong><a href="${game['website']}">${game['title']}</a></strong><br>${game['description']}</p>`
+            }
+                
+            game_html += `</div></button>`;
         }
-
-        loading_text_html.style.display = 'none';
+        loading_text_html.innerHTML = '';
         games_container.innerHTML = game_html;
     })
 
@@ -307,9 +187,16 @@ function onGameSelected(game_id) {
         let game_html = `
         <button class="game_item text_align_left" id="${game_id}" value="${game_id}" onclick="onGameDeselected(${game_id})">
             <div class="flex">
-                <img id="header${game_id}" onclick="imgEnlarge(this.id)" class="game_img" alt="Header Image for ${game['title']}" src="${game['media']['header_image']}">
-                <p style="margin-left: 10px;"><strong>${game['title']}</strong><br>${game['description']}</p>
-            </div>
+                <img id="header${game_id}" onclick="imgEnlarge(this.id)" class="game_img" alt="Header Image for ${game['title']}" src="${game['media']['header_image']}">`
+        
+        if (game['website'] == 'N/A' || game['website'] == '') {
+            game_html += `<p style="margin-left: 10px;"><strong style="cursor: not-allowed;">${game['title']}</strong><br>${game['description']}</p>`
+        } else {
+            game_html += `<p style="margin-left: 10px;"><strong><a href="${game['website']}">${game['title']}</a></strong><br>${game['description']}</p>`
+        }
+
+        game_html +=
+        `</div>
             <div class="flex">
                 <div style="flex: 4"> 
                     <ul>
@@ -371,10 +258,15 @@ function onGameDeselected(game_id) {
         let game_html = `
         <button class="game_item text_align_left" id="${game_id}" value="${game_id}" onclick="onGameSelected(${game_id})">
             <div class="flex">
-                <img class="game_img" alt="Header Image for ${game['title']}" src="${game['media']['header_image']}">
-                <p style="margin-left: 10px;"><strong>${game['title']}</strong><br>${game['description']}</p>
-            </div>
-        </button>`;
+                <img id="header${game_id}" onclick="imgEnlarge(this.id)" class="game_img" alt="Header Image for ${game['title']}" src="${game['media']['header_image']}">`
+        
+        if (game['website'] == 'N/A' || game['website'] == '') {
+            game_html += `<p style="margin-left: 10px;"><strong style="cursor: not-allowed;">${game['title']}</strong><br>${game['description']}</p>`
+        } else {
+            game_html += `<p style="margin-left: 10px;"><strong><a href="${game['website']}">${game['title']}</a></strong><br>${game['description']}</p>`
+        }
+            
+        game_html += `</div></button>`;
         
         var deselected_game_button = document.getElementById(game_id);
         if (deselected_game_button) {
@@ -392,6 +284,20 @@ function onGameDeselected(game_id) {
 
 
 function onStatsFilterChanged() {
+    var chart_container_html = document.getElementById('chart_container');
+    var chart_element = document.getElementById('chart');
+
+    if (chart_element) {
+        chart_element.remove();
+        if (chart_container_html) {
+            chart_container_html.innerHTML += '<canvas id="chart"></canvas>'
+        } else {
+            return
+        }
+    } else {
+        return
+    }
+
     var loading_text_html = document.getElementById('loading_stats');
     var chart_title_html = document.getElementById('chart_title');
     var chart_element = document.getElementById('chart');
@@ -401,173 +307,120 @@ function onStatsFilterChanged() {
     } else {
         return
     }
+    
     if (chart_title_html) {
         chart_title_html.innerHTML = '';
     } else {
         return
     }
-    if (chart_element) {
-        chart_element = chart_element.getContext('2d');
-        var chart = new Chart(chart_element, {})
-        chart.destroy();
-        chart = null;
-    } else {
-        return
-    }
+    
 
-    let url = getAPIBaseURL() + '/stats?';
-
-    let output = ''
     if (document.getElementById('output_devs').checked) {
-        output = 'devs'
-    } else if (document.getElementById('output_dates').checked) {
-        output = 'dates'
+        output = 'devs';
+        chart_type = 'pie';
+    // } else if (document.getElementById('output_dates').checked) {
+    //     output = 'dates';
+    //     chart_type = 'bar';
     } else if (document.getElementById('output_ratings').checked) {
-        output = 'ratings'
+        output = 'ratings';
+        chart_type = 'bar';
     } else {
         output = 'genres'
-    }
-    url += 'output=' + output
-
-    let genre_selector = document.getElementById('genre_selector');
-    let genreID = genre_selector.value;
-    if (genreID != 'None') {
-        url += '&genre_id=' + genreID; 
-    }
-
-
-    let title_input = document.getElementById('title_search').value;
-    if (title_input != '') {
-        url += '&title=' + title_input;   
-    }
-
-
-    let min_age_above = document.getElementById('min_age_above').value;
-    let min_age_below = document.getElementById('min_age_below').value;
-    if (min_age_above != 0 && min_age_above != '') {
-        url += '&min_age_above=' + min_age_above;   
-    } if (min_age_below != 18 && min_age_below != '') {
-        url += '&min_age_below=' + min_age_below;   
-    }
-
-
-    let start_date = document.getElementById('start_date').value;
-    let end_date = document.getElementById('end_date').value;
-    if (start_date != '') {
-        url += '&start_date=' + start_date;
-    } if (end_date != '') {
-        url += '&end_date=' + end_date;
-    }
-
-
-    let developerID = document.getElementById('developer_selector').value;
-    if (developerID != 'None') {
-            url += '&developer_id=' + developerID;  
-    }
-
-
-    let windows = document.getElementById('windows').checked;
-    if (windows == false) {
-        windows = '';
-    } else {
-        windows = 'w'
-    }
-    let mac = document.getElementById('mac').checked;
-    if (mac == false) {
-        mac = '';
-    } else {
-        mac = 'm'
-    }
-    let linux = document.getElementById('linux').checked;
-    if (linux == false) {
-        linux = '';
-    } else {
-        linux = 'l'
-    }
-
-    let platforms = new Array(windows, mac, linux)
-    platforms = platforms.filter(empty_string => {
-        return empty_string !== '';
-    });
-    if (platforms.length != 0) {
-        platforms = platforms.toString();
-        url += '&platforms=' + platforms;
+        chart_type = 'pie'
     }
     
 
-    let price_above = document.getElementById('price_above').value;
-    let price_below = document.getElementById('price_below').value;
-    if (price_above != '') {
-        url += '&price_above=' + price_above;
-    } if (price_below != '') {
-        url += '&price_below=' + price_below; 
-    }
-
-    let percent_pos_ratings_above = document.getElementById('percent_pos_ratings_above').value;
-    let percent_pos_ratings_below = document.getElementById('percent_pos_ratings_below').value;
-    if (percent_pos_ratings_above != '') {
-        url += '&percent_pos_ratings_above=' + percent_pos_ratings_above;  
-    } if (percent_pos_ratings_below != '') {
-        url += '&percent_pos_ratings_below=' + percent_pos_ratings_below;
-    }
-
-    let total_ratings_above = document.getElementById('total_ratings_above').value;
-    let total_ratings_below = document.getElementById('total_ratings_below').value;
-    if (total_ratings_above != '') {
-        url += '&total_ratings_above=' + total_ratings_above;  
-    } if (total_ratings_below != '') {
-        url += '&total_ratings_below=' + total_ratings_below;
-    }
+    let url = `${getAPIBaseURL()}/stats?output=${output}${addFiltersToURL()}`;
 
     fetch(url, {method: 'get'})
 
     .then((response) => response.json())
 
     .then(function(stats) {
-        if (stats.length == 1) {
-            loading_text_html = 'No data found!';
+        if (Object.keys(stats).length <= 1) {
+            loading_text_html.innerHTML = 'No data found!';
         } else {
             const chart_title = stats['OBJECTIVE_TITLE'];
             delete stats['OBJECTIVE_TITLE']
 
-            loading_text_html.innerHTML = '';
-            chart_title_html.innerHTML = chart_title;
+            // stats = getRelventItems(15, 10, stats);
+            if (chart_type == 'pie') {
+                const data = {
+                    labels: Object.keys(stats),
+                    datasets: [{
+                        data: Object.values(stats),
+                        backgroundColor: getColors(Object.values(stats).length),
+                        hoverOffset: 4
+                    }]
+                };
+    
+                new Chart(chart_element, {
+                    type: 'pie',
+                    data: data,
+                    options: {
+                        plugins: {
+                            tooltip: true,
+                        },
+                        legend: {
+                            display: false,
+                        }
+                      }
+                });
+            } else {
+                
+                //https://www.w3docs.com/snippets/javascript/how-to-find-the-min-max-elements-in-an-array-in-javascript.html
+                const min = 0;
+                const max = 100;
+                const num_bins = 20;
+                const bin_size = (max - min) / num_bins;
+                let bin_labels = [];
+                
 
-            // var sum = 0;
-            // for (value in Object.values(stats)) {
-            //     sum += value;
-            // }
-
-            // var other = 0;
-            // for (key in Object.keys(stats)) {
-            //     if (stats[key] < sum * 0.01) {
-            //         other += stats[key];
-            //     }
-            //     delete stats[key];
-            // }
-            // stats['Other'] = other;
-
-            const data = {
-                labels: Object.keys(stats),
-                datasets: [{
-                    label: chart_title,
-                    data: Object.values(stats),
-                    backgroundColor: getColors(Object.values(stats).length),
-                    hoverOffset: 4
-                }]
-            };
-
-            new Chart(chart_element, {
-                type: 'pie',
-                data: data,
-                options: {
-                    plugins: {
-                        tooltip: true,
-                        
+                let bins = {}
+                for (let i = min; i < max; i += bin_size) {
+                    bins[i] = 0;
+                    bin_labels.push(`${i}%-${i + bin_size}%`);
+                }
+                
+                for (stat in stats) {
+                    for (bin in bins) {
+                        if (stat > bin && stat < bin + bin_size) {
+                            bins[bin] += stats[stat];
+                        }
                     }
-                  }
-            });
-        }
+                }
+
+                const chart = document.getElementById('chart').getContext('2d');
+
+                new Chart(chart, {
+                type: 'bar',
+                data: {
+                    labels: bin_labels,
+                    datasets: [{
+                        label: 'Number of Ratings',
+                        data: Object.values(bins),
+                        backgroundColor: 'rgb(247, 172, 172)',
+                        barPercentage: 1.3
+                    }]
+                },
+                options: {
+                    scales: {
+                        yAxes: [{
+                            ticks: {
+                                beginAtZero: true
+                            }
+                        }]
+                    },
+                    legend: {
+                        display: false,
+                    }
+                }
+                });
+                
+            }
+            chart_title_html.innerHTML = chart_title;
+            loading_text_html.innerHTML = '';
+        }   
     })
     .catch(function(error) {
         console.log(error);
@@ -610,4 +463,140 @@ function imgEnlarge(img_id) {
     span.onclick = function() { 
         modal.style.display = "none";
     }
+}
+
+//function from https://stackoverflow.com/questions/28828915/how-set-color-family-to-pie-chart-in-chart-js
+function getColors(length) {
+    let pallet = ["#0074D9", "#FF4136", "#2ECC40", "#FF851B", "#7FDBFF", "#B10DC9", "#FFDC00", "#001f3f", "#39CCCC", "#01FF70", "#85144b", "#F012BE", "#3D9970", "#111111", "#AAAAAA"];
+    let colors = [];
+
+    for (let i = 0; i < length; i++) {
+        colors.push(pallet[i % (pallet.length - 1)]);
+    }
+
+    return colors;
+}
+
+function addFiltersToURL() {
+    url = ''
+
+    let genre_selector = document.getElementById('genre_selector');
+    let genreID = genre_selector.value;
+    if (genreID != 'None') {
+        url += '&genre_id=' + genreID; 
+    }
+
+    let title_input = document.getElementById('title_search').value;
+    if (title_input != '') {
+        url += '&title=' + title_input;   
+    }
+
+    let min_age_above = document.getElementById('min_age_above').value;
+    let min_age_below = document.getElementById('min_age_below').value;
+    if (min_age_above != 0 && min_age_above != '') {
+        url += '&min_age_above=' + min_age_above;   
+    } if (min_age_below != 18 && min_age_below != '') {
+        url += '&min_age_below=' + min_age_below;   
+    }
+
+    let start_date = document.getElementById('start_date').value;
+    let end_date = document.getElementById('end_date').value;
+    if (start_date != '') {
+        url += '&start_date=' + start_date;
+    } if (end_date != '') {
+        url += '&end_date=' + end_date;
+    }
+
+    let developerID = document.getElementById('developer_selector').value;
+    if (developerID != 'None') {
+        url += '&developer_id=' + developerID; 
+    }
+
+    let windows = document.getElementById('windows').checked;
+    if (windows == false) {
+        windows = '';
+    } else {
+        windows = 'w'
+    }
+    let mac = document.getElementById('mac').checked;
+    if (mac == false) {
+        mac = '';
+    } else {
+        mac = 'm'
+    }
+    let linux = document.getElementById('linux').checked;
+    if (linux == false) {
+        linux = '';
+    } else {
+        linux = 'l'
+    }
+
+    let platforms = new Array(windows, mac, linux)
+    platforms = platforms.filter(empty_string => {
+        return empty_string !== '';
+    });
+    if (platforms.length != 0) {
+        platforms = platforms.toString();
+        url += '&platforms=' + platforms;
+    }
+
+    let price_above = document.getElementById('price_above').value;
+    let price_below = document.getElementById('price_below').value;
+    if (price_above != '') {
+        url += '&price_above=' + price_above;
+    } if (price_below != '') {
+        url += '&price_below=' + price_below; 
+    }
+
+    let percent_pos_ratings_above = document.getElementById('percent_pos_ratings_above').value;
+    let percent_pos_ratings_below = document.getElementById('percent_pos_ratings_below').value;
+    if (percent_pos_ratings_above != '') {
+        url += '&percent_pos_ratings_above=' + percent_pos_ratings_above;  
+    } if (percent_pos_ratings_below != '') {
+        url += '&percent_pos_ratings_below=' + percent_pos_ratings_below;
+    }
+
+    let total_ratings_above = document.getElementById('total_ratings_above').value;
+    let total_ratings_below = document.getElementById('total_ratings_below').value;
+    if (total_ratings_above != '') {
+        url += '&total_ratings_above=' + total_ratings_above;  
+    } if (total_ratings_below != '') {
+        url += '&total_ratings_below=' + total_ratings_below;
+    }
+
+    return url
+}
+
+function getRelventItems(min_to_check, max_number_items, data) {
+    if (Object.values(data).length > min_to_check) {
+        relevent = {}
+        for (var i = 0; i < max_number_items; i++) {
+            relevent[i] = -1;
+        }
+        for (var stat in data) {
+            str_stat = stat.toString();
+            var relevent_enough = false;
+            for (relevent_stat in relevent) {
+                if (data[stat] > relevent[relevent_stat]) {
+                    relevent_enough = true;
+                }
+            }
+            if (relevent_enough){
+                // from https://stackoverflow.com/questions/27376295/getting-key-with-the-highest-value-from-object
+                least_relevent = Object.keys(relevent).reduce(function(a, b){ return relevent[a] < relevent[b] ? a : b });
+                delete relevent[least_relevent]
+                relevent[str_stat] = data[stat]
+            }
+        }
+        var other = 0;
+        for (stat in data) {
+            if (!(Object.keys(relevent).includes(stat.toString()))) {
+                other += data[stat];
+            }
+        }
+        relevent['Other'] = other;
+    } else {
+        relevent = data;
+    }
+    return relevent;
 }

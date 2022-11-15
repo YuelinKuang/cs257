@@ -24,14 +24,14 @@ def get_connection():
 
 
 
-@api.route('/help/')
+@api.route('/help')
 def get_help():
     f = open('doc/api-design.txt','r')
     text = f.read()
     f.close()
     return text
 
-@api.route('/genres/') 
+@api.route('/genres') 
 def get_genres():
     #Returns a list of all the genres in our database
 
@@ -52,7 +52,7 @@ def get_genres():
 
     return json.dumps(genres_list)
 
-@api.route('/developers/') 
+@api.route('/developers') 
 def get_developers():
     #Returns a list of all the developers in our database
 
@@ -121,6 +121,7 @@ def get_games():
             game_title = row[1]
             game_description = row[2]
             game_media = row[3]
+            website = row[4]
             if game_id not in game_ids: 
                 header_image = json.loads(game_media.replace("'", '"'))['header_image']
                 if header_image == '':
@@ -128,7 +129,8 @@ def get_games():
                 game = {'id': str(game_id),
                         'title': game_title,
                         'description': game_description,
-                        'header_image': header_image}
+                        'header_image': header_image,
+                        'website': website}
                 game_ids.append(game_id)
                 game_list.append(game)
             
@@ -185,7 +187,6 @@ def get_a_specific_game(game_id):
                 images = json.loads(row[12].replace("'", '"'))
                 if images['header_image'] == '':
                     images['header_image'] = 'https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fwww.simplystamps.com%2Fmedia%2Fcatalog%2Fproduct%2F5%2F8%2F5802-n-a-stock-stamp-hcb.png&f=1&nofb=1&ipt=4c91608ffabe756cef98c89e32321f03e9ae4c3ab4a92fb4b68453801fd7cf7e&ipo=images'
-
                 game = {'title': row[0],
                         'release_date': str(row[1]), 
                         'english_support': row[2],
@@ -233,23 +234,33 @@ def get_stats():
     #set up query, what is it being sorted by
     output = flask.request.args.get('output')
     if output == 'devs': 
+        chart_type = 'pie'
         output_sql_value = 'developer.developer_name'
-        chart_title = 'Developers of Games Released for Games'
+        chart_title = 'Developers of Games Released'
     elif output == 'dates':
+        chart_type = 'bar'
         output_sql_value = 'game.release_date'
         chart_title = 'Histogram of Dates when Games were Released'
     elif output == 'ratings':
+        chart_type = 'bar'
         output_sql_value = '(100.0 * game.pos_ratings / (game.pos_ratings + game.neg_ratings))'
-        chart_title = 'Histogram of Game Ratings for Games'
+        chart_title = 'Histogram of Game Ratings'
     else:
+        chart_type = 'pie'
         output_sql_value = 'genre.genre_name'
         chart_title = 'Genres of Games Released'
     
     #create query and finish title
     result_query, query_args, result_chart_title = add_args_to_query(flask.request.args, True)
-    query_sum_arg = f'SUM(CASE WHEN (1=1{result_query}) THEN 1 ELSE 0 END)'
 
-    query = f'SELECT {output_sql_value}, {query_sum_arg} {queries.statistics_after_sum_statement} {output_sql_value} ORDER BY {query_sum_arg} DESC;'
+    query_sum_arg = f'SUM(CASE WHEN (1=1{result_query}) THEN 1 ELSE 0 END)'
+    query = f'SELECT {output_sql_value}, {query_sum_arg} {queries.statistics_after_sum_statement} {output_sql_value} '
+    if chart_type == 'pie':
+        query += f'ORDER BY {query_sum_arg} DESC;'
+        query_args = query_args + query_args
+    else:
+        query += f'ORDER BY {output_sql_value} DESC;'
+    
     if len(result_chart_title) > 0:
         chart_title += result_chart_title[1:]
 
@@ -259,12 +270,16 @@ def get_stats():
     try:
         connection = get_connection()
         cursor = connection.cursor()
-        cursor.execute(query, tuple(query_args + query_args))
+        print(query)
+        print(query_args)
+        cursor.execute(query, tuple(query_args))
 
         results['OBJECTIVE_TITLE'] = chart_title
         for row in cursor: 
-            results[row[0]] = row[1]
-            
+            if output == 'ratings':
+                results[float(row[0])] = row[1]
+            else:
+                results[row[0]] = row[1]
         cursor.close()
         connection.close()
 
@@ -351,13 +366,13 @@ def add_args_to_query(args, get_genre_dev_name = False):
         total_ratings_above = str(args.get('total_ratings_above'))
         query_args.append(total_ratings_above)
         query += ' AND (game.pos_ratings + game.neg_ratings) >= %s'
-        chart_title += f', With at Least {percent_pos_ratings_below} Ratings' 
+        chart_title += f', With at Least {total_ratings_above} Ratings' 
 
     if 'total_ratings_below' in args:
         total_ratings_below = str(args.get('total_ratings_below'))
         query_args.append(total_ratings_below)
         query += ' AND (game.pos_ratings + game.neg_ratings) <= %s'
-        chart_title += f', With at Most {percent_pos_ratings_below} Ratings' 
+        chart_title += f', With at Most {total_ratings_below} Ratings' 
 
     if 'genre_id' in args: 
         genre_id = str(args.get('genre_id'))
@@ -373,7 +388,7 @@ def add_args_to_query(args, get_genre_dev_name = False):
                     genre_name = row[0]
             except Exception as e:
                 print(e, file=sys.stderr)
-            chart_title += f', Developed by {genre_name}' 
+            chart_title += f', in the Genre {genre_name}' 
 
     if 'developer_id' in args: 
         developer_id = str(args.get('developer_id'))
