@@ -10,6 +10,7 @@ window.onload = initialize;
 function initialize() {
     loadGenresSelector();
     loadDevelopersSelector();
+    loadMainPageImages();
 
     let games_search_button = document.getElementById('games_search_button');
     if (games_search_button) {
@@ -87,6 +88,35 @@ function loadDevelopersSelector() {
         let developer_selector = document.getElementById('developer_selector');
         if (developer_selector) {
             developer_selector.innerHTML = selectorBody;
+        }
+    })
+
+    // Log the error if anything went wrong during the fetch.
+    .catch(function(error) {
+        console.log(error);
+    });
+}
+
+function loadMainPageImages() {
+    let url = getAPIBaseURL() + '/main_page_images';
+
+    fetch(url, {method: 'get'})
+
+    .then((response) => response.json())
+
+    .then(function(games) {
+        // Add the <option> elements to the <select> element
+        let main_page_images_body = '';
+        for (let k = 0; k < games.length; k++) {
+            let game = games[k];
+            let game_id = game['id']
+            let header_image = game['media']['header_image']
+            main_page_images_body += `<img id="header${game_id}" onclick="imgEnlarge(this.id)" class="game_img" src="${header_image}">`;
+        }
+
+        let main_page_images = document.getElementById('main_page_images');
+        if (main_page_images) {
+            main_page_images.innerHTML = main_page_images_body;
         }
     })
 

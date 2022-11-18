@@ -54,7 +54,7 @@ def get_genres():
 
 @api.route('/developers') 
 def get_developers():
-    #Returns a list of all the developers in our database
+    # Returns a list of all the developers in our database
 
     query = queries.get_developers
 
@@ -72,6 +72,31 @@ def get_developers():
         print(e, file=sys.stderr)
 
     return json.dumps(developers_list)
+
+@api.route('/main_page_images')
+def get_main_images():
+    # Returns a list of three games randomly selected from our database 
+    # (only their id's and media included)
+
+    query = queries.get_main_page_images
+
+    games_list = []
+    try:
+        connection = get_connection()
+        cursor = connection.cursor()
+        cursor.execute(query, tuple())
+        for row in cursor:
+            images = json.loads(row[1].replace("'", '"'))
+            if images['header_image'] == '':
+                images['header_image'] = 'https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fwww.simplystamps.com%2Fmedia%2Fcatalog%2Fproduct%2F5%2F8%2F5802-n-a-stock-stamp-hcb.png&f=1&nofb=1&ipt=4c91608ffabe756cef98c89e32321f03e9ae4c3ab4a92fb4b68453801fd7cf7e&ipo=images'
+            game = {'id':row[0], 'media':images}
+            games_list.append(game)
+        cursor.close()
+        connection.close()
+    except Exception as e:
+        print(e, file=sys.stderr)
+
+    return json.dumps(games_list)
 
 @api.route('/games') 
 def get_games():
