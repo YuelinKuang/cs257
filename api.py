@@ -11,6 +11,7 @@ import json
 import config
 import psycopg2
 import queries
+# quesries.py contains all the queries used in api.py
 
 api = flask.Blueprint('api', __name__)
 
@@ -26,10 +27,13 @@ def get_connection():
 
 @api.route('/help')
 def get_help():
+    # Returns api-design.txt as straightforward text
+    # api-design.txt contains documentation of all the endpoints implemented in api.py
     f = open('doc/api-design.txt','r')
     text = f.read()
     f.close()
     return text
+
 
 @api.route('/genres') 
 def get_genres():
@@ -52,6 +56,7 @@ def get_genres():
 
     return json.dumps(genres_list)
 
+
 @api.route('/developers') 
 def get_developers():
     # Returns a list of all the developers in our database
@@ -73,9 +78,10 @@ def get_developers():
 
     return json.dumps(developers_list)
 
+
 @api.route('/main_page_images')
 def get_main_images():
-    # Returns a list of three games randomly selected from our database 
+    # Returns a list of 98 games randomly selected from our database 
     # (only their id's and media included)
 
     query = queries.get_main_page_images
@@ -98,15 +104,16 @@ def get_main_images():
 
     return json.dumps(games_list)
 
+
 @api.route('/games') 
 def get_games():
     # Returns a list of all the games in our database, based on input parameters
 
-    #get initial filters
+    # Get initial filters
     result_query, query_args = add_args_to_query(flask.request.args, False)[:2]
     query = queries.all_game_information_search + result_query
 
-    #add order by information to query
+    # Add sort_by information to query
     sort_params = flask.request.args.get('sort_by').split('-')
     sort_by = sort_params[0]
     sort_order = sort_params[1]
@@ -167,9 +174,10 @@ def get_games():
 
     return json.dumps(game_list)
 
+
 @api.route('/games/specific/<game_id>') 
 def get_a_specific_game(game_id):
-    # Returns a dictionary of a particular game in our database, based on game id
+    # Returns a dictionary of a particular game in our database, based on game_id
 
     query = queries.specific_game_info
 
@@ -251,12 +259,11 @@ def get_a_specific_game(game_id):
     return json.dumps(game)
 
 
-
 @api.route('/stats') 
 def get_stats():
     # Returns a chart charted the requested data, as well as a name of the chart
 
-    #set up query, what is it being sorted by
+    # Set up query, what is it being sorted by
     output = flask.request.args.get('output')
     if output == 'devs': 
         chart_type = 'pie'
@@ -275,7 +282,7 @@ def get_stats():
         output_sql_value = 'genre.genre_name'
         chart_title = 'Genres of Games Released'
     
-    #create query and finish title
+    # Create query and finish building chart title
     result_query, query_args, result_chart_title = add_args_to_query(flask.request.args, True)
 
     query_sum_arg = f'SUM(CASE WHEN (1=1{result_query}) THEN 1 ELSE 0 END)'
@@ -314,7 +321,7 @@ def get_stats():
     return json.dumps(results)
 
 
-
+# This is a utility function that helps parse the GET parameters for endpoints /games and /stats
 def add_args_to_query(args, get_genre_dev_name = False):
     query = ''
     query_args = []

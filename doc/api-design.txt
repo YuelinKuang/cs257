@@ -9,15 +9,16 @@ RESPONSE: this text file, api-design.txt
 
 
 
-REQUEST: /genres/
+REQUEST: /genres
 RESPONSE: a list of dictionaries, each of which represents a genre, sorted alphabetically
         by genre name. Each dictionary will have the following fields. 
 
         id - (TEXT) the id for the genre as stored in our database
 
         genre_name - (TEXT) the name of the genre
+
 EXAMPLE: 
-        /genres/
+        /genres
 
         [{"id": 26, "genre_name": "Accounting"}, {"id": 0, "genre_name": "Action"}, 
         {"id": 3, "genre_name": "Adventure"}, {"id": 6, "genre_name": "Animation & Modeling"}, 
@@ -37,7 +38,7 @@ EXAMPLE:
 
 
 
-REQUEST: /developers/
+REQUEST: /developers
 RESPONSE: a list of dictionaries, each of which represents a developer. Each dictionary will 
         have the following fields. 
 
@@ -46,9 +47,36 @@ RESPONSE: a list of dictionaries, each of which represents a developer. Each dic
         developer_name - (TEXT) the name of the developer
 
 EXAMPLE: 
-        /developers/
+        /developers
 
         [{'id': '9343', 'developer_name': '"Ellie"'}, {'id': '17372', 'developer_name': '#workshop'}, ...]
+
+
+
+REQUEST: /main_page_images
+RESPONSE: a list with 98 dictionaries, each of which represents a game randomly selected from 
+        our database. Each dictionary will have the following fields. 
+
+        id - (TEXT) the id of the game as stored in our database
+
+        media - (DICTIONARY) a JSON dictionary with the fields 'header_image', 'background', 
+                and 'screenshots'
+
+EXAMPLE: 
+        /main_page_images
+
+        [{"id": 658690, "media": {"header_image": "https://steamcdn-a.akamaihd.net/steam/apps/658690/header.jpg?t=1543291249", 
+        "background": "https://steamcdn-a.akamaihd.net/steam/apps/658690/page_bg_generated_v6b.jpg?t=1543291249", 
+        "screenshots": ["https://steamcdn-a.akamaihd.net/steam/apps/658690/ss_62aa7cbd58f3eb8303d9699b5f46ac1f5297b2d8.1920x1080.jpg?t=1543291249", 
+        "https://steamcdn-a.akamaihd.net/steam/apps/658690/ss_899bd75e3fd03b4fadf1fcc75e76f9ccaaf135f4.1920x1080.jpg?t=1543291249", 
+        "https://steamcdn-a.akamaihd.net/steam/apps/658690/ss_98d5cf02aee089b20dd0819fc07b60c1b774fcf0.1920x1080.jpg?t=1543291249", 
+        "https://steamcdn-a.akamaihd.net/steam/apps/658690/ss_9f7d8b3c456311fb7a5b34b5625f3c2fcc2c1bf9.1920x1080.jpg?t=1543291249", 
+        "https://steamcdn-a.akamaihd.net/steam/apps/658690/ss_5db866464f62415c03a13534c5cf10b9bd64fe77.1920x1080.jpg?t=1543291249", 
+        "https://steamcdn-a.akamaihd.net/steam/apps/658690/ss_10ccc06502c84624437de8447d8e4ad464bd9087.1920x1080.jpg?t=1543291249", 
+        "https://steamcdn-a.akamaihd.net/steam/apps/658690/ss_adb828c251b10e95a6e2228ece2e1c54a02d03b0.1920x1080.jpg?t=1543291249", 
+        "https://steamcdn-a.akamaihd.net/steam/apps/658690/ss_85aeb50d52f3955ce811de21ea08ea440ec0f57b.1920x1080.jpg?t=1543291249"]}}, 
+        ...]
+        (There are 98 dictionaries in this format.)
 
 
 
@@ -152,7 +180,7 @@ RESPONSE: a JSON dictionary that represents the game with the game_id. The dicti
 
         website - (TEXT) the link to the website of the game
 
-        media - (DICTIONARY) a JSON dictionaries with the fields 'header_image', 'background', 
+        media - (DICTIONARY) a JSON dictionary with the fields 'header_image', 'background', 
                 and 'screenshots'
 
         developers - (TEXT) the name(s) of the develoepr(s) of the game
