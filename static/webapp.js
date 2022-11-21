@@ -653,7 +653,7 @@ function addFiltersToURL() {
     let min_age_above = document.getElementById('min_age_above').value;
     let min_age_below = document.getElementById('min_age_below').value;
     if (min_age_above != 0 && min_age_above != '') {
-        url += '&min_age_above=' + min_age_above;   
+        getParameters += '&min_age_above=' + min_age_above;   
     } if (min_age_below != 18 && min_age_below != '') {
         getParameters += '&min_age_below=' + min_age_below;   
     }
