@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}" />
+    <script src="{{ url_for('static', filename='webapp.js') }}"></script>
+</head>
+
+<body>
+    <div id="header_box">
+        <div id="title">
+            Steam Store Games!
+        </div>
+        <div id="header_item_container">
+            <a class="header_item" href="../">Home</a>
+            <a class="header_item" href="../games">Search for Games</a>
+            <a class="header_item" href="../stats">Search for Statistics</a>
+            <a class="header_item" href="../help">Help</a>
+        </div>
+    </div>

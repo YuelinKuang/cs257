@@ -1,46 +1,36 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Search for Statistics</title>
-    <link rel="stylesheet" type="text/css" href="../static/style.css" />
-    <script src="../static/webapp.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script>
-</head>
+{% include 'head_and_header.html' %}
 
-<body>
-    {% include 'header.html' %}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script>
+<title>Search for Statistics</title>
+
+<div class="all_content">
+    <div id="chart_container">
+        <p id="loading_stats"></p>
+        <h1 id="chart_title"></h1>
+        <canvas id="chart"></canvas>
+    </div>
+
+    <div id="stats_filters_container">
+        <h1>Filters</h1>
+
+        {% include 'search_options.html' %}
+        </div></div>
+    </div>
     
-    <div style="display: flex; margin: 30px;">
-        <div id="chart_container">
-            <p id="loading_stats"></p>
-            <h1 id="chart_title"></h1>
-            <canvas id="chart"></canvas>
-        </div>
-
-        <div style="flex: 2; padding: 20px; border-right: none;" class="border">
-            <h1>Filters</h1>
-
-            {% include 'search_options.html' %}
-            </div></div>
-        </div>
-        
-        <div style="flex: 1; padding: 20px;" class="border">
-            <h1>Output</h1>
-
+    <div id="stats_output_container">
+        <h1>Output</h1>
+        <div class="search_element">
             <input type="radio" id="output_devs" name="output" value="devs">
             <label for="output">Developers - outputs pie chart with each slice as a developer</label><br>
-            <!-- <input type="radio" id="output_dates" name="output" value="dates">
-            <label for="output">Release Dates - outputs histogram with time on the x-axis and number of games sorted into bins on the y-axis</label><br> -->
             <input type="radio" id="output_ratings" name="output" value="ratings">
             <label for="output">Ratings - outputs histogram with rating on the x-axis and number of games sorted into bins on the y-axis</label><br>
             <input type="radio" id="output_genres" name="output" value="genres">
             <label for="output">Genres - outputs pie chart with each slice as a genre</label><br>
-
-            <button id='stats_search_button' class="button">Search</button> 
         </div>
+
+        <button id='stats_search_button' class="big_button">Search</button> 
     </div>
+</div>
+
 </body>
 </html>

@@ -1,62 +1,50 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Search for Games</title>
-    <link rel="stylesheet" type="text/css" href="../static/style.css" />
-    <script src="../static/webapp.js"></script>
-</head>
+{% include 'head_and_header.html' %}
 
-<body>
-    {% include 'header.html' %}
+<title>Search for Games</title>
+
+<div class="all_content">
+    <p id="loading_games"></p>
+
+    <div id="games_container"></div>
+
+    <div id="imgModal">
+        <span id="close">&times;</span>
+        <img id="imgEnlarged">
+    </div>
 
     <div id="games_search_container">
+        <div>
+            <h1>Search</h1>
 
-        <p id="loading_games"></p>
+            {% include 'search_options.html' %}
 
-        <div id="games_container"></div>
+            <div class="search_element">
+                <h2>Sort By</h2>
 
-        <div id="search_container">
-            <div class="border" style="padding: 20px;">
-                <div>
-                    <h1>Search</h1>
-                </div>
+                <input id="sort_title" type="radio" name="sort_by_type" value="title">
+                <label for="sort_by_type">Title</label><br>
+                <input id="sort_date" type="radio" name="sort_by_type" value="date">
+                <label for="sort_by_type">Release Date</label><br>
+                <input id="sort_price" type="radio" name="sort_by_type" value="price"> 
+                <label for="sort_by_type">Price</label><br>
+                <input id="sort_age" type="radio" name="sort_by_type" value="age"> 
+                <label for="sort_by_type">Minimum Age</label><br>
+                <input id="sort_pos_ratings" type="radio" name="sort_by_type" value="pos_ratings"> 
+                <label for="sort_by_type">Number of Positive Ratings</label><br>
 
-                <div id="imgModal" class="modal">
-                    <span class="close">&times;</span>
-                    <img class="modal-content" id="imgEnlarged">
-                </div>
+                <br>
 
-                {% include 'search_options.html' %}
+                <input id="sort_asc" type="radio" name="sort_by_asc_or_desc" value="asc">
+                <label for="sort_by_asc_or_desc">Ascending</label><br>
+                <input id="sort_desc" type="radio" name="sort_by_asc_or_desc" value="desc">
+                <label for="sort_by_asc_or_desc">Descending</label>
+                
+            </div></div></div>
 
-                <div>
-                    <h2>Sort By</h2>
-        
-                    <input id="sort_title" type="radio" name="sort_by_type" value="title">
-                    <label for="sort_by_type">Title</label><br>
-                    <input id="sort_date" type="radio" name="sort_by_type" value="date">
-                    <label for="sort_by_type">Release Date</label><br>
-                    <input id="sort_price" type="radio" name="sort_by_type" value="price"> 
-                    <label for="sort_by_type">Price</label><br>
-                    <input id="sort_age" type="radio" name="sort_by_type" value="age"> 
-                    <label for="sort_by_type">Minimum Age</label><br>
-                    <input id="sort_pos_ratings" type="radio" name="sort_by_type" value="pos_ratings"> 
-                    <label for="sort_by_type">Number of Positive Ratings</label><br>
-        
-                    <br>
-        
-                    <input id="sort_asc" type="radio" name="sort_by_asc_or_desc" value="asc">
-                    <label for="sort_by_asc_or_desc">Ascending</label><br>
-                    <input id="sort_desc" type="radio" name="sort_by_asc_or_desc" value="desc">
-                    <label for="sort_by_asc_or_desc">Descending</label>
-                    
-                </div></div></div>
-
-                <button id="games_search_button" class="button">Search</button> 
-            </div>
+            <button id="games_search_button" class="big_button">Search</button> 
         </div>
     </div>
+</div>
+
 </body>
 </html>

@@ -1,23 +1,23 @@
-<div class="flex">
-    <label for="game_name" style="flex:1; text-align: center;">Name</label>
-    <input id="title_search" style="flex:3;" type="text" name="game_name" class="form-control" placeholder="Name">
+<div id="title_search_box">
+    <label for="game_name">Name</label>
+    <input id="title_search" type="text" name="game_name" class="form-control" placeholder="Name">
 </div>
 
-<div class="flex">
-    <div style="flex: 1; margin-right: 20px;">
-        <div style="padding-bottom: 20px;">
+<div id="main_search">
+    <div>
+        <div class="search_element">
             <h2>Release Date</h2>
-            <div class='flex' style="padding-bottom: 5px;">
-                <label for="start_date" style="flex: 1;">After</label>
-                <input id="start_date" style="flex: 1;" type="date" name="start_date" class="form-control" placeholder="mm/dd/yy">
+            <div>
+                <label for="start_date">After</label>
+                <input id="start_date" type="date" name="start_date" class="form-control" placeholder="mm/dd/yy">
             </div>
-            <div class="flex" style="padding-bottom: 5px;">
-                <label for="end_date" style="flex: 1;">Before</label>
-                <input id="end_date" style="flex: 1;" type="date" name="end_date" class="form-control" placeholder="mm/dd/yy">
+            <div>
+                <label for="end_date">Before</label>
+                <input id="end_date" type="date" name="end_date" class="form-control" placeholder="mm/dd/yy">
             </div>
         </div>
 
-        <div style="padding-bottom: 20px;">
+        <div class="search_element">
             <h2>Available On</h2>
             <input type="checkbox" id="windows" name="windows">
             <label for="windows"> Windows</label><br>
@@ -25,65 +25,65 @@
             <label for="mac"> Mac</label><br>
             <input type="checkbox" id="linux" name="linux">
             <label for="linux"> Linux</label><br>
-            <button onclick="selectOrDeselect()">Select/Deselect All</button>
+            <button class="small_button" onclick="selectOrDeselect()">Select/Deselect All</button>
         </div>
 
-        <div style="padding-bottom: 20px;">
+        <div class="search_element">
             <h2>Number of Ratings</h2>
-            <div class='flex' style="padding-bottom: 5px;">
-                <label for="min_num_ratings" style="flex: 1;">Above</label>
+            <div>
+                <label for="min_num_ratings">Above</label>
                 <input id="total_ratings_above" type="number" name="min_num_ratings" min="0" max="999999">   
             </div>
-            <div class="flex" style="padding-bottom: 5px;">
-                <label for="max_num_ratings" style="flex: 1;">Below</label>
+            <div>
+                <label for="max_num_ratings">Below</label>
                 <input id="total_ratings_below" type="number" name="max_num_ratings" min="0" max="999999"> 
             </div>
         </div>
 
-        <div style="padding-bottom: 20px;">
+        <div class="search_element">
             <h2>Percentage of Ratings Positive</h2>
-            <div class='flex' style="padding-bottom: 5px;">
-                <label for="max_num_perc_pos_ratings" style="flex: 1;">Above</label>
+            <div>
+                <label for="max_num_perc_pos_ratings">Above</label>
                 <input id="percent_pos_ratings_above" type="number" name="max_num_perc_pos_ratings" min="0" max="99">   
             </div>
-            <div class="flex" style="padding-bottom: 5px;">
-                <label for="max_num_perc_pos_ratings" style="flex: 1;">Below</label>
+            <div>
+                <label for="max_num_perc_pos_ratings">Below</label>
                 <input id="percent_pos_ratings_below" type="number" name="max_num_perc_pos_ratings" min="0" max="99"> 
             </div>
         </div>
     </div> 
 
-    <div style="flex: 1; margin-left: 20px;">
-        <div style="padding-bottom: 20px;">
+    <div>
+        <div class="search_element">
             <h2>Developer</h2>
-            <select id="developer_selector" style="width: 100%;"></select>
+            <select id="developer_selector"></select>
         </div>
 
-        <div style="padding-bottom: 20px;">
+        <div class="search_element">
             <h2>Genre</h2>
             <select id="genre_selector"></select>
         </div>
 
-        <div style="padding-bottom: 20px;">
+        <div class="search_element">
             <h2>Price</h2>
-            <div class='flex' style="padding-bottom: 5px;">
-                <label for="min_price" style="flex: 1;">Above</label>
+            <div>
+                <label for="min_price">Above</label>
                 <input id="price_above" type="number" name="min_price" min="0" max="999999">   
             </div>
-            <div class="flex" style="padding-bottom: 5px;">
-                <label for="max_price" style="flex: 1;">Below</label>
+            <div>
+                <label for="max_price">Below</label>
                 <input id="price_below" type="number" name="max_price" min="0" max="999999"> 
             </div>
         </div>
 
-        <div style="padding-bottom: 20px;">
+        <div class="search_element">
             <h2>Minimum Age</h2>
-            <div class='flex' style="padding-bottom: 5px;">
-                <label for="quantity" style="flex: 1;">Above</label>
+            <div>
+                <label for="quantity">Above</label>
                 <input id="min_age_above" type="number" id="quantity" name="quantity" min="0" max="18">   
             </div>
-            <div class="flex" style="padding-bottom: 5px;">
-                <label for="quantity" style="flex: 1;">Below</label>
+            <div>
+                <label for="quantity">Below</label>
                 <input id="min_age_below" type="number" id="quantity" name="quantity" min="0" max="18"> 
             </div>
         </div>

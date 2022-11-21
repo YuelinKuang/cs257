@@ -13,45 +13,27 @@ body {
     margin: 0px;
 }
 
-#title_box {
+#main_page_image_container {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+#main_page_buttons_container {
+    padding: 70px;
+    display: flex;
+    justify-content: space-around;
+}
+
+#header_box {
     text-align: center;
     color: beige;
 }
 
-#games_search_container {
+#header_item_container {
     display: flex;
-    margin: 30px;
 }
 
-#games_container {
-    flex: 2;
-}
-
-#search_container {
-    flex: 1; 
-    margin-left: 20px;
-}
-
-#chart_container {
-    flex: 4; 
-    text-align: center;
-}
-
-#stats_search_button, #games_search_button {
-    text-align: center; 
-    margin-top: 50px;
-}
-
-
-
-
-.title {
-    font-size: 36px;
-    padding: 50px 0px 50px 0px;
-    background-color: rgb(229, 87, 87);
-}
-
-.head_button {
+#header_item_container a {
     flex: 1;
     padding: 15px;
     text-decoration: none;
@@ -64,45 +46,107 @@ body {
     background-color: rgb(229, 87, 87);
 }
 
-.buttons_container {
-    height: 200px;
-    width: 100%;
-    margin-bottom: 30px;
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-around;
+#title {
+    font-size: 36px;
+    padding: 50px 0px 50px 0px;
+    background-color: rgb(229, 87, 87);
 }
 
-.search_button {
-    height: 100%;
-    width: 45%;
-    display: inline-block;
+
+
+#games_container {
+    flex: 2;
+}
+
+#games_search_container {
+    flex: 1; 
+    margin-left: 20px;
+}
+
+#games_search_container > div{
+    border: 0.1em red solid; 
+    padding: 20px;
+}
+
+
+
+#chart_container {
+    flex: 7; 
     text-align: center;
-    line-height: 200px;
-    font-size: x-large;
 }
 
-.button {
-    padding: 30px 50px;
+#stats_filters_container {
+    flex: 4; 
+    padding: 20px; 
+    border: 0.1em red solid;
+    border-right: none;
+}
+
+#stats_output_container {
+    flex: 2; 
+    padding: 20px;
+    border: 0.1em red solid;
+}
+
+
+
+#title_search_box {
+    display: flex;
+}
+
+#title_search_box label {
+    flex: 1;
+}
+
+#title_search_box input {
+    flex: 6;
+}
+
+#main_search {
+    display: flex;
+}
+
+#main_search div {
+    flex: 1;
+}
+
+#main_search > div:first-of-type {
+    margin-right: 40px;
+}
+
+#developer_selector {
+    width: 100%;
+}
+
+
+
+button {
     background-color: rgb(247, 172, 172);
-    border-radius: 24px;
     color: beige;
-    box-shadow: 5px 10px 18px #7b7b7b;
-    font-size: large;
+    text-align: center;
 }
 
-.button:hover {
+button:hover {
     background-color: rgb(218, 157, 157);
     cursor: pointer;
 }
 
-.small_button {
-    padding: 10px 30px;
-    background-color: rgb(247, 172, 172);
-    border-radius: 5px;
-    color: beige;
+.big_button {
+    padding: 30px 50px;
+    border-radius: 24px;
     box-shadow: 5px 10px 18px #7b7b7b;
-    font-size: 10pt;
+    font-size: large;
+}
+
+.small_button {
+    border-radius: 3px;
+    box-shadow: 1px 2px 4px #7b7b7b;
+}
+
+
+.all_content {
+    display: flex;
+    margin: 30px;
 }
 
 table, th, td {
@@ -110,15 +154,6 @@ table, th, td {
     border-collapse: collapse;
     padding: 10px;
     background-color: rgb(246, 229, 232);
-}
-
-.images_container {
-    border: 0.1em red solid;
-    height: 500px; 
-    width: 100%;
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: flex-start;
 }
 
 .image_group {
@@ -148,32 +183,30 @@ table, th, td {
     height: 100px;
 }
 
+.search_element {
+    padding-bottom: 20px;
+}
+
+.search_element .div {
+    display: flex;
+    padding-bottom: 5px;
+}
+
+.search_element .div label {
+    flex: 1;
+}
+
 h1 {
-    font-size: 20pt;
-    font-family: "Lucida Console", "Courier New", monospace;
     text-align: center;
 }
 
-h2 {
-    font-size: 16pt;
-    font-family: "Lucida Console", "Courier New", monospace;
-}
-
-.border {
-    border: 0.1em red solid; 
-}
-
-.flex {
-    display: flex;
-}
 
 
-
-img:hover {
+.game_img:hover {
     opacity: 0.8;
 }
 
-.modal {
+#imgModal {
     display: none; /* Hidden by default */
     position: fixed; /* Stay in place */
     z-index: 1; /* Sit on top */
@@ -187,7 +220,7 @@ img:hover {
     background-color: rgba(0,0,0,0.85); /* Black w/ opacity */
   }
 
-  .modal-content {
+  #imgEnlarged {
     margin: auto;
     display: block;
     width: 80%;
@@ -208,7 +241,7 @@ img:hover {
     to {transform:scale(1)}
   }
 
-  .close {
+  #close {
     position: absolute;
     top: 15px;
     right: 35px;
@@ -218,7 +251,7 @@ img:hover {
     transition: 0.3s;
   }
   
-  .close:hover, .close:focus {
+  #close:hover, #close:focus {
     color:  rgb(245, 223, 223);
     text-decoration: none;
     cursor: pointer;
@@ -226,7 +259,7 @@ img:hover {
   
   /* 100% Image Width on Smaller Screens */
   @media only screen and (max-width: 700px){
-    .modal-content {
+    #imgEnlarged {
       width: 100%;
     }
-  }
+}
