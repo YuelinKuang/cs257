@@ -187,12 +187,12 @@ table, th, td {
     padding-bottom: 20px;
 }
 
-.search_element .div {
+.search_element div {
     display: flex;
     padding-bottom: 5px;
 }
 
-.search_element .div label {
+.search_element div label {
     flex: 1;
 }
 
