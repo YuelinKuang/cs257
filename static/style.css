@@ -16,6 +16,8 @@ body {
 #main_page_image_container {
     display: flex;
     flex-wrap: wrap;
+    position: absolute; 
+    width: 100%;
 }
 
 #main_page_buttons_container {
@@ -120,27 +122,36 @@ body {
 
 
 
-button {
+/* .game_button {
     background-color: rgb(247, 172, 172);
-    color: beige;
-    text-align: center;
-}
-
+    color: black;
+} */
+/* 
 button:hover {
     background-color: rgb(218, 157, 157);
     cursor: pointer;
-}
+} */
 
 .big_button {
     padding: 30px 50px;
     border-radius: 24px;
     box-shadow: 5px 10px 18px #7b7b7b;
     font-size: large;
+    color: beige;
+    text-align: center;
+    background-color: rgb(247, 172, 172)
 }
 
 .small_button {
     border-radius: 3px;
     box-shadow: 1px 2px 4px #7b7b7b;
+    color: beige;
+    text-align: center;
+    background-color: rgb(247, 172, 172)
+}
+
+.big_button:hover, .small_button:hover {
+    background-color: rgb(244, 206, 206);
 }
 
 
@@ -157,9 +168,14 @@ table, th, td {
 }
 
 .image_group {
-    height: 100%;
-    width: 33%;
-    border: 0.1em red solid;
+    height: 33%;
+    width: 100%;
+    margin-top: 10px;
+}
+
+.image_group img {
+    float: left;
+    padding: 10px;
 }
 
 .game_item {
@@ -167,7 +183,24 @@ table, th, td {
     margin-bottom: 20px;
     background-color: transparent;
     padding: 20px;
-    width:100%;
+    width: 100%;
+    color: black;
+    flex-wrap: wrap;
+}
+
+.game_item > div:first-of-type {
+    width: 100%;
+    display: flex;
+}
+
+.game_item div > img:first-of-type {
+    flex: 1;
+}
+
+.game_item div > p:first-of-type {
+    font-weight: bold;
+    flex: 5;
+    padding-left: 10px;
 }
 
 .game_item:hover {
