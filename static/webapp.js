@@ -117,11 +117,24 @@ function loadMainPageImages() {
 
     .then(function(games) {
         let main_page_images_body = '';
+        main_page_images_body += '<div style="display: none;">';
         for (let k = 0; k < games.length; k++) {
+            if (k % 4 == 0) {
+                main_page_images_body += '</div><hr><div class="main_page_img_row">';
+            }
             let game = games[k];
-            let game_id = game['id']
-            let header_image = game['media']['header_image']
-            main_page_images_body += `<img id="header${game_id}" class="game_img" src="${header_image}">`;
+
+            main_page_images_body += `
+                <div class="main_page_game_img">
+                    <img id="header${game['id']}" alt="Header Image for${game['title']}" src="${game['media']['header_image']}">
+                    <div>`
+
+            // If there is website information, link the title of the game to the website. 
+            if (game['website'] == 'N/A' || game['website'] == '') {
+                main_page_images_body += `<p class="disabled_link">${game['title']}</p></div></div>`;
+            } else {
+                main_page_images_body += `<p><a href="${game['website']}" target="_blank" onclick="event.stopPropagation();">${game['title']}</a></p></div></div>`
+            }
         }
 
         let main_page_image_container = document.getElementById('main_page_image_container');
@@ -202,12 +215,12 @@ function onGamesFilterChanged() {
             game_html += 
                 `<button class="game_item text_align_left" id="${game_id}" value="${game_id}" onclick="onGameSelected(${game_id})">
                     <div>
-                        <img id="header${game_id}" class="game_img" src="${game['header_image']}">`
+                        <img id="header${game_id}" class="in_search_game_img" src="${game['header_image']}">`
             
             // If there is website information, link the title of the game to the website. 
             if (game['website'] == 'N/A' || game['website'] == '') {
                 game_html += 
-                    `<p>
+                    `<p class="disabled_link">
                         ${game['title']}
                     </p></div>
                     <p>${game['description']}</p>`
@@ -272,12 +285,12 @@ function onGameSelected(game_id) {
         game_html += 
                 `<button class="game_item text_align_left" id="${game_id}" value="${game_id}" onclick="onGameDeselected(${game_id})">
                     <div>
-                        <img id="header${game_id}" class="game_img" src="${game['media']['header_image']}">`
+                        <img id="header${game_id}" class="in_search_game_img" src="${game['media']['header_image']}">`
             
             // If there is website information, link the title of the game to the website. 
             if (game['website'] == 'N/A' || game['website'] == '') {
                 game_html += 
-                    `<p>
+                    `<p class="disabled_link">
                         ${game['title']}
                     </p></div>
                     <p>${game['description']}</p>`
@@ -326,7 +339,7 @@ function onGameSelected(game_id) {
         let images = game['media']['screenshots'];
         for (var i = 0; i < images.length && i < 6; i++) {
             var image = images[i];
-            game_html += `<img id="${game_id}+${i}" class="game_img" src="${image}">`;
+            game_html += `<img id="${game_id}+${i}" class="in_search_game_img" src="${image}">`;
         }
         
         game_html += '</div></div></button>'
@@ -368,12 +381,12 @@ function onGameDeselected(game_id) {
         let game_html = `
             <button class="game_item text_align_left" id="${game_id}" value="${game_id}" onclick="onGameSelected(${game_id})">
                 <div>
-                    <img id="header${game_id}" class="game_img" src="${game['media']['header_image']}">`
+                    <img id="header${game_id}" class="in_search_game_img" src="${game['media']['header_image']}">`
         
         // If there is website information, link the title of the game to the website. 
         if (game['website'] == 'N/A' || game['website'] == '') {
             game_html += 
-                `<p>
+                `<p class="disabled_link">
                     ${game['title']}
                 </p></div>
                 <p>${game['description']}</p>`

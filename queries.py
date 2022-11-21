@@ -6,10 +6,10 @@ get_developers='''SELECT developer.id, developer.developer_name
                FROM developer
                ORDER BY developer.developer_name;'''
 
-get_main_page_images='''SELECT game.id, game.media 
+get_main_page_images='''SELECT game.id, game.title, game.media, game.website
                         FROM game OFFSET floor(random() * (
                             SELECT COUNT(*) FROM game)) 
-                        LIMIT 98; '''
+                        LIMIT 100;'''
 
 all_game_information_search='''
 SELECT game.id, game.title, game.described, game.media, game.website

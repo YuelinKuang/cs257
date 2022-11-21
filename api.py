@@ -92,10 +92,10 @@ def get_main_images():
         cursor = connection.cursor()
         cursor.execute(query, tuple())
         for row in cursor:
-            images = json.loads(row[1].replace("'", '"'))
+            images = json.loads(row[2].replace("'", '"'))
             if images['header_image'] == '':
                 images['header_image'] = 'https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fwww.simplystamps.com%2Fmedia%2Fcatalog%2Fproduct%2F5%2F8%2F5802-n-a-stock-stamp-hcb.png&f=1&nofb=1&ipt=4c91608ffabe756cef98c89e32321f03e9ae4c3ab4a92fb4b68453801fd7cf7e&ipo=images'
-            game = {'id':row[0], 'media':images}
+            game = {'id':row[0], 'title':row[1], 'media':images, 'website':row[3]}
             games_list.append(game)
         cursor.close()
         connection.close()

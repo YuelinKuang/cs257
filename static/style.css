@@ -21,7 +21,7 @@ body {
 }
 
 #main_page_buttons_container {
-    padding: 70px;
+    padding: 100px;
     display: flex;
     justify-content: space-around;
 }
@@ -139,7 +139,10 @@ button:hover {
     font-size: large;
     color: beige;
     text-align: center;
-    background-color: rgb(247, 172, 172)
+    background-color: rgb(247, 172, 172);
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 .small_button {
@@ -212,8 +215,28 @@ table, th, td {
     text-align: left;
 }
 
-.game_img {
+.in_search_game_img {
     height: 100px;
+}
+
+.main_page_img_row {
+    display: flex; 
+    width: 100%; 
+}
+
+.main_page_game_img {
+    flex: 1;
+    width: 10%;
+    background-color: rgb(247, 172, 172);
+}
+
+.main_page_game_img img {
+    width: 100%;
+}
+
+.main_page_game_img div {
+    text-align: center;
+    padding: 10px;
 }
 
 .search_element {
@@ -229,13 +252,16 @@ table, th, td {
     flex: 1;
 }
 
+.disabled_link {
+    cursor: not-allowed;
+}
+
 h1 {
     text-align: center;
 }
 
 
-
-.game_img:hover {
+.in_search_game_img:hover {
     opacity: 0.8;
 }
 
